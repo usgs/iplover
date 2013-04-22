@@ -1,0 +1,16 @@
+<div title="Recording..." class="panel" id="returnpage"></div>
+
+<script type="application/x-javascript" id="jstest-run">
+
+storeRecord(iui.param(args_global));
+
+</script>
+
+<!--
+
+online.html & offline.html are identical, but the following lines in the CACHE MANIFEST file seem to be critical; simply caching online.html under 'CACHE:' breaks the jit javascript loader (http://www.iui-js.org/documentation/0.50/extensions/extensions-jit-loader.html) which is used to submit the form and return results.
+
+FALLBACK:
+online.html offline.html
+
+-->
