@@ -89,9 +89,9 @@ try {
 
     </ul>
     
-    <h2>Sync</h2>
+    <h2>Upload</h2>
     <ul id="syncrecords">
-      <li><a href="#sync">Sync Records</a></li>
+      <li><a href="#sync">Upload Data</a></li>
     </ul>
 
     <div id="hidden-fields">
@@ -160,18 +160,22 @@ try {
         <textarea rows="3" name="notes" id="newnestsite-notes"></textarea>
       </div>
     </fieldset>
-    <a class="whiteButton record" type="submit" href="#">Record</a>
+    <a class="whiteButton record" type="submit" href="#">Save Nest Data</a>
   </form>
   
   <!-- Sync Records -->
   
-  <div id="sync" title="Sync Records" class="panel">
-    <p>Features you record while not connected to the internet are stored only on your device. They need to by &ldquo;synced&rdquo; to the server when your device is online.</p>
+  <div id="sync" title="Upload Data" class="panel">
+    <p>
+    	Sites that you save are stored on your device.<br/><br/>
+    	You current have <span id="syncnumsites">0</span> sites stored. To upload them to the USGS data repository, tap the button below.<br/><br/>
+    	You will be asked to log in with an OpenID, so be sure you can connect ot the Internet.
+    </p>
     <ul id="syncstatus">
       <li class="success"></li>
       <li class="error"></li>
     </ul>
-    <a class="whiteButton" id="syncbutton" target="_blank" href="#">Sync Records</a>
+    <a class="whiteButton" id="syncbutton" target="_blank" href="#">Upload Sites</a>
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>

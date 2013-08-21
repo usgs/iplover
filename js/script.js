@@ -56,7 +56,8 @@ function onPanelLoad(panel) {
     
     // update button and status
     if (num_records > 0) {
-      $('#syncbutton').html('Sync ' + num_records + ' ' + 'Record'.pluralize(num_records));
+      $('#syncbutton').html('Upload ' + num_records + ' ' + 'Site'.pluralize(num_records));
+      $('#syncnumsites').html(num_records);
       if (!navigator.onLine) {
         $('#syncbutton').addClass('disabled');
         $('#syncstatus').html('<li><strong>Your device is currently offline.</strong></li>');
