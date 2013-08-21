@@ -386,7 +386,7 @@ function returnHtml() {
   return_html += '<a class="whiteButton record" type="home" href="#home">Back to Home</a>';
 
   $('#returnpage').html(return_html);
-  $('#returnpage').attr('title', 'Recorded');
+  $('#returnpage').attr('title', 'Saved');
 }
 
 
