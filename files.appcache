@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#Version 2012/06/15 22:15:04
+#Version 2013/08/21 22:15:04
 
 # Alternative resources if user is offline
 FALLBACK:
@@ -18,7 +18,7 @@ http://ajax.googleapis.com
 
 # Resources to cache
 CACHE:
-index.php
+#index.php
 img/spinner.gif
 img/l/splash.png
 img/l/apple-touch-icon-precomposed.png

@@ -2,7 +2,7 @@
 # Logging in with Google accounts requires setting special identity, so this example shows how to do it.
 require 'openid.php';
 
-$hostname = 'localhost';	#change to server ip or url--  http://192.168.1.100,  or http://www.iplover.gov, etc
+$hostname = 'https://my-beta.usgs.gov';	#change to server ip or url--  http://192.168.1.100,  or http://www.iplover.gov, etc
 
 try {
     # Change 'localhost' to your domain name.
