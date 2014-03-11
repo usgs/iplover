@@ -1,9 +1,9 @@
 <?php
 
 	//--- Global variables to set access to database ---
-	$hostName = "***REMOVED***:3306";
-	$userName = "***REMOVED***";
-	$password = "***REMOVED***";
+	$hostName = ":3306";
+	$userName = "";
+	$password = "";
 	$databaseName = "rtnotes";
 
 $values = "site=site&location=unknown&setting=lowduneforedune&vegcover=moderate&toMOSH=1&toHighTideLine=-55&notes=notes&operator=sfadsd&form-name=newnestsite&location-timestamp=&location-lat=&location-lon=&location-accuracy=&location-z=&location-zaccuracy=";
