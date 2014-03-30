@@ -1,0 +1,27 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lwinslow">
+        <createTable tableName="entries">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="userCertID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+			<column name="datetime" type="datetime" />
+            <column name="latitude" type="double" />
+			<column name="longitude" type="double" />
+			<column name="accuracy" type="double" />
+			<column name="altitude" type="double" />
+			<column name="altAccuracy" type="double" />
+			<column name="site" type="varchar(255)" />
+			<column name="setting" type="varchar(255)" />
+			<column name="vegcover" type="varchar(255)" />
+			<column name="notes" type="text" />
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

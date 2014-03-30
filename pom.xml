@@ -12,6 +12,11 @@
 		<name>Center for Integrated Data Analytics</name>
 		<url>http://cida.usgs.gov</url>
 	</organization>
+	
+	<properties>
+		<liquibase.version>3.0.5</liquibase.version>
+	</properties>
+	
 	<developers>
 		<developer>
 			<name>Luke Winslow</name>
@@ -45,6 +50,11 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
 		</dependency>
+		<dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>iplover</finalName>
@@ -52,9 +62,10 @@
 			<plugin>
 			   <groupId>org.liquibase</groupId>
 			   <artifactId>liquibase-maven-plugin</artifactId>
-			   <version>3.0.5</version>
+			   <version>${liquibase.version}</version>
 			   <configuration>                  
 				  <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
+				  <changeLogFile>src/main/liquibase/db.1.xml</changeLogFile>
 			   </configuration>                
 			   <executions>
 				 <execution>
