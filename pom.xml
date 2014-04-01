@@ -63,18 +63,9 @@
 			   <groupId>org.liquibase</groupId>
 			   <artifactId>liquibase-maven-plugin</artifactId>
 			   <version>${liquibase.version}</version>
-			   <configuration>                  
-				  <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
+			   <configuration>
 				  <changeLogFile>src/main/liquibase/db.1.xml</changeLogFile>
-			   </configuration>                
-			   <executions>
-				 <execution>
-				   <phase>process-resources</phase>                                                                  
-				   <goals>
-					 <goal>update</goal>
-				   </goals>
-				 </execution>
-			   </executions>
+			   </configuration>
 			</plugin> 	
 		  </plugins>
 	</build>
