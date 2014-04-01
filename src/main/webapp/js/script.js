@@ -300,6 +300,7 @@ function storeRecord(querystring) {
 
 
 // Insert record into db
+//TODO: Modify this for Java Servelet and POST (and image)
 function insertRecord(key, querystring) {
  $.get('insert.php?' + querystring, function(errors) {
     if (errors) {

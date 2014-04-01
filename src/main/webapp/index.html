@@ -98,10 +98,15 @@
         <label for="newnestsite-site">Site</label>
         <input type="text" name="site" id="newnestsite-site" placeholder="site name" autocapitalize="off" autocorrect="off" required="required">
       </div>
+	  <div class="row">
+		<label for="newnestsite-picture">Picture</label>
+		<input type="file" name="picture" id="newnestsite-picture" accept="image/*;capture=camera">
+	  </div>
       <div class="row">
         <label for="newnestsite-location">Location</label>
         <input type="text" name="location" id="newnestsite-location">
       </div>
+
     </fieldset>
     <fieldset>
       <div class="row">
@@ -153,7 +158,6 @@
     <p>
     	Sites that you save are stored on your device.<br/><br/>
     	You current have <span id="syncnumsites">0</span> sites stored. To upload them to the USGS data repository, tap the button below.<br/><br/>
-    	You will be asked to log in with an OpenID, so be sure you can connect ot the Internet.
     </p>
     <ul id="syncstatus">
       <li class="success"></li>
