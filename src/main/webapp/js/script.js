@@ -10,7 +10,7 @@ $(document).ready(function() {
   resumeState();
   saveState('onLoad');
   setupClickHandlers();
-  setupOperatorField();
+  //setupOperatorField();
   sync_html = $('#sync').html();
 });
 
@@ -111,7 +111,7 @@ function setupClickHandlers() {
 
 
 // Grey out form links if operator field not filled in
-function setupOperatorField() {
+/* function setupOperatorField() {
   if ($('#operator').val() == '') deActivate();
 
   $('#operator').bind('keyup', function() {
@@ -129,7 +129,7 @@ function setupOperatorField() {
       e.preventDefault();
     });
   }
-}
+} */
 
 function watchLocation() {
   if (!Modernizr.geolocation) return false;
