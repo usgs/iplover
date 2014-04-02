@@ -403,7 +403,7 @@ function resumeState() {
   page_id = localStorage['page'];
   if (page_id) {
     var hashtag = page_id.replace('#', '#_');
-    var url = 'http://' + window.location.host + window.location.pathname + window.location.search + hashtag;
+    var url = 'https://' + window.location.host + window.location.pathname + window.location.search + hashtag;
     window.location.replace(url); 
   }
   
