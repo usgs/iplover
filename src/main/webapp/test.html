@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Form Page</title>
+</head>
+<body>
+<h1>Upload a File</h1>
+
+	<form onSubmit="captureForm(event)" id="newsite-form" method="POST">
+
+	   <p>
+		Select a file : <input id='file' type='file' name='file' size='50' />
+	   </p>
+
+	   <input type='submit' value='Upload It' />
+	   
+	</form>
+
+	<img id='uploaded-image' alt='uploaded' />
+</body>
+<script>
+var counter = 0;
+
+function captureForm(event){
+	event.preventDefault();
+    console.log('form captured');
+	
+	var file = document.getElementById("file").files[0];
+	console.log(file);
+	
+	if (file) {
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		console.log('file read as data URL');
+		console.log(reader);
+		
+		reader.onload = function (evt) {
+			localStorage.setItem("image" + counter, evt.target.result);
+			document.getElementById("uploaded-image").setAttribute("src", localStorage.getItem("image" + counter));
+			counter = counter + 1;
+		}
+		
+		
+	}else{
+		console.log('No file selected');
+	}
+	
+	
+    return false;
+}
+</script>
+
+</html>
