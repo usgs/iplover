@@ -3,8 +3,8 @@ CACHE MANIFEST
 #Version 2013/08/21 22:15:04
 
 # Alternative resources if user is offline
-FALLBACK:
-online.html offline.html
+#FALLBACK:
+#online.html offline.html
 #map tiles -> .png image saying "offline"
 
 # Resources / sites that require user to be online

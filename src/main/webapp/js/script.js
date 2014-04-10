@@ -7,8 +7,8 @@ var page_id, show_map, sync_html, db_errors, db_successes, args_global = {},
 	bestLocationReading;	//most accurate GPS reading within the watchlocation timeout
 
 $(document).ready(function() {
-  resumeState();
-  saveState('onLoad');
+  //resumeState();
+  //saveState('onLoad');
   setupClickHandlers();
   //setupOperatorField();
   sync_html = $('#sync').html();
@@ -296,6 +296,48 @@ function storeRecord(querystring) {
   // display resulsts and clear previous entries from html form
   returnHtml();
   resumeState(); 
+}
+
+//Handles image in new form setup
+function storeRecordImage(){
+	if (!Modernizr.localstorage){
+		$('#returnpage').attr('title', 'Error').html('<p>Can&rsquo;t store record. Your device does not support local storage.</p>');
+		return false;
+	}
+	
+	var file = document.getElementById("newnestsite-picture").files[0];
+	if (file) {
+		var reader = new FileReader();
+		var = document.getElementById("vegcover")
+		reader.readAsDataURL(file);
+		console.log('file read as data URL');
+		console.log(reader);
+		
+		reader.onload = function (evt) {
+			//Once the file is loaded, setup object with values
+			
+			var siteObject = {data:$('#newnestsite').serialize(),
+							image:evt.target.result};
+			
+			if(!localStorage.getItem("index")){
+				localStorage.setItem("index", new Array());
+			}
+			indx = localStorage.getItem("index")
+			
+			var now = new Date();
+			var key = now.format("yyyy-mm-dd HH:MM:ss");
+			
+			localStorage.setItem(key, evt.target.result);
+			
+			
+		}
+		
+		
+	}else{
+		alert('Sorry, picture is mandatory.');
+		return false;
+	}
+	return true;
 }
 
 
