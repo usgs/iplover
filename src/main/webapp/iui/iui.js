@@ -1,28 +1,24 @@
 /*
    copyright:
-   Copyright (c) 2007-11, iUI Project Members.
+   Copyright (c) 2007-12, iUI Project Members.
    See LICENSE.txt for licensing terms.
-   Version @VERSION@
+   Version 0.4
  */
-
-/* note:
-   This version of iUI has a partial implementation of the `busy` flag for Issue #191,
-   it will not work with webapps that call `iui.showPage()` or `iui.showPageByHref()` directly.
-   This issue will be resolved in a later version. */
 
 (function() {
 
-var slideSpeed = 20;
-var slideInterval = 0;
+var slideSpeed = 20;			// Slide percentage per interval
+var slideInterval = 0;			// Intervals are as fast as possible for mobile, should be slower for desktop
 var ajaxTimeoutVal = 30000;
 
+var originalPage = null;
 var currentPage = null;
 var currentDialog = null;
 var currentWidth = 0;
 var currentHeight = 0;
 var currentHash = location.hash;
 var hashPrefix = "#_";
-var pageHistory = [];
+var pageHistory = [];			// Navigation stack (poorly named, different from browser history)
 var newPageCount = 0;
 var checkTimer;
 var hasOrientationEvent = false;
@@ -44,7 +40,7 @@ window.iui =
 	property: iui.logging
 	This is set to `true` logging (with console.log) is enabled.
 	*/
-	logging: true,
+	logging: false,
 
 	/*
 	property: iui.busy
@@ -84,7 +80,7 @@ window.iui =
 	/*
 	method: iui.showPage(page[, backwards=false])
 	`showPage()` should probably be an internal function, outside callers should
-	call `showPageById()` instead. `showPage()` doesn't set the busy flag because
+	call `showPageById()` instead. `showPage()` does NOT set the busy flag because
 	it is already set by the public-facing functions.
 	
 	`page` is the html element to show. If `backwards` is set to `true`, it will
@@ -100,7 +96,6 @@ window.iui =
 	{
 		if (page)
 		{
-//			if (window.iui_ext)	window.iui_ext.injectEventMethods(page);	// TG -- why was this comment left here??
 			if (page == currentPage)
 			{
 				log("page = currentPage = " + page.id);
@@ -157,6 +152,46 @@ window.iui =
 	},
 
 
+	gotoView: function(view, replace)
+	{
+		var node, nodeId;
+		
+		if (view instanceof HTMLElement)
+		{
+			node = view;
+			nodeId = node.id;
+		}
+		else
+		{
+			nodeId = view;
+			node = $(nodeId);
+		}
+		if (!node) log("gotoView: node is null");
+		if (!iui.busy)
+		{
+			iui.busy = true;
+			var index = pageHistory.indexOf(nodeId);
+			var backwards = index != -1;
+			if (backwards)
+			{
+				// we're going back, remove history from index on
+				// remember - pageId will be added again in updatePage
+				pageHistory.splice(index);
+			}
+			else if (replace)
+			{
+				pageHistory.pop();				
+			}
+			iui.showPage(node, backwards);
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	},
+
+
 	/*
 	method: iui.showPageById(pageId)
 	Looks up the page element by the id and checks the internal history to
@@ -165,24 +200,7 @@ window.iui =
 	*/
 	showPageById: function(pageId)
 	{
-		var page = $(pageId);
-		if (page)
-		{
-			if (!iui.busy)
-			{
-				iui.busy = true;
-				var index = pageHistory.indexOf(pageId);
-				var backwards = index != -1;
-				if (backwards)
-				{
-					// we're going back, remove history from index on
-					// remember - pageId will be added again in updatePage
-					pageHistory.splice(index);
-				}
-	
-				iui.showPage(page, backwards);
-			}
-		}
+		iui.gotoView(pageId, false);
 	},
 
 	/*
@@ -191,14 +209,7 @@ window.iui =
 	*/
 	goBack: function()
 	{
-		if (!iui.busy)
-		{
-			iui.busy = true;
-			pageHistory.pop();	// pop current page
-			var pageID = pageHistory.pop();  // pop/get parent
-			var page = $(pageID);
-			iui.showPage(page, true);
-		}
+	    iui.gotoView(pageHistory.slice(-2,-1)[0], false);
 	},
 
 
@@ -209,32 +220,15 @@ window.iui =
 	the current page in the navStack.
 	It should probably use a different animation (slide-up/slide-down).
 	*/
-	replacePage: function(pageId)
+	replacePage: function(view)
 	{
-		// Should probably take either an ID or an Element
-		var page = $(pageId);
-		if (page)
-		{
-			if (!iui.busy)
-			{
-				iui.busy = true;
-				var index = pageHistory.indexOf(pageId);
-				var backwards = index != -1;
-				if (backwards)	// we're going back, shouldn't happen on replacePage()
-					log("error: can't replace page with ancestor");
-					
-				pageHistory.pop();
-	
-				iui.showPage(page, false);
-			}
-		}
+	    gotoView(view, true);
 	},
 
 	/*
-	method: iui.showPageByHrefExt(href, args, method, replace, cb)
+	method: iui.showPageByHref(href, args, method, replace, cb)
 	Outside callers should use this version to do an ajax load programmatically
-	from your webapp. In a future version, this will be renamed to
-	`showPageByHref()` (once the old method and  all its calls are renamed).
+	from your webapp.
 	
 	`href` is a URL string, `method` is the HTTP method (defaults to `GET`),
 	`args` is an Object of key-value pairs that are used to generate the querystring,
@@ -242,23 +236,9 @@ window.iui =
 	panel that the incoming HTML will replace (if not supplied, iUI will append
 	the incoming HTML to the `body`), and `cb` is a user-supplied callback function.
 	*/
-	showPageByHrefExt: function(href, args, method, replace, cb)
-	{
-		if (!iui.busy)
-		{
-			iui.busy = true;
-			iui.showPageByHref(href, args, method, replace, cb);	
-		}
-	},
-
-	/*
-	method: iui.showPageByHref(href, args, method, replace, cb)
-	This one should only be used by iUI internally.  It should be renamed and
-	possibly moved into the closure.
-	*/
 	showPageByHref: function(href, args, method, replace, cb)
 	{
-	  // I don't think we need onerror, because readstate will still go to 4 in that case
+	  // I don't think we need onerror, because readyState will still go to 4 in that case
 		function spbhCB(xhr) 
 		{
 			log("xhr.readyState = " + xhr.readyState);
@@ -303,13 +283,21 @@ window.iui =
 			}
 		  
 		};
-	  iui.ajax(href, args, method, spbhCB);
+		if (!iui.busy)
+		{
+			iui.busy = true;
+			iui.ajax(href, args, method, spbhCB);
+		}
+		else 
+		{
+			cb();	// We didn't get the "lock", we may need to unselect something
+		}
 	},
 	
 	/*
 	method: iui.ajax(url, args, method, cb)
 	Handles ajax requests and also fires a `setTimeout()` call
-	to abort the request if it takes longer than 30 seconds. See `showPageByHrefExt()`
+	to abort the request if it takes longer than 30 seconds. See `showPageByHref()`
 	above for a description of the various arguments (`url` is the same as `href`).
 	*/
 	ajax: function(url, args, method, cb)
@@ -360,34 +348,21 @@ window.iui =
 	  var s = [ ];
 	
 	  // Serialize the key/values
-	  for ( var key in o ) {
-  		//s[ s.length ] = encodeURIComponent(key) + '=' + encodeURIComponent(o[key]);
-      
-      // added by SAH to handle checkbox arrays (http://code.google.com/p/iui/issues/detail?id=239)
-      if (o[key].constructor.toString().indexOf("Array") != -1)
-      {
-        var tab = o[key];
-      //s[ s.length ] = iui.param(o[key]);
-        for (var idx in tab)
-          s[ s.length ] = encodeURIComponent(key) + '=' + encodeURIComponent(tab[idx]);
-      }
-      else
-        s[ s.length ] = encodeURIComponent(key) + '=' + encodeURIComponent(o[key]);
-	  }
-		
-	  // Return the resulting serialization
-	  return s.join("&").replace(/%20/g, "+");
-	},
-
-
-
-	param: function( o )
-	{
-	  var s = [ ];
-	
-	  // Serialize the key/values
 	  for ( var key in o )
-		s[ s.length ] = encodeURIComponent(key) + '=' + encodeURIComponent(o[key]);
+	  {
+	    var value = o[key];
+	    if (typeof(value) == "object" && typeof(value.length) == "number")
+	    {
+	        for (var i = 0; i < value.length ; i++)
+	        {
+		        s[ s.length ] = encodeURIComponent(key) + '=' + encodeURIComponent(value[i]);
+		    }
+	    }
+	    else
+	    {
+		    s[ s.length ] = encodeURIComponent(key) + '=' + encodeURIComponent(value);
+		}
+      }
   
 	  // Return the resulting serialization
 	  return s.join("&").replace(/%20/g, "+");
@@ -485,7 +460,8 @@ window.iui =
 		new RegExp("^http:\/\/www.youtube.com\/watch\\?v="),
 		new RegExp("^http:\/\/www.youtube.com\/v\/"),
 		new RegExp("^javascript:"),
-
+		new RegExp("^sms:"),
+		new RegExp("^callto:")
 	],
 	/*
 	method: iui.hasClass(self, name)
@@ -536,7 +512,10 @@ addEventListener("load", function(event)
 	var locPage = getPageFromLoc();
 		
 	if (page)
-			iui.showPage(page);
+	{
+		originalPage = page;
+		iui.showPage(page);
+	}
 	
 	if (locPage && (locPage != page))
 		iui.showPage(locPage);
@@ -597,14 +576,27 @@ addEventListener("click", function(event)
 		}
 		else if (link.getAttribute("type") == "submit")
 		{
+			/* Forms with a[type=submit] links are deprecated
+			 * this code will be removed in a future release.
+			 */
 			var form = findParent(link, "form");
 			if (form.target == "_self")
 			{
-				// Note: this will not call any onsubmit handlers!
-			    form.submit();
+				/* Browser submit (with full-page response) */
+				if (typeof form.onsubmit == 'function')
+				{
+                    if (form.onsubmit() == true)
+                    {
+                    	form.submit();
+                    }
+                }
+                else
+                {
+                    form.submit();
+                }
 			    return;  // allow default
 			}
-			submitForm(form);
+			submitForm(form);	// Ajax submit
 		}
 		else if (link.getAttribute("type") == "cancel")
 		{
@@ -648,31 +640,45 @@ addEventListener("click", function(event)
 	}
 }, true);
 
+/*
+click: input[submit] Click Handling
+Add an attribute to an input[submit] so we can send the right value to the server.
+*/
+addEventListener("click", function(event)
+{
+    var input = findParent(event.target, "input");
+    if (input && input.type == "submit")
+    {
+		input.setAttribute("submitvalue", input.value);
+    }
+}, true);
+
+/*
+submit: Form submit handling
+All forms without target="_self" will use iUI's Ajax from submission.
+*/
+addEventListener("submit", function(event)
+{
+    var form = event.target;
+	if (form.target != "_self")
+	{
+		event.preventDefault();
+    	submitForm(form);
+    }
+}, true);
+
 function followAnchor(link)
 {
-	function unselect() { link.removeAttribute("selected"); }
-	
-	if (!iui.busy)
-	{
-		iui.busy = true;
-		link.setAttribute("selected", "true");
-		// We need to check for backlinks here like in showPageID()
-		// That backlink functionality needs to be in here somewhere
-		iui.showPage($(link.hash.substr(1)));
-		setTimeout(unselect, 500);
-	}
+	link.setAttribute("selected", "true");
+	var busy = iui.gotoView(link.hash.substr(1), false);
+	// clear selected immmediately if busy, else wait for transition to finish
+	setTimeout(function() {link.removeAttribute("selected")}, busy ? 0 : 500);   
 }
 
 function followAjax(link, replaceLink)
 {
-	function unselect() { link.removeAttribute("selected"); }
-
-	if (!iui.busy)
-	{
-		iui.busy = true;
-		link.setAttribute("selected", "progress");
-		iui.showPageByHref(link.href, null, "GET", replaceLink, unselect);	
-	}
+	link.setAttribute("selected", "progress");
+	iui.showPageByHref(link.href, null, "GET", replaceLink, function() { link.removeAttribute("selected"); });	
 }
 
 function sendEvent(type, node, props)
@@ -736,6 +742,8 @@ function checkOrientAndLocation()
 	if (location.hash != currentHash)
 	{
 		var pageId = location.hash.substr(hashPrefix.length);
+		if ((pageId == "") && originalPage)	// Workaround for WebKit Bug #63777
+			pageId = originalPage.id;
 		iui.showPageById(pageId);
 	}
 }
@@ -773,22 +781,9 @@ function showDialog(page)
 
 function showForm(form)
 {
-	form.onsubmit = function(event)
-	{
-//  submitForm and preventDefault are called in the click handler
-//  when the user clicks the submit a.button
-// 
-		event.preventDefault();
-		submitForm(form);
-	};
-	
-	form.onclick = function(event)
-	{
-// Why is this code needed?  cancelDialog is called from
-// the click hander.  When will this be called?
-		if (event.target == form && hasClass(form, "dialog"))
-			cancelDialog(form);
-	};
+	/* Noop click-handler on the page works around problem where
+	   our main click handler doesn't get called in Mobile Safari */
+	form.addEventListener("click",function(event){},true);
 }
 
 function cancelDialog(form)
@@ -801,7 +796,18 @@ function updatePage(page, fromPage)
 	if (!page.id)
 		page.id = "__" + (++newPageCount) + "__";
 
-	location.hash = currentHash = hashPrefix + page.id;
+	currentHash = hashPrefix + page.id;
+	if (!fromPage)
+	{	// If fromPage is null, this is the initial load and we want to replace a hash of "" with "#_home" or whatever the initial page id is.
+//		location.replace(location.protocol + "//" + location.hostname + location.port + location.pathname + newHash + location.search);
+		location.replace(currentHash);
+	}
+	else
+	{	// Otherwise, we want to generate a new history entry
+//		location.hash = currentHash;
+		location.assign(currentHash);
+	}
+		
 	pageHistory.push(page.id);
 
 	var pageTitle = $("pageTitle");
@@ -810,7 +816,7 @@ function updatePage(page, fromPage)
 	var ttlClass = page.getAttribute("ttlclass");
 	pageTitle.className = ttlClass ? ttlClass : "";
 
-	if (page.localName.toLowerCase() == "form" && !page.target)
+	if (page.localName.toLowerCase() == "form")
 		showForm(page);
 		
 	var backButton = $("backButton");
@@ -936,13 +942,8 @@ function preloadImages()
 
 function submitForm(form)
 {
- 	if (!iui.busy)
-	{
-		iui.busy = true;
-		iui.addClass(form, "progress");
-		iui.showPageByHref(form.action, encodeForm(form), form.method || "GET", null, clear);
-	}
-    function clear() {   iui.removeClass(form, "progress"); }
+	iui.addClass(form, "progress");
+	iui.showPageByHref(form.getAttribute('action'), encodeForm(form), form.hasAttribute('method') ? form.getAttribute('method') : 'GET', null, function() {iui.removeClass(form, "progress")});
 }
 
 function encodeForm(form)
@@ -951,47 +952,50 @@ function encodeForm(form)
 	{
 		for (var i = 0; i < inputs.length; ++i)
 		{
-	        //if (inputs[i].name)
-		      //  args[inputs[i].name] = inputs[i].value;
-
-      // added by SAH to handle checkbox, radio button values (http://code.google.com/p/iui/issues/detail?id=77)
-		  var elem, name, type;
-		  elem = inputs[i];
-		  name = elem.name;
-		  type = elem.type;
-		  
-		  if (name)
-		  {
-
-        if ((type.toLowerCase() == "checkbox" && !elem.checked) ||
-            (type.toLowerCase() == "radio" && !elem.checked) ||
-            (type.toLowerCase() == "submit") ||
-            (elem.disabled)) {
-          continue;
-        
-        } else {
-        
-          // added by SAH to handle checkbox arrays (http://code.google.com/p/iui/issues/detail?id=239)
-          if (!args[name]) {
-            args[name] = elem.value;
-          } else {
-            if (args[name].constructor.toString().indexOf("Array") == -1) {
-              var tmp = args[name];
-              args[name] = [];
-              args[name].push(tmp);
+			log("input[" + i + "]: " + inputs[i].name + " = " + inputs[i].value);
+            if (inputs[i].name)
+            {
+            	var input = inputs[i];
+            	if (input.getAttribute("type") == "checkbox" && !input.checked ||
+					input.getAttribute("type") == "radio" && !input.checked ||
+					input.disabled)
+				{
+            		continue;
+            	}
+            	if (input.getAttribute("type") == "submit")
+            	{
+            		if (input.getAttribute("submitvalue"))
+					{	// Was marked, this is the value to send, but clear it for next time
+						input.removeAttribute("submitvalue");
+					}
+					else
+					{	// not marked, don't send value -- continue
+						continue;
+					}
+				}
+            	var value = args[input.name];
+            	if (value === undefined)
+            	{	// If parm is 'empty' just set it
+					args[input.name] = input.value;
+            	}
+            	else if (value instanceof Array)
+            	{	// If parm is array, add to it
+					value.push(input.value);
+            	}
+            	else
+            	{	// If parm is scalar, change to array and add to it
+					args[input.name] = [value, input.value];
+				}
             }
-            args[name].push(elem.value);
-          }
-        }
-      }
 		}
 	}
 
-  var args = {};
-  encode(form.elements);
-  args_global = args; // SAH: copy args to global var to access form values submitted via Ajax in js
-
-  return args;	  
+    var args = {};
+    encode(form.getElementsByTagName("input"));
+    encode(form.getElementsByTagName("textarea"));
+    encode(form.getElementsByTagName("select"));
+    encode(form.getElementsByTagName("button"));
+    return args;	  
 }
 
 function findParent(node, localName)
