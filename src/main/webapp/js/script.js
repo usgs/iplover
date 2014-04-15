@@ -356,7 +356,7 @@ function uploadNest(key){
     
     $.ajax({type: "POST",
         contentType: "applicatoin/json; charset=utf-8", 
-        url: "/iplover/service/v1/imagepost", 
+        url: "service/v1/imagepost", 
         data: localStorage.getItem(key),
         success: function(response){
             console.log("Response:"+response);
