@@ -22,6 +22,12 @@ function onPanelLoad(panel) {
 
   if (panel == 'home' || panel == 'sync') {
     var records = getRecords();
+    if(localStorage.getItem("index")){
+        var num_records = JSON.parse(localStorage.getItem("index")).length;
+    }else{
+        var num_records = 0;
+    }
+    
     var num_records = Object.keys(records).length;
     navigator.geolocation.clearWatch(watchLocation);	//JRH - stop watching the location once out of form
   }
@@ -308,7 +314,7 @@ function storeRecordImage(){
 	var file = document.getElementById("newnestsite-picture").files[0];
 	if (file) {
 		var reader = new FileReader();
-		var = document.getElementById("vegcover")
+		
 		reader.readAsDataURL(file);
 		console.log('file read as data URL');
 		console.log(reader);
@@ -316,24 +322,29 @@ function storeRecordImage(){
 		reader.onload = function (evt) {
 			//Once the file is loaded, setup object with values
 			
-			var siteObject = {data:$('#newnestsite').serialize(),
-							image:evt.target.result};
+			var siteObject = {data:$('#newnestsite').serializeArray(),
+                                            image:evt.target.result};
 			
 			if(!localStorage.getItem("index")){
-				localStorage.setItem("index", new Array());
+                            localStorage.setItem("index", JSON.stringify(new Array()));
 			}
-			indx = localStorage.getItem("index")
+			indx = JSON.parse(localStorage.getItem("index"));
 			
 			var now = new Date();
 			var key = now.format("yyyy-mm-dd HH:MM:ss");
 			
-			localStorage.setItem(key, evt.target.result);
+			localStorage.setItem(key, JSON.stringify(siteObject));
+                        console.log("Just saved:"+JSON.stringify(siteObject));
 			
-			
-		}
+                        indx.push(key);
+                        localStorage.setItem("index", JSON.stringify(indx));
+                        
+                        if(navigator.onLine){
+                            uploadNest(key);
+                        }
+		};
 		
-		
-	}else{
+	} else {
 		alert('Sorry, picture is mandatory.');
 		return false;
 	}
@@ -341,19 +352,28 @@ function storeRecordImage(){
 }
 
 
-// Insert record into db
-//TODO: Modify this for Java Servelet and POST (and image)
-function insertRecord(key, querystring) {
- $.get('insert.php?' + querystring, function(errors) {
-    if (errors) {
-      db_errors ++;
-      $('#syncstatus .error').html(db_errors + ' record'.pluralize(db_errors) + ' failed to sync');
-    } else {
-      db_successes ++;
-      $('#syncstatus .success').html(db_successes + ' record'.pluralize(db_successes) + ' synced');
-      localStorage.removeItem(key); // remove from localStorage on successful db insert
-    }
-  });
+function uploadNest(key){
+    
+    $.ajax({type: "POST",
+        contentType: "applicatoin/json; charset=utf-8", 
+        url: "/iplover/service/v1/imagepost", 
+        data: localStorage.getItem(key),
+        success: function(response){
+            console.log("Response:"+response);
+            
+            localStorage.removeItem(key);
+            
+            var indx = JSON.parse(localStorage.getItem("index"));
+            if(indx.indexOf(key) > -1){
+               indx.splice(indx.indexOf(key), 1);
+            }
+            localStorage.setItem("index",JSON.stringify(indx));
+            
+            console.log("removed item "+key);
+            window.alert(response);
+        }});
+    
+    return null;
 }
 
 
@@ -376,11 +396,9 @@ function getRecords() {
 function syncRecords() {  
   var records = getRecords();
   for (var key in records) {
-    var record = records[key] + '&submitted=' + encodeURIComponent(key);
-    insertRecord(key, record);    
+    uploadNest(key);
   }
 }
-
 
 // Show summary page / clear localStorage values after user submits form
 function returnHtml() {
