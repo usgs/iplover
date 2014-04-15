@@ -1,6 +1,6 @@
 // Global vars
 var page_id, show_map, sync_html, db_errors, db_successes, args_global = {},
-	enableSaveAccuracyThreshold = 65,
+	enableSaveAccuracyThreshold = 24001,
 	watchLocationId,
 	watchLocationTimeoutId,
 	watchLocationTimeoutSec = 60,

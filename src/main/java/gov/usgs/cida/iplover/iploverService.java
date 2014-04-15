@@ -30,7 +30,7 @@ public class iploverService {
 
     int uploadNum = 0;
     
-    private static final String UPLOAD_HERE  = "/opt/tomcat/images/";
+    private static final String UPLOAD_HERE  = "D:/";
 
     
     @GET
