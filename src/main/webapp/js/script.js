@@ -270,23 +270,6 @@ function getLocationError(_error) {
 }
 
 
-// Store record in browser's localStorage
-function storeRecord(querystring) { 
-  if (!Modernizr.localstorage) {
-    $('#returnpage').attr('title', 'Error').html('<p>Can&rsquo;t store record. Your device does not support local storage.</p>');
-    return false;
-  }
-  
-  // store record (and insert in db if user is online)
-  var now = new Date();
-  var key = now.format("yyyy-mm-dd HH:MM:ss");
-  localStorage[key] = querystring;
-  if (navigator.onLine) insertRecord(key, querystring)
-  
-  // display resulsts and clear previous entries from html form
-  returnHtml();
-  resumeState(); 
-}
 
 //Handles image in new form setup
 function storeRecordImage(){
