@@ -15,6 +15,7 @@ $(document).ready(function() {
 });
 
 
+
 // Fire events when user loads a panel (called from onload.js)
 function onPanelLoad(panel) {
   if (!panel) return false; // gets called sometimes when panel isn't set (e.g. Ajax form submission before new panel loads)
@@ -115,27 +116,6 @@ function setupClickHandlers() {
   });
 }
 
-
-// Grey out form links if operator field not filled in
-/* function setupOperatorField() {
-  if ($('#operator').val() == '') deActivate();
-
-  $('#operator').bind('keyup', function() {
-    if($(this).val().length >= 3) {
-      $('#home li a').removeClass('disabled').removeAttr('target');
-    } else {
-      deActivate();
-    }
-  });
-
-  function deActivate() {
-    $('#home li a').addClass('disabled')
-    .attr('target', '_blank') // add target so that iui doesn't intercept link (so preventDefault works)
-    .click(function(e) {
-      e.preventDefault();
-    });
-  }
-} */
 
 function watchLocation() {
   if (!Modernizr.geolocation) return false;
