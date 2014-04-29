@@ -42,7 +42,7 @@ function onPanelLoad(panel) {
   
   // form panel
   if ($(page_id).get(0).tagName.toLowerCase() == 'form') {
-    saveState('onPanelLoad'); // save page user is viewing
+    //saveState('onPanelLoad'); // save page user is viewing
     $('#operator, #hidden-fields').appendTo(page_id); // move operator and hidden fields to panel (form) user is viewing
     $('#form-name').val(panel); // set hidden form-name field
     
@@ -53,7 +53,7 @@ function onPanelLoad(panel) {
   
   // home panel
   else if (panel == 'home') {
-    saveState('onPanelLoad'); // save page user is viewing
+    //saveState('onPanelLoad'); // save page user is viewing
     $('#operator').appendTo('#user'); // move operator field back to home page
     $('#syncrecords + p').remove(); // remove any previous sync msg
     if (num_records > 0) {
@@ -65,7 +65,7 @@ function onPanelLoad(panel) {
   
   // sync panel
   else if (panel == 'sync') {
-    saveState('onPanelLoad'); // save page user is viewing
+    //saveState('onPanelLoad'); // save page user is viewing
     $('#sync').html(sync_html); // reset sync panel to original html
     
     // update button and status
@@ -105,23 +105,23 @@ function setupClickHandlers() {
       $('#showmap').text('Show Map');
       show_map = 0;
     }
-    saveState('toggleMap')
+    //saveState('toggleMap')
   });
 
   // start sync
-  $('#syncbutton').live('click', function(e) {
+  //$('#syncbutton').live('click', function(e) {
     //e.preventDefault();
     //$(this).addClass('disabled'); // only allow button press once
     //db_errors = 0; // reset error / success vars from any previous inserts
     //db_successes = 0;
     //alert('here1');
     //syncRecords();
-  });
+  //});
   
   // Handle buttom submission
   $('#submitbutton').live('click', function(e) {
       e.preventDefault();
-      $(this).addClass('disabled'); // only allow button press once
+      //$(this).addClass('disabled'); // only allow button press once
       storeRecordImage();
   });
 }
@@ -284,51 +284,66 @@ function storeRecordImage(){
 		return false;
 	}
 	
+        
+        if(!$('#newnestsite-site').val()){
+            alert('Site ID required.');
+            return false;
+        }
+        
+        if(!$( "input[name='substrate']:checked" ).val() | !$( "input[name='setting']:checked" ).val()
+           | !$( "input[name='vegdens']:checked" ).val() | !$( "input[name='vegtype']:checked" ).val()){
+            
+            alert('Sorry, all fields except Notes must be filled out.');
+            return false;
+        }
+        
 	var file = document.getElementById("newnestsite-picture").files[0];
-	if (file) {
-		var reader = new FileReader();
+	if (!file) {
+            alert('Sorry, picture is mandatory.');
+            return false;
+        }        
+        
+        var reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        console.log('file read as data URL');
+        console.log(reader);
+
+        reader.onload = function (evt) {
+                //Once the file is loaded, setup object with values
+
+                var siteObject = {data:$('#newnestsite').serializeArray(),
+                                    image:evt.target.result};
+
+                if(!localStorage.getItem("index")){
+                    localStorage.setItem("index", JSON.stringify(new Array()));
+                }
+                indx = JSON.parse(localStorage.getItem("index"));
+
+                var now = new Date();
+                var key = now.format("yyyy-mm-dd HH:MM:ss");
+
+                localStorage.setItem(key, JSON.stringify(siteObject));
+                console.log("Just saved:"+JSON.stringify(siteObject));
+
+                indx.push(key);
+                localStorage.setItem("index", JSON.stringify(indx));
+
+                window.location.hash = '_home';
+                $('#newnestsite')[0].reset();
+                navigator.geolocation.clearWatch(watchLocationId);
+                //Don't auto-upload nest.
+                //if(navigator.onLine){
+                //    uploadNest(key);
+                //}
+        };
 		
-		reader.readAsDataURL(file);
-		console.log('file read as data URL');
-		console.log(reader);
-		
-		reader.onload = function (evt) {
-			//Once the file is loaded, setup object with values
-			
-			var siteObject = {data:$('#newnestsite').serializeArray(),
-                                            image:evt.target.result};
-			
-			if(!localStorage.getItem("index")){
-                            localStorage.setItem("index", JSON.stringify(new Array()));
-			}
-			indx = JSON.parse(localStorage.getItem("index"));
-			
-			var now = new Date();
-			var key = now.format("yyyy-mm-dd HH:MM:ss");
-			
-			localStorage.setItem(key, JSON.stringify(siteObject));
-                        console.log("Just saved:"+JSON.stringify(siteObject));
-			
-                        indx.push(key);
-                        localStorage.setItem("index", JSON.stringify(indx));
-                        
-                        window.location.hash = '_home';
-                        //Don't auto-upload nest.
-                        //if(navigator.onLine){
-                        //    uploadNest(key);
-                        //}
-		};
-		
-	} else {
-		alert('Sorry, picture is mandatory.');
-		return false;
-	}
 	return true;
 }
 
 
 function uploadNest(key, final){
-    alert('here2');
+    
     $.ajax({
         type: "POST",
         contentType: "applicatoin/json; charset=utf-8", 
@@ -347,8 +362,6 @@ function uploadNest(key, final){
         // set the onload event handler
         xhr.upload.onload = function(evt){
             console.log('DONE!');
-            $('.percent').html('0%');
-            $('.bar').width('0%');
             console.log("Response:"+xhr.response);
             
             localStorage.removeItem(key);
@@ -364,6 +377,8 @@ function uploadNest(key, final){
             if(final){
                 window.location.hash = '_home';
             }
+            $('.percent').html('0%');
+            $('.bar').width('0%');
         };
         xhr.upload.onabort = function(){
             $('.percent').html('0%');
@@ -455,91 +470,4 @@ function returnHtml() {
 
   $('#returnpage').html(return_html);
   $('#returnpage').attr('title', 'Saved');
-}
-
-
-// Retrieve user entered values / current page from localStorage
-function resumeState() {
-  if (!Modernizr.localstorage) return false;
-  
-  var elem_id;
-  
-  show_map = parseInt(localStorage['show_map']);
-  
-  // show appropriate page
-  page_id = localStorage['page'];
-  if (page_id) {
-    var hashtag = page_id.replace('#', '#_');
-    var url = '//' + window.location.host + window.location.pathname + window.location.search + hashtag;
-    window.location.replace(url); 
-  }
-  
-  // set text areas and pulldown menus
-  $('textarea, select').each(function() {
-    elem_id = $(this).attr('id');
-    $(this).val(localStorage[elem_id]);
-  });
-  
-  // set input fields (checkbox, radio, text)
-  $('input').each(function() {
-    elem_id = $(this).attr('id');
-    if ($(this).attr('type') == 'checkbox' || $(this).attr('type') == 'radio') { // checkboxes and radio buttons
-      var is_checked = parseInt(localStorage[elem_id]);
-      if (is_checked) {
-        $(this).attr('checked', true);
-      } else {
-        $(this).attr('checked', false);
-      }
-    } else { // text, number, email, etc.
-      $(this).val(localStorage[elem_id]);
-    }
-  });
-}
-
-
-// Save user entered values / current page to localStorage
-function saveState(event) {
-  if (!Modernizr.localstorage) return false;
-  
-  var elem_id;
-
-  if (event == 'onLoad') {
-    // onKeypress: textareas and input fields (text, number, email, etc)
-    $('input:not(:radio,:checkbox), textarea').keyup(function() {
-      elem_id = $(this).attr('id');
-      localStorage[elem_id] = $(this).val();
-    });
-    
-    // onChange: pulldown menus and input fields--need change event for input text in case user doesn't type changes (e.g. a number field)
-    $('input, select').change(function() {
-      elem_id = $(this).attr('id');
-      if ($(this).attr('type') == 'checkbox') { // checkboxes
-        storeBoolean(elem_id);
-      } else if ($(this).attr('type') == 'radio') { // radio buttons
-        storeBoolean(elem_id);
-        $(this).parent().siblings().children('input').each(function(i) {
-          var other_elem_id = $(this).attr('id');
-          storeBoolean(other_elem_id); // need to change value of "other" radio button
-        });
-      } else { // pulldown menus and text input (incl. number, email, etc)
-        localStorage[elem_id] = $(this).val();
-      }
-    });    
-  } 
-  
-  else if (event == 'onPanelLoad') {
-    localStorage['page'] = page_id;
-  }
-  
-  else if (event == 'toggleMap') {
-    localStorage['show_map'] = show_map;
-  }
-  
-  function storeBoolean(id) {
-    if ($('#' + id).is(':checked')) {
-      localStorage[id] = 1;
-    } else {
-      localStorage[id] = 0;
-    }
-  }
 }
