@@ -114,7 +114,7 @@ function setupClickHandlers() {
     //$(this).addClass('disabled'); // only allow button press once
     //db_errors = 0; // reset error / success vars from any previous inserts
     //db_successes = 0;
-    alert('here1');
+    //alert('here1');
     //syncRecords();
   });
   
