@@ -79,7 +79,7 @@
     </ul>
 
     <div id="hidden-fields">
-      <input type="hidden" name="client-version" id="client-version" value='TODO:fix this'>
+      <input type="hidden" name="client-version" id="client-version" value='<%=request.getParameter("version")%>'>
       <input type="hidden" name="form-name" id="form-name">
       <input type="hidden" name="location-timestamp" id="timestamp">
       <input type="hidden" name="location-lat" id="lat">
@@ -96,7 +96,7 @@
   <form id="newnestsite" title="New Nest Site" class="panel" target="_self" name="newnestsite" action="javascript:void(0);" onsubmit="return storeRecordImage()">
     <fieldset>
       <div class="row">
-        <label for="newnestsite-site">Site</label>
+        <label for="newnestsite-site">Site ID</label>
         <input type="text" name="site" id="newnestsite-site" placeholder="site name" autocapitalize="off" autocorrect="off" required="required">
       </div>
 	  <div class="row">
@@ -124,26 +124,36 @@
         </ul>
       </div>
       <div class="row">
-        <label>Vegetation Cover</label>
+        <label>Substrate Type</label>
         <ul class="inputs">
-          <li><input type="radio" name="vegcover" id="newnestsite-vegcover-none" value="none"> <label for="newnestsite-vegcover-none">None</label></li>
-          <li><input type="radio" name="vegcover" id="newnestsite-vegcover-sparse" value="sparse"> <label for="newnestsite-vegcover-sparse">Sparse</label></li>
-          <li><input type="radio" name="vegcover" id="newnestsite-vegcover-moderate" value="moderate"> <label for="newnestsite-vegcover-moderate">Moderate</label></li>
-          <li><input type="radio" name="vegcover" id="newnestsite-vegcover-dense" value="dense"> <label for="newnestsite-vegcover-dense">Dense</label></li>
+          <li><input type="radio" name="substrate" id="newnestsite-substrate-wetland" value="wetland"> <label for="newnestsite-substrate-wetland">Wetland</label></li>
+          <li><input type="radio" name="substrate" id="newnestsite-substrate-forestshrub" value="forestshrub"> <label for="newnestsite-substrate-forestshrub">Forest/Shrub</label></li>
+          <li><input type="radio" name="substrate" id="newnestsite-substrate-sandy" value="sandy"> <label for="newnestsite-substrate-sandy">Sandy</label></li>
+          <li><input type="radio" name="substrate" id="newnestsite-substrate-unknown" value="unknown"> <label for="newnestsite-substrate-unknown">Unknown</label></li>
         </ul>
       </div>
+      </fieldset>
+      <fieldset>
+      <div class="row">
+        <label>Vegetation Type</label>
+        <ul class="inputs">
+          <li><input type="radio" name="vegtype" id="newnestsite-vegtype-herbaceous" value="herbaceous"> <label for="newnestsite-vegtype-herbaceous">Herbaceous</label></li>
+          <li><input type="radio" name="vegtype" id="newnestsite-vegtype-sparse" value="sparse"> <label for="newnestsite-vegtype-sparse">Sparse</label></li>
+          <li><input type="radio" name="vegtype" id="newnestsite-vegtype-woodyshrub" value="woodyshrub"> <label for="newnestsite-vegtype-woodyshrub">Woody/Shrub</label></li>
+          <li><input type="radio" name="vegtype" id="newnestsite-vegtype-water" value="water"> <label for="newnestsite-vegtype-water">water</label></li>
+          <li><input type="radio" name="vegtype" id="newnestsite-vegtype-shellbed" value="shellbed"> <label for="newnestsite-vegtype-shellbed">Shell Bed</label></li>
+       </ul>
+      </div>
+      <div class="row">
+        <label>Vegetation Density</label>
+        <ul class="inputs">
+          <li><input type="radio" name="vegdens" id="newnestsite-vegdens-none" value="none"> <label for="newnestsite-vegdens-none">None</label></li>
+          <li><input type="radio" name="vegdens" id="newnestsite-vegdens-sparse" value="sparse"> <label for="newnestsite-vegdens-sparse">Sparse &lt;20&percnt;</label></li>
+          <li><input type="radio" name="vegdens" id="newnestsite-vegdens-moderate" value="moderate"> <label for="newnestsite-vegdens-moderate">Moderate 20-90&percnt;</label></li>
+          <li><input type="radio" name="vegdens" id="newnestsite-vegdens-dense" value="dense"> <label for="newnestsite-vegdens-dense">Dense &gt;90&percnt;</label></li>
+       </ul>
+      </div>
      </fieldset>
-    <h2>Distances</h2>
-    <fieldset>
-      <div class="row">
-        <label for="newnestsite-toMOSH">To MOSH</label>
-        <input type="number" name="toMOSH" id="newnestsite-toMOSH" placeholder="meters">
-      </div>
-      <div class="row">
-        <label for="newnestsite-toHighTideLine">To OHTL</label>
-        <input type="number" name="toHighTideLine" id="newnestsite-toHighTideLine" placeholder="meters">
-      </div>
-    </fieldset>
     <fieldset>
       <div class="row">
         <label for="newnestsite-notes">Notes</label>
