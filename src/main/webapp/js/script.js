@@ -114,10 +114,11 @@ function setupClickHandlers() {
     $(this).addClass('disabled'); // only allow button press once
     db_errors = 0; // reset error / success vars from any previous inserts
     db_successes = 0;
+    alert('here1');
     syncRecords();
   });
   
-  // prevent form submittal until location is determined (and disabled class is removed)
+  // Handle buttom submission
   $('#submitbutton').live('click', function(e) {
       e.preventDefault();
       $(this).addClass('disabled'); // only allow button press once
@@ -327,7 +328,7 @@ function storeRecordImage(){
 
 
 function uploadNest(key, final){
-    
+    alert('here2');
     $.ajax({
         type: "POST",
         contentType: "applicatoin/json; charset=utf-8", 
@@ -361,12 +362,16 @@ function uploadNest(key, final){
             console.log("removed item "+key);
             //window.alert(response);
             if(final){
-                window.location.hash = '_home';
+                window.location.hash = 'home';
             }
         };
-        xhr.upload.onabort = function(){ 
+        xhr.upload.onabort = function(){
             $('.percent').html('0%');
             $('.bar').width('0%');
+        };
+        
+        xhr.upload.error = function(evt){
+            alert(evt);
         };
         // return the customized object
         return xhr;
