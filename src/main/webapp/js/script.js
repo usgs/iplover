@@ -6,6 +6,10 @@ var page_id, show_map, sync_html, db_errors, db_successes, args_global = {},
 	watchLocationTimeoutSec = 60,
 	bestLocationReading;	//most accurate GPS reading within the watchlocation timeout
 
+
+var bar = $('.bar');
+var percent = $('.percent');
+
 $(document).ready(function() {
   //resumeState();
   //saveState('onLoad');
@@ -319,9 +323,11 @@ function storeRecordImage(){
                         indx.push(key);
                         localStorage.setItem("index", JSON.stringify(indx));
                         
-                        if(navigator.onLine){
-                            uploadNest(key);
-                        }
+                        window.location.hash = '_home';
+                        //Don't auto-upload nest.
+                        //if(navigator.onLine){
+                        //    uploadNest(key);
+                        //}
 		};
 		
 	} else {
@@ -332,14 +338,29 @@ function storeRecordImage(){
 }
 
 
-function uploadNest(key){
+function uploadNest(key, final){
     
-    $.ajax({type: "POST",
+    $.ajax({
+        type: "POST",
         contentType: "applicatoin/json; charset=utf-8", 
         url: "service/v1/imagepost", 
         data: localStorage.getItem(key),
-        success: function(response){
-            console.log("Response:"+response);
+        xhr: function(){
+        // get the native XmlHttpRequest object
+        var xhr = $.ajaxSettings.xhr() ;
+        // set the onprogress event handler
+        xhr.upload.onprogress = function(evt){
+            var pct = Math.round(evt.loaded*100/evt.total) + "%";
+            console.log('progress', pct) 
+            $('.percent').html(pct);
+            $('.bar').width(pct);
+        } ;
+        // set the onload event handler
+        xhr.upload.onload = function(evt){
+            console.log('DONE!')
+            $('.percent').html('0%');
+            $('.bar').width('0%');
+            console.log("Response:"+xhr.response);
             
             localStorage.removeItem(key);
             
@@ -347,11 +368,22 @@ function uploadNest(key){
             if(indx.indexOf(key) > -1){
                indx.splice(indx.indexOf(key), 1);
             }
-            localStorage.setItem("index",JSON.stringify(indx));
+            localStorage.setItem("index", JSON.stringify(indx));
             
             console.log("removed item "+key);
-            window.alert(response);
-        }});
+            //window.alert(response);
+            if(final){
+                window.location.hash = '_home';
+            }
+        };
+        xhr.upload.onabort = function(){ 
+            $('.percent').html('0%');
+            $('.bar').width('0%');
+        };
+        // return the customized object
+        return xhr;
+        }
+    });
     
     return null;
 }
@@ -361,22 +393,24 @@ function uploadNest(key){
 function getRecords() {
   if (!Modernizr.localstorage) return false;
   
-  var records = {};
-  for (i = 0; i < localStorage.length; i ++) {
-    var key = localStorage.key(i);
-    if (key.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)) { // stored records use date string for key
-      records[key] = localStorage[key];
-    }
+  if(localStorage.getItem("index")){
+    return JSON.parse(localStorage.getItem("index"));
+  }else{
+      return false;
   }
-  return records;
 }
 
 
 // Sync records stored in browser's localStorage to db
 function syncRecords() {  
   var records = getRecords();
-  for (var key in records) {
-    uploadNest(key);
+  for (i=0; i<records.length; i++) {
+      if(i==(records.length-1)){
+          uploadNest(records[i], true);
+      }else{
+          uploadNest(records[i], false);
+      }
+    
   }
 }
 
