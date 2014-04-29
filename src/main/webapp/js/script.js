@@ -33,7 +33,10 @@ function onPanelLoad(panel) {
         var num_records = 0;
     }
     
-    var num_records = Object.keys(records).length;
+    var num_records = 0;
+    if(records){
+        num_records = Object.keys(records).length;
+    }
     navigator.geolocation.clearWatch(watchLocation);	//JRH - stop watching the location once out of form
   }
   
@@ -115,8 +118,10 @@ function setupClickHandlers() {
   });
   
   // prevent form submittal until location is determined (and disabled class is removed)
-  $('.record').live('click', function(e) {
-    if ($(this).hasClass('disabled')) e.preventDefault();
+  $('#submitbutton').live('click', function(e) {
+      e.preventDefault();
+      $(this).addClass('disabled'); // only allow button press once
+      storeRecordImage();
   });
 }
 
