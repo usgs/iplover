@@ -11,8 +11,6 @@ var bar = $('.bar');
 var percent = $('.percent');
 
 $(document).ready(function() {
-  //resumeState();
-  //saveState('onLoad');
   setupClickHandlers();
   //setupOperatorField();
   sync_html = $('#sync').html();
@@ -26,17 +24,9 @@ function onPanelLoad(panel) {
   page_id = '#' + panel;
 
   if (panel == 'home' || panel == 'sync') {
-    var records = getRecords();
-    if(localStorage.getItem("index")){
-        var num_records = JSON.parse(localStorage.getItem("index")).length;
-    }else{
-        var num_records = 0;
-    }
     
-    var num_records = 0;
-    if(records){
-        num_records = Object.keys(records).length;
-    }
+    var num_records = numRecords();
+    
     navigator.geolocation.clearWatch(watchLocation);	//JRH - stop watching the location once out of form
   }
   
@@ -315,20 +305,13 @@ function storeRecordImage(){
                 var siteObject = {data:$('#newnestsite').serializeArray(),
                                     image:evt.target.result};
 
-                if(!localStorage.getItem("index")){
-                    localStorage.setItem("index", JSON.stringify(new Array()));
-                }
-                indx = JSON.parse(localStorage.getItem("index"));
-
                 var now = new Date();
                 var key = now.format("yyyy-mm-dd HH:MM:ss");
-
-                localStorage.setItem(key, JSON.stringify(siteObject));
-                console.log("Just saved:"+JSON.stringify(siteObject));
-
-                indx.push(key);
-                localStorage.setItem("index", JSON.stringify(indx));
-
+                
+                addRecord(key, JSON.stringify(siteObject))
+                
+                console.log("Just saved:" + key);
+                
                 window.location.hash = '_home';
                 $('#newnestsite')[0].reset();
                 navigator.geolocation.clearWatch(watchLocationId);
@@ -348,7 +331,7 @@ function uploadNest(key, final){
         type: "POST",
         contentType: "applicatoin/json; charset=utf-8", 
         url: "service/v1/imagepost", 
-        data: localStorage.getItem(key),
+        data: getRecord(key),
         xhr: function(){
         // get the native XmlHttpRequest object
         var xhr = $.ajaxSettings.xhr() ;
@@ -364,13 +347,7 @@ function uploadNest(key, final){
             console.log('DONE!');
             console.log("Response:"+xhr.response);
             
-            localStorage.removeItem(key);
-            
-            var indx = JSON.parse(localStorage.getItem("index"));
-            if(indx.indexOf(key) > -1){
-               indx.splice(indx.indexOf(key), 1);
-            }
-            localStorage.setItem("index", JSON.stringify(indx));
+            removeRecord(key);
             
             console.log("removed item "+key);
             //window.alert(response);
@@ -397,26 +374,15 @@ function uploadNest(key, final){
 }
 
 
-// Get records from localStorage
-function getRecords() {
-  if (!Modernizr.localstorage) return false;
-  
-  if(localStorage.getItem("index")){
-    return JSON.parse(localStorage.getItem("index"));
-  }else{
-      return false;
-  }
-}
-
 
 // Sync records stored in browser's localStorage to db
 function syncRecords() {  
-  var records = getRecords();
-  for (i=0; i<records.length; i++) {
-      if(i===(records.length-1)){
-          uploadNest(records[i], true);
+  var keys = getRecordKeys();
+  for (i=0; i<keys.length; i++) {
+      if(i===(keys.length-1)){
+          uploadNest(keys[i], true);
       }else{
-          uploadNest(records[i], false);
+          uploadNest(keys[i], false);
       }
     
   }
