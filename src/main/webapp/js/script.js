@@ -1,5 +1,5 @@
 // Global vars
-var page_id, show_map, sync_html, db_errors, db_successes, args_global = {},
+var db, page_id, show_map, sync_html, db_errors, db_successes, args_global = {},
 	enableSaveAccuracyThreshold = 24001,
 	watchLocationId,
 	watchLocationTimeoutId,
@@ -16,6 +16,56 @@ $(document).ready(function() {
   sync_html = $('#sync').html();
 });
 
+
+
+
+function nullDataHandler (transaction, results){}
+
+function errorHandler (transaction, error){
+    // error.message is a human-readable string.
+    // error.code is a numeric error code
+    alert('Error:'+error.message+' (Code '+error.code+')');
+ 
+    // Handle errors here
+    //var we_think_this_error_is_fatal = true;
+    //if (we_think_this_error_is_fatal) return true;
+    return false;    
+}
+
+function createTables(){
+	db.transaction(
+        function (transaction) {
+        	transaction.executeSql('CREATE TABLE IF NOT EXISTS sites(key STRING NOT NULL, data TEXT NOT NULL);', 
+                [], nullDataHandler, errorHandler);
+        }
+    );
+}
+
+function initDatabase() {
+	try {
+	    if (!window.openDatabase) {
+	        alert('Databases are not supported in this browser.');
+	    } else {
+	        var shortName = 'ploverdb';
+	        var version = '1.0';
+	        var displayName = 'DEMO Database';
+	        var maxSize = 100000; //  bytes
+	        db = openDatabase(shortName, version, displayName, maxSize);
+			createTables();
+	    }
+	} catch(e) {
+ 
+	    if (e == 2) {
+	        // Version number mismatch.
+	        console.log("Invalid database version.");
+	    } else {
+	        console.log("Unknown error "+e+".");
+	    }
+	    return;
+	}
+}
+
+initDatabase();
 
 
 // Fire events when user loads a panel (called from onload.js)
@@ -275,6 +325,7 @@ function storeRecordImage(){
 	}
 	
         
+        
         if(!$('#newnestsite-site').val()){
             alert('Site ID required.');
             return false;
@@ -308,13 +359,19 @@ function storeRecordImage(){
                 var now = new Date();
                 var key = now.format("yyyy-mm-dd HH:MM:ss");
                 
-                addRecord(key, JSON.stringify(siteObject))
+                db.transaction(function(transaction){transaction.executeSql("insert into sites(key, data) values(?, ?);", 
+                    [key, JSON.stringify(siteObject)], 
+                    function(transaction, results){
+                        console.log("Just saved:" + key);
                 
-                console.log("Just saved:" + key);
+                        window.location.hash = '_home';
+                        $('#newnestsite')[0].reset();
+                        navigator.geolocation.clearWatch(watchLocationId);
+                    },
+                    function(transaction, error){});})
                 
-                window.location.hash = '_home';
-                $('#newnestsite')[0].reset();
-                navigator.geolocation.clearWatch(watchLocationId);
+                //addRecord(key, JSON.stringify(siteObject))
+
                 //Don't auto-upload nest.
                 //if(navigator.onLine){
                 //    uploadNest(key);

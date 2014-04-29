@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 
+
+
+
 // Get records
 function getRecordKeys() {
   if (!Modernizr.localstorage) return false;
@@ -49,3 +52,4 @@ function numRecords(){
     }
     return num_records;
 }
+
