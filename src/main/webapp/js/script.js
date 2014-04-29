@@ -110,12 +110,12 @@ function setupClickHandlers() {
 
   // start sync
   $('#syncbutton').live('click', function(e) {
-    e.preventDefault();
-    $(this).addClass('disabled'); // only allow button press once
-    db_errors = 0; // reset error / success vars from any previous inserts
-    db_successes = 0;
+    //e.preventDefault();
+    //$(this).addClass('disabled'); // only allow button press once
+    //db_errors = 0; // reset error / success vars from any previous inserts
+    //db_successes = 0;
     alert('here1');
-    syncRecords();
+    //syncRecords();
   });
   
   // Handle buttom submission
@@ -340,13 +340,13 @@ function uploadNest(key, final){
         // set the onprogress event handler
         xhr.upload.onprogress = function(evt){
             var pct = Math.round(evt.loaded*100/evt.total) + "%";
-            console.log('progress', pct) 
+            console.log('progress', pct);
             $('.percent').html(pct);
             $('.bar').width(pct);
         } ;
         // set the onload event handler
         xhr.upload.onload = function(evt){
-            console.log('DONE!')
+            console.log('DONE!');
             $('.percent').html('0%');
             $('.bar').width('0%');
             console.log("Response:"+xhr.response);
@@ -362,7 +362,7 @@ function uploadNest(key, final){
             console.log("removed item "+key);
             //window.alert(response);
             if(final){
-                window.location.hash = 'home';
+                window.location.hash = '_home';
             }
         };
         xhr.upload.onabort = function(){
@@ -398,7 +398,7 @@ function getRecords() {
 function syncRecords() {  
   var records = getRecords();
   for (i=0; i<records.length; i++) {
-      if(i==(records.length-1)){
+      if(i===(records.length-1)){
           uploadNest(records[i], true);
       }else{
           uploadNest(records[i], false);
