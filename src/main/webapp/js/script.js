@@ -10,6 +10,9 @@ var db, page_id, show_map, sync_html, db_errors, db_successes, args_global = {},
 var bar = $('.bar');
 var percent = $('.percent');
 
+initDatabase();
+createTables();
+
 $(document).ready(function() {
   setupClickHandlers();
   //setupOperatorField();
@@ -18,55 +21,30 @@ $(document).ready(function() {
 
 
 
+//Get new record count and update display based on that data
+function updateNumRecords(){
+    numRecords(function(num_records){
 
-function nullDataHandler (transaction, results){}
-
-function errorHandler (transaction, error){
-    // error.message is a human-readable string.
-    // error.code is a numeric error code
-    alert('Error:'+error.message+' (Code '+error.code+')');
- 
-    // Handle errors here
-    //var we_think_this_error_is_fatal = true;
-    //if (we_think_this_error_is_fatal) return true;
-    return false;    
-}
-
-function createTables(){
-	db.transaction(
-        function (transaction) {
-        	transaction.executeSql('CREATE TABLE IF NOT EXISTS sites(key STRING NOT NULL, data TEXT NOT NULL);', 
-                [], nullDataHandler, errorHandler);
+        if (num_records > 0) {
+            $('#syncrecords + p').remove();
+            $('#syncrecords').after('<p>You have ' + num_records + ' record'.pluralize(num_records) + ' stored on your device.</p>');
+        }else{
+            $('#syncrecords + p').remove(); // remove any previous sync msg
         }
-    );
+        // update button and status
+        if (num_records > 0) {
+            $('#syncbutton').html('Upload ' + num_records + ' ' + 'Site'.pluralize(num_records));
+            $('#syncnumsites').html(num_records);
+            if (!navigator.onLine) {
+                $('#syncbutton').addClass('disabled');
+                $('#syncstatus').html('<li><strong>Your device is currently offline.</strong></li>');
+            }
+        } else {
+            $('#syncbutton').addClass('disabled');
+            $('#syncstatus').html('<li><strong>You don&rsquo;t have any records stored on your device.</strong></li>');
+        }
+    });
 }
-
-function initDatabase() {
-	try {
-	    if (!window.openDatabase) {
-	        alert('Databases are not supported in this browser.');
-	    } else {
-	        var shortName = 'ploverdb';
-	        var version = '1.0';
-	        var displayName = 'DEMO Database';
-	        var maxSize = 100000; //  bytes
-	        db = openDatabase(shortName, version, displayName, maxSize);
-			createTables();
-	    }
-	} catch(e) {
- 
-	    if (e == 2) {
-	        // Version number mismatch.
-	        console.log("Invalid database version.");
-	    } else {
-	        console.log("Unknown error "+e+".");
-	    }
-	    return;
-	}
-}
-
-initDatabase();
-
 
 // Fire events when user loads a panel (called from onload.js)
 function onPanelLoad(panel) {
@@ -74,8 +52,6 @@ function onPanelLoad(panel) {
   page_id = '#' + panel;
 
   if (panel == 'home' || panel == 'sync') {
-    
-    var num_records = numRecords();
     
     navigator.geolocation.clearWatch(watchLocation);	//JRH - stop watching the location once out of form
   }
@@ -95,10 +71,7 @@ function onPanelLoad(panel) {
   else if (panel == 'home') {
     //saveState('onPanelLoad'); // save page user is viewing
     $('#operator').appendTo('#user'); // move operator field back to home page
-    $('#syncrecords + p').remove(); // remove any previous sync msg
-    if (num_records > 0) {
-      $('#syncrecords').after('<p>You have ' + num_records + ' record'.pluralize(num_records) + ' stored on your device.</p>');
-    }
+    updateNumRecords();
     $('#location').remove(); // remove any previous location info / map (added here as a safeguard--sometimes it persists)
     $('#accuracy-display').remove();	//JRH added
   }
@@ -108,18 +81,7 @@ function onPanelLoad(panel) {
     //saveState('onPanelLoad'); // save page user is viewing
     $('#sync').html(sync_html); // reset sync panel to original html
     
-    // update button and status
-    if (num_records > 0) {
-      $('#syncbutton').html('Upload ' + num_records + ' ' + 'Site'.pluralize(num_records));
-      $('#syncnumsites').html(num_records);
-      if (!navigator.onLine) {
-        $('#syncbutton').addClass('disabled');
-        $('#syncstatus').html('<li><strong>Your device is currently offline.</strong></li>');
-      }
-    } else {
-      $('#syncbutton').addClass('disabled');
-      $('#syncstatus').html('<li><strong>You don&rsquo;t have any records stored on your device.</strong></li>');
-    }
+    updateNumRecords();
   }
 }
 
@@ -148,15 +110,6 @@ function setupClickHandlers() {
     //saveState('toggleMap')
   });
 
-  // start sync
-  //$('#syncbutton').live('click', function(e) {
-    //e.preventDefault();
-    //$(this).addClass('disabled'); // only allow button press once
-    //db_errors = 0; // reset error / success vars from any previous inserts
-    //db_successes = 0;
-    //alert('here1');
-    //syncRecords();
-  //});
   
   // Handle buttom submission
   $('#submitbutton').live('click', function(e) {
@@ -351,44 +304,34 @@ function storeRecordImage(){
         console.log(reader);
 
         reader.onload = function (evt) {
-                //Once the file is loaded, setup object with values
+            //Once the file is loaded, setup object with values
 
-                var siteObject = {data:$('#newnestsite').serializeArray(),
-                                    image:evt.target.result};
+            var siteObject = {data:$('#newnestsite').serializeArray(),
+                                image:evt.target.result};
 
-                var now = new Date();
-                var key = now.format("yyyy-mm-dd HH:MM:ss");
-                
-                db.transaction(function(transaction){transaction.executeSql("insert into sites(key, data) values(?, ?);", 
-                    [key, JSON.stringify(siteObject)], 
-                    function(transaction, results){
-                        console.log("Just saved:" + key);
-                
-                        window.location.hash = '_home';
-                        $('#newnestsite')[0].reset();
-                        navigator.geolocation.clearWatch(watchLocationId);
-                    },
-                    function(transaction, error){});})
-                
-                //addRecord(key, JSON.stringify(siteObject))
+            var now = new Date();
+            var key = now.format("yyyy-mm-dd HH:MM:ss");
 
-                //Don't auto-upload nest.
-                //if(navigator.onLine){
-                //    uploadNest(key);
-                //}
+            addRecord(key, JSON.stringify(siteObject), 
+            function(result){
+               window.location.hash = '_home';
+                $('#newnestsite')[0].reset();
+                navigator.geolocation.clearWatch(watchLocationId);
+                updateNumRecords(); //This may not be necessary
+            });
         };
-		
+        
 	return true;
 }
 
 
-function uploadNest(key, final){
+function uploadNest(key, data){
     
     $.ajax({
         type: "POST",
         contentType: "applicatoin/json; charset=utf-8", 
         url: "service/v1/imagepost", 
-        data: getRecord(key),
+        data: data,
         xhr: function(){
         // get the native XmlHttpRequest object
         var xhr = $.ajaxSettings.xhr() ;
@@ -403,22 +346,20 @@ function uploadNest(key, final){
         xhr.upload.onload = function(evt){
             console.log('DONE!');
             console.log("Response:"+xhr.response);
-            
-            removeRecord(key);
-            
-            console.log("removed item "+key);
-            //window.alert(response);
-            if(final){
-                window.location.hash = '_home';
-            }
-            $('.percent').html('0%');
-            $('.bar').width('0%');
+
+            removeRecord(key, function(){
+                console.log("removed item "+key);
+                //window.alert(response);
+                $('.percent').html('0%');
+                $('.bar').width('0%');
+                syncRecords();
+            });
         };
         xhr.upload.onabort = function(){
             $('.percent').html('0%');
             $('.bar').width('0%');
         };
-        
+
         xhr.upload.error = function(evt){
             alert(evt);
         };
@@ -433,16 +374,19 @@ function uploadNest(key, final){
 
 
 // Sync records stored in browser's localStorage to db
-function syncRecords() {  
-  var keys = getRecordKeys();
-  for (i=0; i<keys.length; i++) {
-      if(i===(keys.length-1)){
-          uploadNest(keys[i], true);
-      }else{
-          uploadNest(keys[i], false);
-      }
-    
-  }
+function syncRecords() {
+    getRecordKeys(function(recordKeys){
+        
+        if(recordKeys.length > 0){
+            var key = recordKeys.pop();
+            getRecord(key, function(data){
+                uploadNest(key, data);
+            });
+        }else{
+            window.location.hash = '_home';
+            updateNumRecords();
+        }
+    });
 }
 
 // Show summary page / clear localStorage values after user submits form
@@ -456,9 +400,6 @@ function returnHtml() {
       "vegcover" : "Vegcover",
       "toHighTideLine" : "toOHTL"
     }
-    
-    
-    
   };
   
   var form_name = args_global['form-name'];
