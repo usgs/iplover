@@ -188,34 +188,20 @@ function setLocation(_position) {
   // create map / map options if user online
   if (navigator.onLine) {
   
-  
-  	//JRH added
-  	//draw poly around point to denote accuracy since google static maps don't support circles
-  	var eRad = 6378137,
-  		offsetPts = [],
-  		llAccCoords = [];
-  	
-  	//put 30 points in the circle
-  	for (var i = 0; i < 360; i+=12) {
-  		//offsets in meters, calc offsets in lat/lon
-  		var dn = Math.cos((Math.PI/180) * i) * acc,
-  			de = Math.sin((Math.PI/180) * i) * acc,
-  		 	dLat = dn/eRad,
- 			dLon = de/(eRad*Math.cos((Math.PI/180) * lat)),
- 			latO = lat + dLat * 180/Math.PI,
-	 		lonO = lon + dLon * 180/Math.PI;
+        var lonConv = Math.cos(Math.PI/180*_position.coords.latitude)*111131;
+        var ulLat, ulLon, lrLat, lrLon = [];
+        
+        ulLat = _position.coords.latitude + acc/111131;
+        lrLat = _position.coords.latitude - acc/111131;
+        ulLon = _position.coords.longitude - acc/lonConv;
+        lrLon = _position.coords.longitude + acc/lonConv;
 
-  		llAccCoords.push(latO+','+lonO);
-  	}
-  	//close the circle
-  	llAccCoords.push(llAccCoords[0]);
-  	//end JRH added
-  	
-  	
-  
-    //JRH replace map if it's already been drawn
-	var mapSrc = encodeURI('http://maps.googleapis.com/maps/api/staticmap?center=' + _position.coords.latitude + ',' + _position.coords.longitude + '&path=color:0x0000ff|fillcolor:0x0000ff22|weight:5|'+llAccCoords.join('|')+'&markers=color:red|' + _position.coords.latitude + ',' + _position.coords.longitude +'&size=280x280&maptype=roadmap&sensor=true'),
-		mapLink = 'http://maps.google.com/?q=' + _position.coords.latitude + ',' + _position.coords.longitude + '+(Recorded+location)&t=m&z=13';
+            
+        var mapSrc = 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd%7Cluur2d6znd%2Crl%3Do5-9abal6&zoom=15&size=280,280&'+
+                'ellipse=color:0x0000ff|fill:0x700000ff|width:2|'+ ulLat +','+ ulLon +','+ lrLat +','+ lrLon +
+                '&center='+_position.coords.latitude+','+_position.coords.longitude;
+    
+	var mapLink = 'http://maps.google.com/?q=' + _position.coords.latitude + ',' + _position.coords.longitude + '+(Recorded+location)&t=m&z=13';
 
     if ($('#map').length == 1) {
     	$('#map-google-image')[0].src = mapSrc;
@@ -352,6 +338,7 @@ function uploadNest(key, data){
                 //window.alert(response);
                 $('.percent').html('0%');
                 $('.bar').width('0%');
+                updateNumRecords();
                 syncRecords();
             });
         };
