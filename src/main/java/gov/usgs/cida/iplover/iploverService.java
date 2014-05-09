@@ -9,7 +9,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -17,8 +22,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang.RandomStringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -29,9 +36,16 @@ import org.json.JSONTokener;
 public class iploverService {
 
     int uploadNum = 0;
+    SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    static final Logger logger = Logger.getLogger(iploverService.class.getName());;
     
-    private static final String UPLOAD_HERE  = "D:/";
+    private static final String IMAGE_DIR  = 
+            System.getProperty("catalina.base") + "/persist/iplover_images";
 
+    public iploverService() {
+        
+    }
     
     @GET
     @Path("test")
@@ -55,14 +69,13 @@ public class iploverService {
     
     @POST
     @Path("imagepost")
-    public Response methodImCalling(String json) throws FileNotFoundException, IOException {
+    public Response methodImCalling(String json) {
         
         JSONObject upload = (JSONObject) new JSONTokener(json).nextValue();
         String image = upload.getString("image");
         JSONArray data = (JSONArray) upload.get("data");
-        JSONObject site = (JSONObject)data.get(0);
+        //JSONObject site = (JSONObject)data.get(0);
         
-        System.out.println(site.get("value"));
         
         Hashtable<String, String> alldata = new Hashtable<String, String>();
         
@@ -73,51 +86,76 @@ public class iploverService {
         
         System.out.println(alldata);
         
-        //System.out.println(image);
-        
-        PrintWriter out = new PrintWriter(UPLOAD_HERE+uploadNum+"data.txt");
-        out.println(alldata.toString());
-        out.close();
+        //System.out.println(alldata.get("vegdens"));
         
         DataUri parsedImage = DataUri.parse(image, java.nio.charset.StandardCharsets.UTF_8);
-        java.io.FileOutputStream fout = new java.io.FileOutputStream(UPLOAD_HERE+uploadNum+"test.jpg");
         
-        org.apache.commons.io.IOUtils.write(parsedImage.getData(), fout);
-        fout.close();
+        String site         = alldata.get("site");
+        String version      = alldata.get("client-version");
+        String notes        = alldata.get("notes");
+        double lat          = Double.parseDouble(alldata.get("location-lat"));
+        double lon          = Double.parseDouble(alldata.get("location-lon"));
+        String vegtype      = alldata.get("vegtype");
+        String beach        = alldata.get("beach");
+        String vegdens      = alldata.get("vegdens");
+        String substrate    = alldata.get("substrate");
         
-        uploadNum = uploadNum + 1;
+        //Check length of all string inputs. Must be < 255
+        int lim = 255;
+        if(site.length() > lim || version.length() > lim ||
+                vegtype.length() > lim || beach.length() > lim ||
+                vegdens.length() > lim || substrate.length() > lim ){
+            // Kick back an excpetion
+            return Response.status(400).entity("Excessive input field length").build();
+        }
+        
+        try {
+            Date ts = timestamp.parse(alldata.get("location-timestamp"));
+        } catch (ParseException ex) {
+            logger.log(Level.WARNING, null, ex);
+            return Response.status(400).entity("Timestamp unparseable").build();
+        }
+            
+        String fkey = saveFile(parsedImage);
+        
+        //Add insertion code
+        //Get DB
+        
+        //Create insert query
+        
+        //Insert row
         
         
-        /*String filePath = UPLOAD_HERE + contentDispositionHeader.getFileName();
-        saveFile(fileInputStream, filePath);
-
-        String output = "File saved to server location : " + filePath;
         
-        */
-        
-        
-        return Response.status(200).entity(site.get("value")+" Inserted").build();
+        return Response.status(200).entity(alldata.get("site")+" Inserted").build();
 
     }
     
-    private void saveFile(InputStream uploadedInputStream,
-                    String serverLocation) {
+    private String saveFile(DataUri parsedImage) {
 
-            try {
-                    OutputStream outpuStream = new FileOutputStream(new File(serverLocation));
-                    int read = 0;
-                    byte[] bytes = new byte[1024];
+        Date d = new Date();
+        String dateImageDir = IMAGE_DIR + "/" + simp.format(d);
+        String fname = RandomStringUtils.randomAlphanumeric(16) + ".jpg";
+        
+        //Create the directory if it doesn't exist
+        (new File(dateImageDir)).mkdirs();
+        
+        
+        try {
+            
+            java.io.FileOutputStream fout = 
+                    new java.io.FileOutputStream(dateImageDir + "/" + fname);
+        
+            org.apache.commons.io.IOUtils.write(parsedImage.getData(), fout);
+            fout.close();
+            
+        } catch (IOException e) {
 
-                    outpuStream = new FileOutputStream(new File(serverLocation));
-                    while ((read = uploadedInputStream.read(bytes)) != -1) {
-                            outpuStream.write(bytes, 0, read);
-                    }
-                    outpuStream.flush();
-                    outpuStream.close();
-            } catch (IOException e) {
-
-                    e.printStackTrace();
-            }
+                e.printStackTrace();
+        }
+        
+        //The date directory and filename are the "unique key"
+        return(simp.format(d) + "/" + fname);
 
     }
     
