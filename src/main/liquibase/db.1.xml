@@ -5,23 +5,42 @@
 
     <changeSet id="1" author="lwinslow">
         <createTable tableName="entries">
-            <column name="id" type="int">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="userCertID" type="varchar(255)">
+            <column name="usercertid" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-			<column name="datetime" type="datetime" />
+            <column name="datetime" type="datetime" />
             <column name="latitude" type="double" />
-			<column name="longitude" type="double" />
-			<column name="accuracy" type="double" />
-			<column name="altitude" type="double" />
-			<column name="altAccuracy" type="double" />
-			<column name="site" type="varchar(255)" />
-			<column name="setting" type="varchar(255)" />
-			<column name="vegcover" type="varchar(255)" />
-			<column name="notes" type="text" />
+            <column name="longitude" type="double" />
+            <column name="accuracy" type="double" />
+            <column name="altitude" type="double" />
+            <column name="altaccuracy" type="double" />
+            <column name="site" type="varchar(255)" />
+            <column name="setting" type="varchar(255)" />
+            <column name="vegtype" type="varchar(255)" />
+            <column name="notes" type="text" />
         </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="lwinslow">
+        
+          <addColumn tableName="entries">
+            <column name="clientversion" type="varchar(20)"/>
+            <column name="imagekey" type="varchar(55)"/>
+            <column name="vegdens" type="varchar(55)"/>
+            <column name="substrate" type="varchar(55)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3" author="lwinslow">
+        <addAutoIncrement 
+            columnDataType="int"
+            columnName="id"
+            incrementBy="1"
+            schemaName="public"
+            startWith="100"
+            tableName="entries"/>
     </changeSet>
 
 </databaseChangeLog>
