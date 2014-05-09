@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -26,11 +27,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-//import org.slf4j.LoggerFactory;
 
 @Path("v1")
 public class iploverService {
@@ -38,35 +40,26 @@ public class iploverService {
     int uploadNum = 0;
     SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    static final Logger logger = Logger.getLogger(iploverService.class.getName());;
+    static final Logger LOG = LogManager.getLogger(iploverService.class.getName());;
+    DataSource ds;
     
     private static final String IMAGE_DIR  = 
             System.getProperty("catalina.base") + "/persist/iplover_images";
 
-    public iploverService() {
-        
-    }
-    
-    @GET
-    @Path("test")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String methodImCalling() throws NamingException, SQLException{
-        	
-	
+    public iploverService() throws Exception {
         InitialContext cxt = new InitialContext();
         if ( cxt == null ) {
-           return("Uh oh -- no context!");
+           throw new Exception("No Context!");
         }
 
-        DataSource ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
+        ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
 
         if ( ds == null ) {
-           return("Data source not found!");
+           throw new Exception("Data source not found!");
         }
-        
-        return(ds.getConnection().toString());
     }
     
+
     @POST
     @Path("imagepost")
     public Response methodImCalling(String json) {
@@ -84,7 +77,9 @@ public class iploverService {
                     (String)((JSONObject)data.get(i)).optString("value"));
         }
         
+        System.out.println("");
         System.out.println(alldata);
+        System.out.println("");
         
         //System.out.println(alldata.get("vegdens"));
         
@@ -95,37 +90,83 @@ public class iploverService {
         String notes        = alldata.get("notes");
         double lat          = Double.parseDouble(alldata.get("location-lat"));
         double lon          = Double.parseDouble(alldata.get("location-lon"));
+        int accuracy        = Integer.parseInt(alldata.get("location-accuracy"));
         String vegtype      = alldata.get("vegtype");
-        String beach        = alldata.get("beach");
+        String setting      = alldata.get("setting");
         String vegdens      = alldata.get("vegdens");
         String substrate    = alldata.get("substrate");
+        Date ts             = null;
+        
+        try {
+            ts = timestamp.parse(alldata.get("location-timestamp"));
+        } catch (ParseException ex) {
+            LOG.debug("Could not parse timestamp:" + alldata.get("location-timestamp"));
+            return Response.status(400).entity("Timestamp unparseable").build();
+        }
+        
+        
+        if(!(alldata.containsKey("site") && alldata.containsKey("client-version") &&
+                alldata.containsKey("notes") && alldata.containsKey("vegtype") &&
+                alldata.containsKey("setting") && alldata.containsKey("vegdens") &&
+                alldata.containsKey("substrate"))){
+            
+            LOG.error("A key field was not included in the JSON.");
+            return Response.status(400).entity("Excessive input field length").build();
+        }
         
         //Check length of all string inputs. Must be < 255
         int lim = 255;
-        if(site.length() > lim || version.length() > lim ||
-                vegtype.length() > lim || beach.length() > lim ||
-                vegdens.length() > lim || substrate.length() > lim ){
+        if(site.length() > lim || 
+                version.length() > lim ||
+                vegtype.length() > lim || 
+                setting.length() > lim ||
+                vegdens.length() > lim || 
+                substrate.length() > lim ){
             // Kick back an excpetion
             return Response.status(400).entity("Excessive input field length").build();
         }
         
-        try {
-            Date ts = timestamp.parse(alldata.get("location-timestamp"));
-        } catch (ParseException ex) {
-            logger.log(Level.WARNING, null, ex);
-            return Response.status(400).entity("Timestamp unparseable").build();
-        }
+
             
         String fkey = saveFile(parsedImage);
         
-        //Add insertion code
-        //Get DB
-        
-        //Create insert query
-        
-        //Insert row
-        
-        
+        try {
+            //Add insertion code
+            //Get DB
+            
+            System.out.println(ds.getConnection().toString());
+            
+            Connection conn = ds.getConnection();
+            
+            //Create insert query
+            PreparedStatement insert = conn.prepareStatement(
+                "INSERT INTO entries(usercertid, datetime, latitude, longitude," +
+                "accuracy, site, setting, vegtype, notes, clientversion, imagekey," +
+                "vegdens, substrate) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            
+            
+            insert.setString(1, "dummy");//userCertID, 
+            insert.setDate(2, new java.sql.Date(ts.getTime()));//`datetime`, 
+            insert.setDouble(3, lat);//latitude, 
+            insert.setDouble(4, lon);//longitude," +
+            insert.setDouble(5, (double)accuracy);//accuracy, 
+            insert.setString(6, site);//site, 
+            insert.setString(7, setting);//setting, 
+            insert.setString(8, vegtype);//vegtype, 
+            insert.setString(9, notes);//notes, 
+            insert.setString(10,version);//clientVersion, 
+            insert.setString(11, fkey);//imageKey
+            insert.setString(12,vegdens);//vegdens
+            insert.setString(13,substrate);//substrate
+            
+            
+            //Insert row
+            insert.execute();
+        } catch (SQLException ex) {
+            LOG.error("Error connecting to DB." + ex.getMessage());
+            return Response.status(400).entity("DB error.").build();
+        }
         
         return Response.status(200).entity(alldata.get("site")+" Inserted").build();
 
@@ -156,7 +197,6 @@ public class iploverService {
         
         //The date directory and filename are the "unique key"
         return(simp.format(d) + "/" + fname);
-
     }
     
         
