@@ -29,7 +29,6 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.slf4j.LoggerFactory;
 
 
 @Path("v1")
