@@ -37,7 +37,7 @@ public class iploverService {
     int uploadNum = 0;
     SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(iploverService.class);
+    
     
     DataSource ds;
     
