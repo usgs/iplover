@@ -66,6 +66,7 @@ public class iploverService {
     @Path("imagepost")
     public Response methodImCalling(String json) {
 
+        LOG.trace("ImagePost method called");
         
         JSONObject upload = (JSONObject) new JSONTokener(json).nextValue();
         String image = upload.getString("image");
