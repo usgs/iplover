@@ -198,7 +198,7 @@ function setLocation(_position) {
 
             
         var mapSrc = 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd%7Cluur2d6znd%2Crl%3Do5-9abal6&zoom=15&size=280,280&'+
-                'ellipse=color:0x0000ff|fill:0x700000ff|width:2|'+ ulLat +','+ ulLon +','+ lrLat +','+ lrLon +
+                'ellipse=color:0x0000ff%7Cfill:0x700000ff%7Cwidth:2%7C'+ ulLat +','+ ulLon +','+ lrLat +','+ lrLon +
                 '&center='+_position.coords.latitude+','+_position.coords.longitude;
     
 	var mapLink = 'http://maps.google.com/?q=' + _position.coords.latitude + ',' + _position.coords.longitude + '+(Recorded+location)&t=m&z=13';
