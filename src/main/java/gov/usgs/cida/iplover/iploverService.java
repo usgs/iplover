@@ -29,6 +29,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.apache.log4j.Logger;
 
 
 @Path("v1")
@@ -37,7 +38,7 @@ public class iploverService {
     int uploadNum = 0;
     SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    
+    Logger LOG = Logger.getLogger(iploverService.class);
     
     DataSource ds;
     
@@ -57,12 +58,14 @@ public class iploverService {
            throw new Exception("Data source not found!");
         }
         
+        LOG.trace("init");
     }
     
 
     @POST
     @Path("imagepost")
     public Response methodImCalling(String json) {
+
         
         JSONObject upload = (JSONObject) new JSONTokener(json).nextValue();
         String image = upload.getString("image");
@@ -78,9 +81,9 @@ public class iploverService {
         }
         
         
-        System.out.println(alldata.toString());
+        LOG.debug(alldata.toString());
         
-        //System.out.println(alldata.get("vegdens"));
+        //LOG.debug(alldata.get("vegdens"));
         
         DataUri parsedImage = DataUri.parse(image, java.nio.charset.StandardCharsets.UTF_8);
         
@@ -101,14 +104,14 @@ public class iploverService {
             lon  = Double.parseDouble(alldata.get("location-lon"));
             accuracy  = Integer.parseInt(alldata.get("location-accuracy"));
         } catch (java.lang.NumberFormatException ex){
-            System.out.println("LatLon format failure" + ex.toString());
+            LOG.error("LatLon format failure" + ex.toString());
             return Response.status(400).entity("LatLon format failure").build();
         }
         
         try {
             ts = timestamp.parse(alldata.get("location-timestamp"));
         } catch (ParseException ex) {
-            System.out.println("Could not parse timestamp:" + alldata.get("location-timestamp"));
+            LOG.error("Could not parse timestamp:" + alldata.get("location-timestamp"));
             return Response.status(400).entity("Timestamp unparseable").build();
         }
         
@@ -118,7 +121,7 @@ public class iploverService {
                 alldata.containsKey("setting") && alldata.containsKey("vegdens") &&
                 alldata.containsKey("substrate"))){
             
-            System.out.println("A key field was not included in the JSON.");
+            LOG.error("A key field was not included in the JSON.");
             return Response.status(400).entity("Excessive input field length").build();
         }
         
@@ -142,7 +145,7 @@ public class iploverService {
             //Add insertion code
             //Get DB
             
-            System.out.println(ds.getConnection().toString());
+            LOG.debug(ds.getConnection().toString());
             
             Connection conn = ds.getConnection();
             
@@ -171,10 +174,10 @@ public class iploverService {
             
             //Insert row
             insert.execute();
-            System.out.println("Inserted new record.");
+            LOG.debug("Inserted new record.");
             
         } catch (SQLException ex) {
-            System.out.println("Error connecting to DB." + ex.getMessage());
+            LOG.error("Error connecting to DB." + ex.getMessage());
             return Response.status(400).entity("DB error.").build();
         }
         
@@ -201,7 +204,7 @@ public class iploverService {
             fout.close();
             
         } catch (IOException e) {
-                System.out.println(e.toString());
+                LOG.error(e.toString());
         }
         
         //The date directory and filename are the "unique key"
