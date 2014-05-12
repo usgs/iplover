@@ -15,7 +15,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.logging.Level;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -27,11 +26,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.slf4j.LoggerFactory;
 
 
 @Path("v1")
@@ -40,13 +38,15 @@ public class iploverService {
     int uploadNum = 0;
     SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    static final Logger LOG = LogManager.getLogger(iploverService.class.getName());;
+    private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(iploverService.class);
+    
     DataSource ds;
     
     private static final String IMAGE_DIR  = 
             System.getProperty("catalina.base") + "/persist/iplover_images";
 
     public iploverService() throws Exception {
+        
         InitialContext cxt = new InitialContext();
         if ( cxt == null ) {
            throw new Exception("No Context!");
@@ -57,6 +57,7 @@ public class iploverService {
         if ( ds == null ) {
            throw new Exception("Data source not found!");
         }
+        
     }
     
 
@@ -77,9 +78,8 @@ public class iploverService {
                     (String)((JSONObject)data.get(i)).optString("value"));
         }
         
-        System.out.println("");
-        System.out.println(alldata);
-        System.out.println("");
+        
+        System.out.println(alldata.toString());
         
         //System.out.println(alldata.get("vegdens"));
         
@@ -88,19 +88,28 @@ public class iploverService {
         String site         = alldata.get("site");
         String version      = alldata.get("client-version");
         String notes        = alldata.get("notes");
-        double lat          = Double.parseDouble(alldata.get("location-lat"));
-        double lon          = Double.parseDouble(alldata.get("location-lon"));
-        int accuracy        = Integer.parseInt(alldata.get("location-accuracy"));
         String vegtype      = alldata.get("vegtype");
         String setting      = alldata.get("setting");
         String vegdens      = alldata.get("vegdens");
         String substrate    = alldata.get("substrate");
         Date ts             = null;
+        double lat;
+        double lon;
+        int accuracy;
+        
+        try{
+            lat  = Double.parseDouble(alldata.get("location-lat"));
+            lon  = Double.parseDouble(alldata.get("location-lon"));
+            accuracy  = Integer.parseInt(alldata.get("location-accuracy"));
+        } catch (java.lang.NumberFormatException ex){
+            System.out.println("LatLon format failure" + ex.toString());
+            return Response.status(400).entity("LatLon format failure").build();
+        }
         
         try {
             ts = timestamp.parse(alldata.get("location-timestamp"));
         } catch (ParseException ex) {
-            LOG.debug("Could not parse timestamp:" + alldata.get("location-timestamp"));
+            System.out.println("Could not parse timestamp:" + alldata.get("location-timestamp"));
             return Response.status(400).entity("Timestamp unparseable").build();
         }
         
@@ -110,7 +119,7 @@ public class iploverService {
                 alldata.containsKey("setting") && alldata.containsKey("vegdens") &&
                 alldata.containsKey("substrate"))){
             
-            LOG.error("A key field was not included in the JSON.");
+            System.out.println("A key field was not included in the JSON.");
             return Response.status(400).entity("Excessive input field length").build();
         }
         
@@ -163,8 +172,10 @@ public class iploverService {
             
             //Insert row
             insert.execute();
+            System.out.println("Inserted new record.");
+            
         } catch (SQLException ex) {
-            LOG.error("Error connecting to DB." + ex.getMessage());
+            System.out.println("Error connecting to DB." + ex.getMessage());
             return Response.status(400).entity("DB error.").build();
         }
         
@@ -191,8 +202,7 @@ public class iploverService {
             fout.close();
             
         } catch (IOException e) {
-
-                e.printStackTrace();
+                System.out.println(e.toString());
         }
         
         //The date directory and filename are the "unique key"
