@@ -211,7 +211,7 @@ function setLocation(_position) {
         lrLon = _position.coords.longitude + acc/lonConv;
 
             
-        var mapSrc = 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd%7Cluur2d6znd%2Crl%3Do5-9abal6&zoom=15&size=280,280&'+
+        var mapSrc = 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd%7Cluur2d6znd%2Crl%3Do5-9abal6&zoom=16&size=280,280&'+
                 'ellipse=color:0x0000ff%7Cfill:0x700000ff%7Cwidth:2%7C'+ ulLat +','+ ulLon +','+ lrLat +','+ lrLon +
                 '&center='+_position.coords.latitude+','+_position.coords.longitude;
     
