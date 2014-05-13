@@ -223,8 +223,8 @@ function setLocation(_position) {
     	$('#map-google-image')[0].src = mapSrc;
     	$('#map-google-link')[0].href = mapLink;
     } else {
-      $('#options').append('<li style="width:5em;margin-right:0.1em;"><a href="#" target="_blank" id="showmap">Hide Map</a></li>' +
-            '&nbsp;<li style="width:7em;margin-right:0.1em;"><a href="#" target="_blank" id="lockgeo">Lock Location</a></li>'); // map toggle
+      $('#options').append('<li style="width:none;margin-right:0.1em;"><a href="#" target="_blank" id="showmap">Hide Map</a>' +
+            '&nbsp;&nbsp;&nbsp;<a href="#" target="_blank" id="lockgeo">Lock Location</a></li>'); // map toggle
       $('#options').after(
          '<div id="map">' + // google map
         	'<img id="map-google-image" src="' + mapSrc + '">' +
