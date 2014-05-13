@@ -146,12 +146,14 @@ function watchLocation() {
   if ($('#gps-reading-spinner').length == 1) {
   	$('#gps-reading-spinner').attr('style','display:inline');
   	$('#refresh').attr('style','display:none');
+        $('#lockgeo').attr('style','display:inline');
   }
   //set timeout to force stop of gps watching position
   watchLocationTimeoutId = setTimeout(function() {
     navigator.geolocation.clearWatch(watchLocationId);
     $('#refresh').attr('style','display:inline');
     $('#gps-reading-spinner').attr('style','display:none');
+    $('#lockgeo').attr('style','display:none');
   }, watchLocationTimeoutSec*1000);
 }
 
@@ -221,8 +223,8 @@ function setLocation(_position) {
     	$('#map-google-image')[0].src = mapSrc;
     	$('#map-google-link')[0].href = mapLink;
     } else {
-      $('#options').append('    <li><a href="#" target="_blank" id="showmap">Hide Map</a></li>' +
-            '&nbsp;&nbsp;<li><a href="#" target="_blank" id="lockgeo">Lock Location</a></li>'); // map toggle
+      $('#options').append('    <li style="width:5em;margin-right:0.1em;"><a href="#" target="_blank" id="showmap">Hide Map</a></li>' +
+            '&nbsp;&nbsp;<li style="width:7em;margin-right:0.1em;"><a href="#" target="_blank" id="lockgeo">Lock Location</a></li>'); // map toggle
       $('#options').after(
          '<div id="map">' + // google map
         	'<img id="map-google-image" src="' + mapSrc + '">' +
