@@ -66,6 +66,12 @@ public class iploverService {
     }
     
 
+    @GET
+    @Path("test")
+    public Response test() {
+        return Response.status(200).entity("Test success.").build();
+    }
+    
     @POST
     @Path("imagepost")
     public Response methodImCalling(String json) {
