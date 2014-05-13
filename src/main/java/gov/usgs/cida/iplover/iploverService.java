@@ -47,18 +47,22 @@ public class iploverService {
 
     public iploverService() throws Exception {
         
+        LOG.trace("Getting data source....");
+        
         InitialContext cxt = new InitialContext();
         if ( cxt == null ) {
+            LOG.error("No context found. Failing.");
            throw new Exception("No Context!");
         }
 
         ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
 
         if ( ds == null ) {
-           throw new Exception("Data source not found!");
+            LOG.error("No data source found. Failing.");
+            throw new Exception("Data source not found!");
         }
         
-        LOG.trace("init");
+        LOG.trace("Data source init done.");
     }
     
 
@@ -82,7 +86,7 @@ public class iploverService {
         }
         
         
-        LOG.debug(alldata.toString());
+        LOG.debug("User posted:" + alldata.toString());
         
         //LOG.debug(alldata.get("vegdens"));
         
@@ -138,7 +142,6 @@ public class iploverService {
             return Response.status(400).entity("Excessive input field length").build();
         }
         
-
             
         String fkey = saveFile(parsedImage);
         
@@ -146,7 +149,7 @@ public class iploverService {
             //Add insertion code
             //Get DB
             
-            LOG.debug(ds.getConnection().toString());
+            LOG.debug("Database conn:" + ds.getConnection().toString());
             
             Connection conn = ds.getConnection();
             
