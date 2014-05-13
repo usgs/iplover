@@ -127,6 +127,7 @@ public class iploverService {
         String setting      = alldata.get("setting");
         String vegdens      = alldata.get("vegdens");
         String substrate    = alldata.get("substrate");
+        String usercert     = "";
         Date ts             = null;
         double lat;
         double lon;
@@ -157,6 +158,13 @@ public class iploverService {
             LOG.error("A key field was not included in the JSON.");
             return Response.status(400).entity("Excessive input field length").build();
         }
+        
+        LOG.trace("Getting Cert info.");
+        X509Certificate[] cert = (X509Certificate[])
+            request.getAttribute("javax.servlet.request.X509Certificate");
+        
+        usercert = cert[0].getSubjectX500Principal().getName();
+        LOG.trace("Found cert info:" + usercert);
         
         //Check length of all string inputs. Must be < 255
         int lim = 255;
@@ -189,7 +197,7 @@ public class iploverService {
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
             
             
-            insert.setString(1, "dummy");//userCertID, 
+            insert.setString(1, usercert);//userCertID, 
             insert.setDate(2, new java.sql.Date(ts.getTime()));//`datetime`, 
             insert.setDouble(3, lat);//latitude, 
             insert.setDouble(4, lon);//longitude," +
