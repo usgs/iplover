@@ -109,6 +109,20 @@ function setupClickHandlers() {
     }
     //saveState('toggleMap')
   });
+  
+  $('#lockgeo').live('click', function(e){
+      e.preventDefault();
+      if($('#lockgeo').text() === 'Lock Location'){
+        $('#lockgeo').text('Unlock Location');
+        navigator.geolocation.clearWatch(watchLocationId);
+        $('#gps-reading-spinner').attr('style','display:none');
+      }else{
+        $('#lockgeo').text('Lock Location');
+        watchLocation();
+      }
+  });
+  
+  
 
   
   // Handle buttom submission
@@ -171,7 +185,7 @@ function setLocation(_position) {
   $(page_id + '-location').val(lat + ', ' + lon)
   if ($('#accuracy-display').length == 1) {
   	$('#accuracy-value').html(acc + ' meters');
-  	$('#location-timestamp-value').html(timestamp.format("h:MM:ss TT"));
+  	$('#location-timestamp-value').html('at ' + timestamp.format("h:MM:ss TT"));
   } else {
     $(page_id + '-location')
       .after(
@@ -207,10 +221,11 @@ function setLocation(_position) {
     	$('#map-google-image')[0].src = mapSrc;
     	$('#map-google-link')[0].href = mapLink;
     } else {
-      $('#options').append('    <li><a href="#" target="_blank" id="showmap">Hide Map</a></li>'); // map toggle
+      $('#options').append('    <li><a href="#" target="_blank" id="showmap">Hide Map</a></li>' +
+            '&nbsp;&nbsp;<li><a href="#" target="_blank" id="lockgeo">Lock Location</a></li>'); // map toggle
       $('#options').after(
          '<div id="map">' + // google map
-        	'<img id="map-google-image" src="' + mapSrc + '">' +	//JRH modified
+        	'<img id="map-google-image" src="' + mapSrc + '">' +
         	'<p><a id="map-google-link" href="' + mapLink + '" target="_blank">Launch Google Maps</a></p>' +
       	'</div>'
       );
