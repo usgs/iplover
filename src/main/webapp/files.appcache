@@ -10,11 +10,11 @@ NETWORK:
 service/v1/imagepost
 http://* 
 https://*
-http://open.mapquestapi.com
 #http://www.google-analytics.com
 
 # Resources to cache
 CACHE:
+app.html
 img/spinner.gif
 img/l/splash.png
 img/l/apple-touch-icon-precomposed.png
@@ -25,6 +25,7 @@ js/mylibs/helper.js
 js/onload.js
 js/plugins.js
 js/script.js
+js/db.js
 css/base.css
 css/style.css
 iui/iui.js

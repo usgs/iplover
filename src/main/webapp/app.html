@@ -93,7 +93,7 @@
   
   <!-- New Nest Site form -->
 
-  <form id="newnestsite" title="New Nest Site" class="panel" target="_self" name="newnestsite" action="javascript:void(0);" onsubmit="return storeRecordImage()">
+  <form id="newnestsite" title="New Nest Site" class="panel" target="_self" name="newnestsite" action="javascript:void(0);" >
     <fieldset>
       <div class="row">
         <label for="newnestsite-site">Site ID</label>
@@ -160,7 +160,7 @@
         <textarea rows="3" name="notes" id="newnestsite-notes"></textarea>
       </div>
     </fieldset>
-    <a id="submitbutton" class="whiteButton" target="_blank">Save Nest Data</a>
+    <a class="whiteButton" target="_blank" onclick="storeRecordImage()">Save Nest Data</a>
   </form>
   
   <!-- Sync Records -->
@@ -170,6 +170,7 @@
     	Sites that you save are stored on your device.<br/><br/>
     	You currently have <span id="syncnumsites">0</span> sites stored. To upload them to the USGS data repository, tap the button below.<br/><br/>
     </p>
+
     <ul id="syncstatus">
       <li class="success"></li>
       <li class="error"></li>
@@ -180,6 +181,9 @@
         <div class="bar"></div >
         <div class="percent">0%</div >
     </div>
+    <p id="responses">..</p>
+    
+    
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>

@@ -80,7 +80,7 @@ function onPanelLoad(panel) {
   else if (panel == 'sync') {
     //saveState('onPanelLoad'); // save page user is viewing
     $('#sync').html(sync_html); // reset sync panel to original html
-    
+    updateResponses();
     updateNumRecords();
   }
 }
@@ -335,6 +335,10 @@ function uploadNest(key, data){
         contentType: "applicatoin/json; charset=utf-8", 
         url: "service/v1/imagepost", 
         data: data,
+        success:function(response){
+            addResponse(response);
+            console.log(response);
+        },
         xhr: function(){
         // get the native XmlHttpRequest object
         var xhr = $.ajaxSettings.xhr() ;
@@ -348,7 +352,6 @@ function uploadNest(key, data){
         // set the onload event handler
         xhr.upload.onload = function(evt){
             console.log('DONE!');
-            console.log("Response:"+xhr.response);
 
             removeRecord(key, function(){
                 console.log("removed item "+key);
@@ -375,7 +378,35 @@ function uploadNest(key, data){
     return null;
 }
 
+function addResponse(response){
+    if(!localStorage){
+        return;
+    }
+    
+    if(!localStorage.uploadResponses){
+        localStorage.uploadResponses = JSON.stringify(new Array());
+    }
+    var responses = JSON.parse(localStorage.uploadResponses);
+    responses.push(response);
+    if(responses.length > 4){
+        responses.shift();
+    }
+    
+    localStorage.uploadResponses = JSON.stringify(responses);
+    updateResponses();
+}
 
+function updateResponses(){
+    if(!localStorage.uploadResponses){
+        localStorage.uploadResponses = new Array();
+    }
+    var responses = JSON.parse(localStorage.uploadResponses);
+    var newtxt = "Last Events:<br />";
+    for(var i=(responses.length-1); i >=0; i--){
+        newtxt = newtxt + responses[i] + "<br />";
+    }
+    $("#responses").html(newtxt);
+}
 
 // Sync records stored in browser's localStorage to db
 function syncRecords() {
@@ -387,55 +418,9 @@ function syncRecords() {
                 uploadNest(key, data);
             });
         }else{
-            window.location.hash = '_home';
+            //window.location.hash = '_home';
             updateNumRecords();
         }
     });
 }
 
-// Show summary page / clear localStorage values after user submits form
-function returnHtml() {
-
-  // "friendly" field names for return page
-  var labels = { 
-    
-    "newnestsite" : {
-      "setting" : "Setting",
-      "vegcover" : "Vegcover",
-      "toHighTideLine" : "toOHTL"
-    }
-  };
-  
-  var form_name = args_global['form-name'];
-  var return_html = '<fieldset>';
-  
-  for (var key in args_global) {
-  
-    // don't echo empty fields, form name, operator, or location details in return html
-    if (args_global[key] == '' || 
-        key == 'form-name' || 
-        key == 'operator' || 
-        key.match(/^location-.+/))
-      continue; 
-  
-//  	alert(key + ', ' + args_global[key]);
-    var label = key.capitalize();
-    if (typeof labels[form_name][key] == 'string') label = labels[form_name][key].capitalize();
-    row = '<div class="row results"><label>' + label + '</label><span>' + args_global[key] + '</span></div>';
-    return_html += row;
-    
-    // clear values from localStorage when form submitted
-    var elem = $('#' + form_name + ' *[name="' + key + '"]'); // get all form elements by name value
-    $(elem).each(function() { // loop thru form elements
-      var key = $(this).attr('id');
-      localStorage.removeItem(key);
-    });
-    
-  }
-  return_html += '</fieldset>';
-  //  Add a home button
-  return_html += '<a class="whiteButton record" type="home" href="#home">Back to Home</a>';
-
-  $('#returnpage').html(return_html);
-  $('#returnpage').attr('title', 'Saved');
-}
