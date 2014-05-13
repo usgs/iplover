@@ -29,6 +29,7 @@ ul.inputs li {
   list-style: none;
   line-height: 1.8;
   margin-right: 1.2em;
+  width:10em;
 }
 
 /* Form results */
