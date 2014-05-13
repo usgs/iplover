@@ -8,15 +8,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,12 +27,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.apache.log4j.Logger;
 
 
 @Path("v1")
@@ -41,6 +47,15 @@ public class iploverService {
     Logger LOG = Logger.getLogger(iploverService.class);
     
     DataSource ds;
+    
+    @Context
+    HttpServletRequest request;
+    
+    @Context
+    SecurityContext secContext;
+    
+
+    
     
     private static final String IMAGE_DIR  = 
             System.getProperty("catalina.base") + "/persist/iplover_images";
@@ -69,7 +84,14 @@ public class iploverService {
     @GET
     @Path("test")
     public Response test() {
-        return Response.status(200).entity("Test success.").build();
+        String str = "";
+        
+        X509Certificate[] cert = (X509Certificate[])
+         request.getAttribute("javax.servlet.request.X509Certificate");
+        
+        str = str + "\nHmmm:" + cert[0].getSubjectX500Principal().getName();
+        
+        return Response.status(200).entity(str).build();
     }
     
     @POST
