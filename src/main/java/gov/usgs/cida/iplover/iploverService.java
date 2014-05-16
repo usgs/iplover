@@ -67,7 +67,7 @@ public class iploverService {
         InitialContext cxt = new InitialContext();
         if ( cxt == null ) {
             LOG.error("No context found. Failing.");
-           throw new Exception("No Context!");
+            throw new Exception("No Context!");
         }
 
         ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
@@ -89,8 +89,12 @@ public class iploverService {
         X509Certificate[] cert = (X509Certificate[])
          request.getAttribute("javax.servlet.request.X509Certificate");
         
-        str = str + "\nHmmm:" + cert[0].getSubjectX500Principal().getName();
         
+        if(cert != null && cert.length > 0){
+            str = str + "\nHmmm:" + cert[0].getSubjectX500Principal().getName();
+        }else{
+            str = "Unknown client cert";
+        }
         return Response.status(200).entity(str).build();
     }
     
@@ -127,8 +131,8 @@ public class iploverService {
         String setting      = alldata.get("setting");
         String vegdens      = alldata.get("vegdens");
         String substrate    = alldata.get("substrate");
-        String usercert     = "";
-        Date ts             = null;
+        String usercert;
+        Date ts;
         double lat;
         double lon;
         int accuracy;
@@ -160,10 +164,16 @@ public class iploverService {
         }
         
         LOG.trace("Getting Cert info.");
-        X509Certificate[] cert = (X509Certificate[])
-            request.getAttribute("javax.servlet.request.X509Certificate");
         
-        usercert = cert[0].getSubjectX500Principal().getName();
+        X509Certificate[] cert =
+                (X509Certificate[])request.getAttribute("javax.servlet.request.X509Certificate");        
+        
+        if(cert != null && cert.length > 0){
+            
+            usercert = cert[0].getSubjectX500Principal().getName();
+        }else{
+            usercert = "unknown";
+        }
         LOG.trace("Found cert info:" + usercert);
         
         //Check length of all string inputs. Must be < 255
