@@ -338,6 +338,21 @@ function uploadNest(key, data){
         success:function(response){
             addResponse(response);
             console.log(response);
+            //Remove the last upload now and start the next
+            removeRecord(key, function(){
+                console.log("removed item "+key);
+                //window.alert(response);
+                $('.percent').html('0%');
+                $('.bar').width('0%');
+                updateNumRecords();
+                syncRecords();
+            });
+        },
+        error:function( jqXHR, textStatus, errorThrown){
+            $('.percent').html('0%');
+            $('.bar').width('0%');
+            addResponse("Upload Error");
+            alert("Upload has terminated\nPlease check connection.");
         },
         xhr: function(){
         // get the native XmlHttpRequest object
@@ -351,16 +366,7 @@ function uploadNest(key, data){
         } ;
         // set the onload event handler
         xhr.upload.onload = function(evt){
-            console.log('DONE!');
-
-            removeRecord(key, function(){
-                console.log("removed item "+key);
-                //window.alert(response);
-                $('.percent').html('0%');
-                $('.bar').width('0%');
-                updateNumRecords();
-                syncRecords();
-            });
+            console.log('Done, maybe...');
         };
         xhr.upload.onabort = function(){
             $('.percent').html('0%');
@@ -398,7 +404,7 @@ function addResponse(response){
 
 function updateResponses(){
     if(!localStorage.uploadResponses){
-        localStorage.uploadResponses = new Array();
+        localStorage.uploadResponses = JSON.stringify(new Array());
     }
     var responses = JSON.parse(localStorage.uploadResponses);
     var newtxt = "Last Events:<br />";
