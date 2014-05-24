@@ -196,7 +196,7 @@ public class iploverService {
             //Get DB
             
             LOG.debug("Database conn:" + ds.getConnection().toString());
-            
+            LOG.trace("Preparing insert statement.");
             Connection conn = ds.getConnection();
             
             //Create insert query
@@ -220,7 +220,7 @@ public class iploverService {
             insert.setString(11, fkey);//imageKey
             insert.setString(12,vegdens);//vegdens
             insert.setString(13,substrate);//substrate
-            
+            LOG.trace("Prepared statement, inserting...");
             
             //Insert row
             insert.execute();
@@ -244,15 +244,14 @@ public class iploverService {
         //Create the directory if it doesn't exist
         (new File(dateImageDir)).mkdirs();
         
-        
+        LOG.trace("Setting up image path.");
         try {
-            
             java.io.FileOutputStream fout = 
                     new java.io.FileOutputStream(dateImageDir + "/" + fname);
         
             org.apache.commons.io.IOUtils.write(parsedImage.getData(), fout);
             fout.close();
-            
+            LOG.trace("Image written and closed.");
         } catch (IOException e) {
                 LOG.error(e.toString());
         }
