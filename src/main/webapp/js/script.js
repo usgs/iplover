@@ -344,6 +344,7 @@ function uploadNest(key, data){
                 //window.alert(response);
                 $('.percent').html('0%');
                 $('.bar').width('0%');
+                $('#syncbutton').addClass('disabled');
                 updateNumRecords();
                 syncRecords();
             });
@@ -416,6 +417,8 @@ function updateResponses(){
 
 // Sync records stored in browser's localStorage to db
 function syncRecords() {
+    $('#syncbutton').addClass('disabled');
+    $('#syncstatus').html('<li><strong>Refresh browser to cancel upload.</strong></li>');
     getRecordKeys(function(recordKeys){
         
         if(recordKeys.length > 0){
