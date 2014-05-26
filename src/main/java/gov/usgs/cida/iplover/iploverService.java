@@ -190,6 +190,7 @@ public class iploverService {
         
             
         String fkey = saveFile(parsedImage);
+        Connection conn = null;
         
         try {
             //Add insertion code
@@ -197,7 +198,7 @@ public class iploverService {
             
             LOG.debug("Database conn:" + ds.getConnection().toString());
             LOG.trace("Preparing insert statement.");
-            Connection conn = ds.getConnection();
+            conn = ds.getConnection();
             
             //Create insert query
             PreparedStatement insert = conn.prepareStatement(
@@ -229,6 +230,15 @@ public class iploverService {
         } catch (SQLException ex) {
             LOG.error("Error connecting to DB." + ex.getMessage());
             return Response.status(400).entity("DB error.").build();
+        }finally{
+            try{
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                // do nothing. 
+                LOG.error("Trouble closing DB connection:" + e.getMessage());
+            }
         }
         
         return Response.status(200).entity(alldata.get("site")+" Inserted").build();
