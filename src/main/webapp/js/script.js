@@ -41,7 +41,9 @@ function updateNumRecords(){
             }
         } else {
             $('#syncbutton').addClass('disabled');
+            $('#syncnumsites').html(num_records);
             $('#syncstatus').html('<li><strong>You don&rsquo;t have any records stored on your device.</strong></li>');
+            $('#syncbutton').html('Upload ' + num_records + ' ' + 'Site'.pluralize(num_records));
         }
     });
 }
