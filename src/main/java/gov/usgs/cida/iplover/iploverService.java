@@ -195,10 +195,11 @@ public class iploverService {
         try {
             //Add insertion code
             //Get DB
-            
-            LOG.debug("Database conn:" + ds.getConnection().toString());
-            LOG.trace("Preparing insert statement.");
+            LOG.trace("Getting connection object from context.");
             conn = ds.getConnection();
+            LOG.debug("Database conn:" + conn.toString());
+            LOG.trace("Preparing insert statement.");
+            
             
             //Create insert query
             PreparedStatement insert = conn.prepareStatement(
@@ -226,6 +227,7 @@ public class iploverService {
             //Insert row
             insert.execute();
             LOG.debug("Inserted new record.");
+            insert.close();
             
         } catch (SQLException ex) {
             LOG.error("Error connecting to DB." + ex.getMessage());
@@ -234,6 +236,7 @@ public class iploverService {
             try{
                 if(conn != null){
                     conn.close();
+                    LOG.trace("Connection successfully closed.");
                 }
             }catch(SQLException e){
                 // do nothing. 
