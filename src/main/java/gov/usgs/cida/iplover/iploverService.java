@@ -210,7 +210,7 @@ public class iploverService {
             
             
             insert.setString(1, usercert);//userCertID, 
-            insert.setDate(2, new java.sql.Date(ts.getTime()));//`datetime`, 
+            insert.setTimestamp(2, new java.sql.Timestamp(ts.getTime()));//`datetime`, 
             insert.setDouble(3, lat);//latitude, 
             insert.setDouble(4, lon);//longitude," +
             insert.setDouble(5, (double)accuracy);//accuracy, 
