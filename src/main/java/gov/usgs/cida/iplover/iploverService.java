@@ -132,15 +132,36 @@ public class iploverService {
         String vegdens      = alldata.get("vegdens");
         String substrate    = alldata.get("substrate");
         String usercert;
+        
         Date ts;
         double lat;
         double lon;
-        int accuracy;
+        double accuracy;
         
+        //*********************************************************************
+        //Get user certificate info
+        //*********************************************************************
+        
+        LOG.trace("Getting Cert info.");
+        
+        X509Certificate[] cert =
+                (X509Certificate[])request.getAttribute("javax.servlet.request.X509Certificate");        
+        
+        if(cert != null && cert.length > 0){
+            
+            usercert = cert[0].getSubjectX500Principal().getName();
+        }else{
+            usercert = "unknown";
+        }
+        LOG.trace("Found cert info:" + usercert);
+
+        
+        //**********************************************************************
+        //Parse submission location
         try{
             lat  = Double.parseDouble(alldata.get("location-lat"));
             lon  = Double.parseDouble(alldata.get("location-lon"));
-            accuracy  = Integer.parseInt(alldata.get("location-accuracy"));
+            accuracy  = Double.parseDouble(alldata.get("location-accuracy"));
         } catch (java.lang.NumberFormatException ex){
             LOG.error("LatLon format failure" + ex.toString());
             return Response.status(400).entity("LatLon format failure").build();
@@ -163,18 +184,6 @@ public class iploverService {
             return Response.status(400).entity("Excessive input field length").build();
         }
         
-        LOG.trace("Getting Cert info.");
-        
-        X509Certificate[] cert =
-                (X509Certificate[])request.getAttribute("javax.servlet.request.X509Certificate");        
-        
-        if(cert != null && cert.length > 0){
-            
-            usercert = cert[0].getSubjectX500Principal().getName();
-        }else{
-            usercert = "unknown";
-        }
-        LOG.trace("Found cert info:" + usercert);
         
         //Check length of all string inputs. Must be < 255
         int lim = 255;
@@ -213,7 +222,7 @@ public class iploverService {
             insert.setTimestamp(2, new java.sql.Timestamp(ts.getTime()));//`datetime`, 
             insert.setDouble(3, lat);//latitude, 
             insert.setDouble(4, lon);//longitude," +
-            insert.setDouble(5, (double)accuracy);//accuracy, 
+            insert.setDouble(5, accuracy);//accuracy, 
             insert.setString(6, site);//site, 
             insert.setString(7, setting);//setting, 
             insert.setString(8, vegtype);//vegtype, 
