@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#Version 2014/05/13 22:15:04
+#Version 2014/06/03 21:05:00
 
 # Alternative resources if user is offline
 #map tiles -> .png image saying "offline"
@@ -14,6 +14,7 @@ https://*
 
 # Resources to cache
 CACHE:
+/
 index.html
 app.html
 img/spinner.gif
@@ -27,6 +28,7 @@ js/onload.js
 js/plugins.js
 js/script.js
 js/db.js
+css/application-overlay.css
 css/base.css
 css/style.css
 iui/iui.js
