@@ -14,6 +14,7 @@ https://*
 
 # Resources to cache
 CACHE:
+index.html
 app.html
 img/spinner.gif
 img/l/splash.png
