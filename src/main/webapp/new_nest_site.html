@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>iPlover</title>
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<main>
+
+	<header>
+    	
+        <a href="home.html"/><button id="home_button"> <p id="backarrow"><strong><</strong></p> Home</button></a>
+    
+    	<h2>New Nest Site</h2>
+        
+        <img id="plover" src="img/plover.png" alt="bird alert"/>
+    	
+    </header>
+    
+    	<article>
+        
+        	<section id="new_site_section">
+            
+                <input type="text" placeholder="Enter Site ID"/>
+                
+                <button>Choose a Photo to Upload</button> 
+                <p>Location: 43.09247, -895323</p>
+                
+                <p>Accuracy: 5 meters</p>
+                
+                <p class="left">at 9:50:05 am </p>
+                
+                <p class="right"><a>Refresh</a> <a>Show Map</a></p>
+                
+                <form>
+                <h3>Geomorphic Setting</h3>
+                
+                <input class="radial" type="radio" name="setting" value="beach"/>Beach
+                <br/>
+                 <input class="radial" type="radio"name="setting" value="upper beach"/>Upper Beach
+                 <br/>
+                 <input class="radial" type="radio"name="setting" value="foredune"/>Low Dune/Foredune
+                 <br/>
+                 <input class="radial" type="radio"name="setting" value="dune"/>Dune
+                 <br/>
+                 <input class="radial" type="radio"name="setting" value="washover"/>Washover
+                 <br/>
+                 <input class="radial" type="radio"name="setting" value="barrier interior"/>Barrier Interior
+                 <br/>
+                 <input class="radial" type="radio"name="setting" value="dune blowout"/>Dune Blowout
+                 <br/>
+                 <input class="radial" type="radio"name="setting" value="swole"/>Beach Ridge/Swole
+                 
+                 </form>
+                 
+                 <form class="other">
+                 
+                 	<h3>Substrate Type</h3>
+                    
+                    <input class="radial" type="radio" name="substrate" value="wetland"/>Wetland
+                <br/>
+                <input class="radial" type="radio" name="substrate" value="forest"/>Forest/Shrub
+                <br/>
+                <input class="radial" type="radio" name="substrate" value="sandy"/>Sandy
+                <br/>
+                <input class="radial" type="radio" name="substrate" value="unknown"/>Unknown
+                <br/>
+                 
+                 </form>
+                 
+                 <form class="other">
+                 
+                 	<h3>Vegetation Type</h3>
+                    
+                    <input class="radial" type="radio" name="vegetation" value="herbaceous"/>Herbaceous
+                <br/>
+                <input class="radial" type="radio" name="vegetation" value="woody"/>Woody/Shrub
+                <br/>
+                <input class="radial" type="radio" name="vegetation" value="water"/>Water
+                <br/>
+                <input class="radial" type="radio" name="vegetation" value="shellbed"/>Shell Bed
+                <br/>
+                 
+                 </form>
+                 
+                 <form class="other">
+                 
+                 	<h3>Vegetation Density</h3>
+                    
+                    <input class="radial" type="radio" name="density" value="none"/>None
+                <br/>
+                <input class="radial" type="radio" name="density" value="sparse"/>Sparse <20%
+                <br/>
+                <input class="radial" type="radio" name="density" value="moderate"/>Moderate 20-90%
+                <br/>
+                <input class="radial" type="radio" name="density" value="dense"/>Dense >90%
+                <br/>
+                 
+                 </form>
+                 
+                 <textarea placeholder="Notes"></textarea>
+                 
+                 <button class="save">Save Nest Data</button>
+            </section>
+        
+        </article>
+    
+
+</main>
+
+</body>
+</html>

@@ -1,31 +1,41 @@
+<!doctype html>
 <html>
-    <head>
-        <meta http-equiv="refresh" content="2; url=app.html">
-        <title>iPlover Splash</title>
-    </head>
-    <body>
-<link type="text/css" rel="stylesheet" href="css/application-overlay.css" />
-<div id="application-overlay">
-    <div id="application-overlay-content-wrap">
-        <div id="application-overlay-image-container">
-            <img src="img/usgs.svg" alt="USGS Logo"/>
-        </div>
-        <div id="application-overlay-description-container">
-            <div id="application-overlay-description-container-title">iPlover</div>
-            <div id="application-overlay-description-container-version">Version 1.2-SNAPSHOT</div>
-            <div id="application-overlay-description-container-spinner-container">
-                <img id="splash-spinner" src="img/spinner.gif" class="img-responsive" alt="Spinner Image"/><span id="splash-status-update"></span>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-    var splashUpdate = function(message) {
-        document.getElementById('splash-status-update').innerHTML = message;
-    };
-    splashUpdate("Loading Application...");
-</script>
+<head>
+<meta charset="UTF-8">
+<title>iPlover</title>
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<main>
+
+	<header>
+    
+    	<h2>iPlover</h2>
+    	
+    </header>
+    
+    	<article>
+        
+        	<section id="login">
+            
+            	<h2>Welcome to iPlover!</h2>
+                
+                <section id="image">Image?</section>
+                
+                <h2>Please Login</h2>
+                
+                <input type="text" placeholder="Username"/>
+                <input type="password" placeholder="Password"/>
+                <h4 id="forgot"><a href="">Forgot your Password?</a></h4>
+            
+            </section>
+        
+        </article>
+    
+
+</main>
 
 </body>
-
 </html>
