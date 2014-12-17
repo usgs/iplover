@@ -32,7 +32,7 @@
                 <input type="text" placeholder="Enter Site ID"/>
                 
                 <button>Choose a Photo to Upload</button> 
-                <p>Location: 43.09247, -895323</p>
+                <p><div id="locationtext">Location: 43.09247, -895323</div></p>
                 
                 <p>Accuracy: 5 meters</p>
                 
@@ -43,19 +43,26 @@
                 <form>
                 <h3>Geomorphic Setting</h3>
                 
-                <input class="radial" type="radio" name="setting" value="beach"/>Beach
+                <input id="geo1" class="radial" type="radio" name="setting" value="beach"/>
+                <label for="geo1">Beach</label>
                 <br/>
-                 <input class="radial" type="radio"name="setting" value="backshore"/>Backshore
+                 <input id="geo2" class="radial" type="radio"name="setting" value="backshore"/>
+                 <label for="geo2">Backshore</label>
                  <br/>
-                 <input class="radial" type="radio"name="setting" value="dune"/>Dune
+                 <input id="geo3" class="radial" type="radio"name="setting" value="dune"/>
+                 <label for="geo3">Dune</label>
                  <br/>
-                 <input class="radial" type="radio"name="setting" value="washover"/>Washover
+                 <input id="geo4" class="radial" type="radio"name="setting" value="washover"/>
+                 <label for="geo4">Washover</label>
                  <br/>
-                 <input class="radial" type="radio"name="setting" value="barrier interior"/>Barrier Interior
+                 <input id="geo5" class="radial" type="radio"name="setting" value="barrier interior"/>
+                 <label for="geo5">Barrier Interior</label>
                  <br/>
-                 <input class="radial" type="radio"name="setting" value="swole"/>Beach Ridge/Swole
+                 <input id="geo6" class="radial" type="radio"name="setting" value="swole"/>
+                 <label for="geo6">Beach Ridge/Swole</label>
                  <br />
-                 <input class="radial" type="radio"name="setting" value="marsh"/>Marsh
+                 <input id="geo7" class="radial" type="radio"name="setting" value="marsh"/>
+                 <label for="geo7">Marsh</label>
                  
                  </form>
                  
@@ -63,15 +70,20 @@
                  
                  	<h3>Substrate Type</h3>
                     
-                <input class="radial" type="radio" name="substrate" value="sandy"/>Sand
+                <input id="sub1" class="radial" type="radio" name="substrate" value="sandy"/>
+                <label for="sub1">Sand</label>
                 <br/>
-				<input class="radial" type="radio" name="substrate" value="shell gravel cobble"/>Shell/Gravel/Cobble
+				<input id="sub2" class="radial" type="radio" name="substrate" value="shell gravel cobble"/>
+                <label for="sub2">Shell/Gravel/Cobble</label>
                 <br/>
-                <input class="radial" type="radio" name="substrate" value="mud peat"/>Mud/Peat
+                <input id="sub3" class="radial" type="radio" name="substrate" value="mud peat"/>
+                <label for="sub3">Mud/Peat</label>
                 <br/>
-                <input class="radial" type="radio" name="substrate" value="water"/>Water
+                <input id="sub4" class="radial" type="radio" name="substrate" value="water"/>
+                <label for="sub4">Water</label>
                 <br/>
-                <input class="radial" type="radio" name="substrate" value="unknown"/>Other
+                <input id="sub5" class="radial" type="radio" name="substrate" value="unknown"/>
+                <label for="sub5">Other</label>
                 <br/>
                 
                  </form>
@@ -80,13 +92,17 @@
                  
                  	<h3>Vegetation Type</h3>
                  
-                <input class="radial" type="radio" name="vegetation" value="none"/>None
+                <input id="veg1" class="radial" type="radio" name="vegetation" value="none"/>
+                <label for="veg1">None</label>
                 <br/>
-                <input class="radial" type="radio" name="vegetation" value="herbaceous"/>Herbaceous
+                <input id="veg2" class="radial" type="radio" name="vegetation" value="herbaceous"/>
+                <label for="veg2">Herbaceous</label>
                 <br/>
-                <input class="radial" type="radio" name="vegetation" value="shrub"/>Shrub
+                <input id="veg3" class="radial" type="radio" name="vegetation" value="shrub"/>
+                <label for="veg3">Shrub</label>
                 <br/>
-                <input class="radial" type="radio" name="vegetation" value="forest"/>Forest
+                <input id="veg4" class="radial" type="radio" name="vegetation" value="forest"/>
+                <label for="veg4">Forest</label>
                 <br/>
 
                  
@@ -96,13 +112,17 @@
                  
                  	<h3>Vegetation Density</h3>
                     
-                    <input class="radial" type="radio" name="density" value="none"/>None
+                <input id="dens1" class="radial" type="radio" name="density" value="none"/>
+                <label for="dens1">None</label>
                 <br/>
-                <input class="radial" type="radio" name="density" value="sparse"/>Sparse <20%
+                <input id="dens2" class="radial" type="radio" name="density" value="sparse"/>
+                <label for="dens2">Sparse <20%</label>
                 <br/>
-                <input class="radial" type="radio" name="density" value="moderate"/>Moderate 20-90%
+                <input id="dens3" class="radial" type="radio" name="density" value="moderate"/>
+                <label for="dens3">Moderate 20-90%</label>
                 <br/>
-                <input class="radial" type="radio" name="density" value="dense"/>Dense >90%
+                <input id="dens4" class="radial" type="radio" name="density" value="dense"/>
+                <label for="dens4">Dense >90%</label>
                 <br/>
                  
                  </form>
