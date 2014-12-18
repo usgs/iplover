@@ -26,8 +26,9 @@
     </header>
     
         <article>
+            <form>
             <section id="new_site_section">
-            
+                
                 <input type="text" placeholder="Enter Site ID"/>
                 
                 <button>Choose a Photo to Upload</button> 
@@ -39,7 +40,9 @@
                 
                 <p class="right"><a>Refresh</a> <a>Show Map</a></p>
                 
-                <form>
+                
+                <section class="other">
+                
                 <h3>Geomorphic Setting</h3>
                 
                 <input id="geo1" class="radial" type="radio" name="setting" value="beach"/>
@@ -63,9 +66,9 @@
                  <input id="geo7" class="radial" type="radio"name="setting" value="marsh"/>
                  <label for="geo7">Marsh</label>
                  
-                 </form>
+                </section>
                  
-                 <form class="other">
+                 <section class="other">
                  
                     <h3>Substrate Type</h3>
                     
@@ -85,9 +88,9 @@
                 <label for="sub5">Other</label>
                 <br/>
                 
-                 </form>
+                 </section>
                  
-                 <form class="other">
+                 <section class="other">
                  
                     <h3>Vegetation Type</h3>
                  
@@ -105,9 +108,9 @@
                 <br/>
 
                  
-                 </form>
+                 </section>
                  
-                 <form class="other">
+                 <section class="other">
                  
                     <h3>Vegetation Density</h3>
                     
@@ -124,15 +127,16 @@
                 <label for="dens4">Dense >90%</label>
                 <br/>
                  
-                 </form>
+                 </section>
                  
                 <input id="nest_init" type="date" name="nest_init" style="width:75%;"/>&nbsp;<input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" onclick="nest_init.value = '';"/>
                  
                  <textarea placeholder="Notes"></textarea>
                  
                  <button class="save">Save Nest Data</button>
-            
+
             </section>
+            </form>
         </article>
 
 </main>
