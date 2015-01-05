@@ -140,7 +140,7 @@
 			<plugin>
 			   <groupId>org.liquibase</groupId>
 			   <artifactId>liquibase-maven-plugin</artifactId>
-			   <version>${liquibase.version}</version>
+			   <version>3.0.5</version>
 			   <configuration>
 				  <changeLogFile>src/main/liquibase/db.1.xml</changeLogFile>
 				  <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
