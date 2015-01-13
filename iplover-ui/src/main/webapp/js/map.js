@@ -2,12 +2,6 @@
 var map;
 var vectorLayer;
 
-$(document).ready(function() {
-  setupMap();
-  populatePoints();
-});
-
-
 function setupMap(){
 
     map = new ol.Map({
