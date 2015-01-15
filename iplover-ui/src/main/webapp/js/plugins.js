@@ -29,7 +29,7 @@ String.prototype.pluralize = function(count, plural) {
 
 // Check if a new cache is available on page load.
 // Avoids double load to get new content: one to download a new appcache, and another to download the changed file(s)
-window.addEventListener('load', function(e) {
+/*window.addEventListener('load', function(e) {
 
   window.applicationCache.addEventListener('updateready', function(e) {
     if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
@@ -45,7 +45,7 @@ window.addEventListener('load', function(e) {
   }, false);
 
 }, false);
-
+*/
 
 /*
  * Date Format 1.2.3
