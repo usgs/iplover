@@ -8,7 +8,8 @@ iplover.location = {
 	watchLocationTimeoutId:null,
 	watchLocationTimeoutSec:60,
 	bestLocationReading:null,
-	updatedCallback:function(){},
+	startedCallback:function(){},
+	updatedCallback:function(_position){},
 	stoppedCallback:function(){},
 	errorCallback:function(){},
 	
@@ -27,7 +28,6 @@ iplover.location = {
 		var acc = Math.floor(_position.coords.accuracy);  //in meters
 		var timestamp = new Date(_position.timestamp);
 		
-		updatedCallback(_position);
 		
 		//JRH--- we got a first or better gps reading	
 		if (!this.bestLocationReading || (this.bestLocationReading && this.bestLocationReading.accuracy >= acc)) {
@@ -42,30 +42,27 @@ iplover.location = {
 			  longitude: lon,
 			  accuracy: acc
 			}
-
-			// display location info
-			//$('#location').hide().slideDown('fast');
-
-			// activate submit button
-			//$('.record').removeClass('disabled').attr('type', 'submit').removeAttr('target');
+			
+			
 		}
+		this.updatedCallback(_position);
 	},
-
-	watchLocation:function(_updatedCallback, _stoppedCallback) {
+	
+	watchLocation:function() {
 		if (!navigator.geolocation) return false;
-		
-		updatedCallback = _updatedCallback;
-		stoppedCallback = _stoppedCallback;
 		
 		//start the gps watchPosition
 		watchLocationId = navigator.geolocation.watchPosition(
-		this.setLocation, this.getLocationError, {enableHighAccuracy: true, maximumAge: 1000});
+		this.setLocation.bind(this), this.getLocationError, {enableHighAccuracy: true, maximumAge: 1000});
 		
 		//set timeout to force stop of gps watching position
-		watchLocationTimeoutId = setTimeout(function() {
-			navigator.geolocation.clearWatch(watchLocationId);
-			this.stoppedCallback();
-		}, this.watchLocationTimeoutSec*1000);
+		watchLocationTimeoutId = setTimeout(this.stopLocation.bind(this,'timeout'), this.watchLocationTimeoutSec*1000);
+		this.startedCallback();
+	},
+	
+	stopLocation:function(cause){
+		navigator.geolocation.clearWatch(watchLocationId);
+		this.stoppedCallback(cause);
 	}
 
 };
