@@ -5,10 +5,10 @@ $(document).ready(function() {
 	iplover.location.startedCallback = function(){
 		$('#spinner-img').show();
 		//Code to show "Lock Location"
-		$("#refresh-link").html("Lock Location");
+		$("#refresh-link").html("Lock");
 		$("#refresh-link").click(function(){
 			iplover.location.stopLocation('lock');
-			$("#refresh-link").html("Unlock Location");
+			$("#refresh-link").html("Unlock");
 			$("#refresh-link").click(iplover.location.watchLocation.bind(iplover.location));
 		});
 	};
