@@ -49,7 +49,6 @@
 			} else {
 				console.log("Unknown error "+e+".");
 			}
-			return;
 		}
 	};
 
