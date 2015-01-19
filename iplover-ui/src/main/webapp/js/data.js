@@ -1,11 +1,14 @@
-iplover.data = {
-
+(function(){
+	
+	
+	var DB_VERSION_MISMATCH = 2;
+	
 	/* 
 	 * Used as null handler when no action is required
 	 */
-	nullDataHandler : function(transaction, results){},
+	iplover.data.nullDataHandler = function(transaction, results){};
 
-	errorHandler : function(transaction, error){
+	iplover.data.errorHandler = function(transaction, error){
 		// error.message is a human-readable string.
 		// error.code is a numeric error code
 		alert('Error:'+error.message+' (Code '+error.code+')');
@@ -14,19 +17,19 @@ iplover.data = {
 		//var we_think_this_error_is_fatal = true;
 		//if (we_think_this_error_is_fatal) return true;
 		return false;    
-	}, 
+	};
 
-	createTables : function(){
+	iplover.data.createTables = function(){
 		db.transaction(
 			function (transaction) {
 				transaction.executeSql('CREATE TABLE IF NOT EXISTS sites(key STRING NOT NULL, data TEXT NOT NULL);', 
 					[], nullDataHandler, errorHandler);
 			}
 		);
-	}, 
+	};
 
 
-	initDatabase : function() {
+	iplover.data.initDatabase = function() {
 		try {
 			if (!window.openDatabase) {
 				alert('Databases are not supported in this browser.');
@@ -40,7 +43,7 @@ iplover.data = {
 			}
 		} catch(e) {
 	 
-			if (e == 2) {
+			if (e == DB_VERSION_MISMATCH) {
 				// Version number mismatch.
 				console.log("Invalid database version.");
 			} else {
@@ -48,11 +51,11 @@ iplover.data = {
 			}
 			return;
 		}
-	},
+	};
 
 
 	// Returns an array of keys that are currently stored in the DB
-	getRecordKeys : function(callback) {
+	iplover.data.getRecordKeys = function(callback) {
 		db.transaction(function(tr){
 			tr.executeSql('SELECT key FROM sites;',[], 
 			function(tx,results){
@@ -67,9 +70,9 @@ iplover.data = {
 			});
 		});
 	  
-	},
+	};
 
-	getRecord: function(key, callback){
+	iplover.data.getRecord = function(key, callback){
 		db.transaction(function(tr){
 			tr.executeSql('SELECT data FROM sites WHERE key=?;',[key], 
 			function(tx,results){
@@ -79,10 +82,10 @@ iplover.data = {
 				console.log(error);
 			});
 		});
-	},
+	};
 
 	// Saves records locally
-	addRecord : function(key, data, callback){
+	iplover.data.addRecord = function(key, data, callback){
 		
 		db.transaction(function(transaction){
 			transaction.executeSql("INSERT INTO sites(key, data) VALUES(?, ?);", 
@@ -95,9 +98,9 @@ iplover.data = {
 				console.log(error);
 			});
 		});
-	},
+	};
 
-	removeRecord : function(key, callback){
+	iplover.data.removeRecord = function(key, callback){
 		
 		db.transaction(function(tr){
 			tr.executeSql('DELETE FROM sites WHERE key=?;',[key], 
@@ -108,9 +111,9 @@ iplover.data = {
 				console.log(error);
 			});
 		});
-	}, 
+	};
 
-	numRecords : function(callback){
+	iplover.data.numRecords = function(callback){
 		
 		db.transaction(function(tr){
 			tr.executeSql('SELECT COUNT(*) as num FROM sites;',[], 
@@ -121,6 +124,7 @@ iplover.data = {
 				console.log(error);
 			});
 		});
-	}
-};
+	};
+	
+})();
 
