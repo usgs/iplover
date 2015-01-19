@@ -1,27 +1,25 @@
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 iplover.location = {
 
-	enableSaveAccuracyThreshold: 24001,
-	watchLocationId:null,
-	watchLocationTimeoutId:null,
-	watchLocationTimeoutSec:60,
-	bestLocationReading:null,
-	startedCallback:function(){},
-	updatedCallback:function(_position){},
-	stoppedCallback:function(){},
-	errorCallback:function(){},
+	enableSaveAccuracyThreshold : 24001,
+	watchLocationId : null,
+	watchLocationTimeoutId : null,
+	watchLocationTimeoutSec : 60,
+	bestLocationReading : null,
+	startedCallback : function(){},
+	updatedCallback : function(_position){},
+	stoppedCallback : function(){},
+	errorCallback : function(){},
 	
 	// Location error handling 
-	getLocationError:function(_error) {
+	getLocationError : function(_error) {
 		var errors = ["Unknown error", "Permission denied by user", "Position unavailable", "Time out"];
 		errorCallback(errors[_error.code]);
 		stoppedCallback();
 	},
 	
 	// Capture new location calls and update internal location info
-	setLocation:function(_position) {
+	setLocation : function(_position) {
 		var lat = Math.round(_position.coords.latitude * 100000) / 100000;
 		var lon = Math.round(_position.coords.longitude * 100000) / 100000;
 		var elev = Math.round(_position.coords.altitude * 10) / 10;
@@ -42,7 +40,7 @@ iplover.location = {
 		this.updatedCallback(_position);
 	},
 	
-	watchLocation:function() {
+	watchLocation : function() {
 		if (!navigator.geolocation) return false;
 		
 		//start the gps watchPosition
@@ -54,7 +52,7 @@ iplover.location = {
 		this.startedCallback();
 	},
 	
-	stopLocation:function(cause){
+	stopLocation : function(cause){
 		navigator.geolocation.clearWatch(watchLocationId);
 		this.stoppedCallback(cause);
 	}
