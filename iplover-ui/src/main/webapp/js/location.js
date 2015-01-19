@@ -29,20 +29,14 @@ iplover.location = {
 		var timestamp = new Date(_position.timestamp);
 		
 		
-		//JRH--- we got a first or better gps reading	
+		//we got a first or better gps reading	
 		if (!this.bestLocationReading || (this.bestLocationReading && this.bestLocationReading.accuracy >= acc)) {
-			  
-			//active submit button when there's a valid reading
-			if (acc <= this.enableSaveAccuracyThreshold) {
-				$('.record').removeClass('disabled').attr('type', 'submit').removeAttr('target');
-			}
-
+			 
 			this.bestLocationReading = {
 			  latitude: lat,
 			  longitude: lon,
 			  accuracy: acc
 			}
-			
 			
 		}
 		this.updatedCallback(_position);
