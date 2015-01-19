@@ -1,11 +1,21 @@
 
 $(document).ready(function() {
 	
+	$("#show-map-link").click(function show(){
+		$("#minimap-div").show();
+		$("#show-map-link").html('Hide Map');
+		$("#show-map-link").click(function(){
+			$("#minimap-div").hide();
+			$("#show-map-link").html('Show Map');
+			$("#show-map-link").click(show);
+		});
+	});
+	
 	iplover.location.watchLocation();
 	
 });
 
-iplover.location.startedCallback = function(){
+iplover.location.started(function(){
 	$('#spinner-img').show();
 	//Code to show "Lock Location"
 	$("#refresh-link").html("Lock");
@@ -14,9 +24,9 @@ iplover.location.startedCallback = function(){
 		$("#refresh-link").html("Unlock");
 		$("#refresh-link").click(iplover.location.watchLocation.bind(iplover.location));
 	});
-};
+});
 
-iplover.location.updatedCallback = function(_position){
+iplover.location.updated(function(_position){
 	//Populate hidden fields
 	var timestamp = new Date(_position.timestamp);
 	$('#timestamp').val(timestamp.format("yyyy-mm-dd HH:MM:ss"));
@@ -34,9 +44,9 @@ iplover.location.updatedCallback = function(_position){
 	
 	iplover.map.setMiniMapSrc($('#minimap-image')[0], _position);
 	iplover.map.setGoogleMapsHref($('#map-google-link')[0], _position);
-};
+});
 
-iplover.location.stoppedCallback = function(cause){
+iplover.location.stopped(function(cause){
 	$('#spinner-img').hide();
 	if(cause == 'lock'){
 		//Do nothing
@@ -44,20 +54,12 @@ iplover.location.stoppedCallback = function(cause){
 		$("#refresh-link").html("Refresh");
 		$("#refresh-link").click(iplover.location.watchLocation.bind(iplover.location));
 	}
-};
+});
 
 
 $("#refresh-link").click(function(){
 	iplover.location.watchLocation();
 });
 
-$("#show-map-link").click(function show(){
-	$("#minimap-div").show();
-	$("#show-map-link").html('Hide Map');
-	$("#show-map-link").click(function(){
-		$("#minimap-div").hide();
-		$("#show-map-link").html('Show Map');
-		$("#show-map-link").click(show);
-	});
-});
+
 

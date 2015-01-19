@@ -1,25 +1,24 @@
 
-iplover.location = {
+iplover.location = (function(){
 
-	enableSaveAccuracyThreshold : 24001,
-	watchLocationId : null,
-	watchLocationTimeoutId : null,
-	watchLocationTimeoutSec : 60,
-	bestLocationReading : null,
-	startedCallback : function(){},
-	updatedCallback : function(_position){},
-	stoppedCallback : function(){},
-	errorCallback : function(){},
+	var watchLocationId = null;
+	var watchLocationTimeoutId  = null;
+	var watchLocationTimeoutSec = 60;
+	var bestLocationReading     = null;
+	var _startedCallback         = function(){};
+	var _updatedCallback         = function(_position){};
+	var _stoppedCallback         = function(){};
+	var _errorCallback           = function(){};
 	
 	// Location error handling 
-	getLocationError : function(_error) {
+	var getLocationError = function(_error) {
 		var errors = ["Unknown error", "Permission denied by user", "Position unavailable", "Time out"];
 		errorCallback(errors[_error.code]);
-		stoppedCallback();
-	},
+		_stoppedCallback();
+	};
 	
 	// Capture new location calls and update internal location info
-	setLocation : function(_position) {
+	var setLocation = function(_position) {
 		var lat = Math.round(_position.coords.latitude * 100000) / 100000;
 		var lon = Math.round(_position.coords.longitude * 100000) / 100000;
 		var elev = Math.round(_position.coords.altitude * 10) / 10;
@@ -28,33 +27,54 @@ iplover.location = {
 		
 		
 		//we got a first or better gps reading	
-		if (!this.bestLocationReading || (this.bestLocationReading && this.bestLocationReading.accuracy >= acc)) {
+		if (!bestLocationReading || (bestLocationReading && bestLocationReading.accuracy >= acc)) {
 			 
-			this.bestLocationReading = {
-			  latitude: lat,
-			  longitude: lon,
-			  accuracy: acc
+			bestLocationReading = {
+				latitude: lat,
+				longitude: lon,
+				accuracy: acc
 			}
-			
 		}
-		this.updatedCallback(_position);
-	},
+		_updatedCallback(_position);
+	};
 	
-	watchLocation : function() {
+	var watchLocation = function() {
 		if (!navigator.geolocation) return false;
 		
 		//start the gps watchPosition
 		watchLocationId = navigator.geolocation.watchPosition(
-		this.setLocation.bind(this), this.getLocationError, {enableHighAccuracy: true, maximumAge: 1000});
+		setLocation, getLocationError, {enableHighAccuracy: true, maximumAge: 1000});
 		
 		//set timeout to force stop of gps watching position
-		watchLocationTimeoutId = setTimeout(this.stopLocation.bind(this,'timeout'), this.watchLocationTimeoutSec*1000);
-		this.startedCallback();
-	},
+		watchLocationTimeoutId = setTimeout(stopLocation.bind(this,'timeout'), watchLocationTimeoutSec*1000);
+		_startedCallback();
+	};
 	
-	stopLocation : function(cause){
+	var stopLocation = function(cause){
 		navigator.geolocation.clearWatch(watchLocationId);
-		this.stoppedCallback(cause);
-	}
+		_stoppedCallback(cause);
+	};
+	
+	var started = function(x){
+		_startedCallback = x;
+	};
+	
+	var stopped = function(x){
+		_stoppedCallback = x;
+	};
+	
+	var updated = function(x){
+		_updatedCallback = x;
+	};
+	
+	return {
+		stopLocation     : stopLocation,
+		watchLocation    : watchLocation,
+		setLocation      : setLocation,
+		getLocationError : getLocationError,
+		started          : started,
+		stopped          : stopped,
+		updated          : updated
+	};
 
-};
+})();
