@@ -1,15 +1,9 @@
-
-
 (function(){
 	
 	var DB_VERSION_MISMATCH = 2;
-	
-	/* 
-	 * Used as null handler when no action is required
-	 */
-	iplover.data.nullDataHandler = function(transaction, results){};
 
-	iplover.data.errorHandler = function(transaction, error){
+	
+	var errorHandler = function(transaction, error){
 		// error.message is a human-readable string.
 		// error.code is a numeric error code
 		alert('Error:'+error.message+' (Code '+error.code+')');
@@ -20,17 +14,17 @@
 		return false;    
 	};
 
-	iplover.data.createTables = function(){
+	var createTables = function(){
 		db.transaction(
 			function (transaction) {
 				transaction.executeSql('CREATE TABLE IF NOT EXISTS sites(key STRING NOT NULL, data TEXT NOT NULL);', 
-					[], nullDataHandler, errorHandler);
+					[], function(){}, errorHandler);
 			}
 		);
 	};
 
 
-	iplover.data.initDatabase = function() {
+	var initDatabase = function() {
 		try {
 			if (!window.openDatabase) {
 				alert('Databases are not supported in this browser.');
@@ -55,7 +49,7 @@
 
 
 	// Returns an array of keys that are currently stored in the DB
-	iplover.data.getRecordKeys = function(callback) {
+	var getRecordKeys = function(callback) {
 		db.transaction(function(tr){
 			tr.executeSql('SELECT key FROM sites;',[], 
 			function(tx,results){
@@ -72,7 +66,7 @@
 	  
 	};
 
-	iplover.data.getRecord = function(key, callback){
+	var getRecord = function(key, callback){
 		db.transaction(function(tr){
 			tr.executeSql('SELECT data FROM sites WHERE key=?;',[key], 
 			function(tx,results){
@@ -85,7 +79,7 @@
 	};
 
 	// Saves records locally
-	iplover.data.addRecord = function(key, data, callback){
+	var addRecord = function(key, data, callback){
 		
 		db.transaction(function(transaction){
 			transaction.executeSql("INSERT INTO sites(key, data) VALUES(?, ?);", 
@@ -100,7 +94,7 @@
 		});
 	};
 
-	iplover.data.removeRecord = function(key, callback){
+	var removeRecord = function(key, callback){
 		
 		db.transaction(function(tr){
 			tr.executeSql('DELETE FROM sites WHERE key=?;',[key], 
@@ -113,7 +107,7 @@
 		});
 	};
 
-	iplover.data.numRecords = function(callback){
+	var numRecords = function(callback){
 		
 		db.transaction(function(tr){
 			tr.executeSql('SELECT COUNT(*) as num FROM sites;',[], 
@@ -124,6 +118,11 @@
 				console.log(error);
 			});
 		});
+	};
+	
+		iplover.data.newRecord = function(data, image){
+		
+		
 	};
 	
 })();

@@ -17,3 +17,4 @@ iplover.Nestsite = function(siteid, lat, lon, acc, pic, geomorphic, substrate, v
 	this.memstate   = 'new'; //Can have 3 states, ['new', 'saved', 'edited']
 }
 
+
