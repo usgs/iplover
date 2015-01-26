@@ -144,7 +144,7 @@ if(!iplover){
 		}
 		
 		var imgPath = saveImage(image);
-		data.imgPath = imgPath;
+		data['image_path'] = imgPath;
 		
 		records.push(data);
 		
@@ -176,5 +176,15 @@ if(!iplover){
 		}
 	};
 	
+	iplover.data.getLatLons = function(){
+		var allRecords = iplover.data.getRecords();
+		lat = new Array(allRecords.length);
+		lon = new Array(allRecords.length);
+		for(var i=0; i<allRecords.length; i++){
+			lat[i] = Number(allRecords[i]["location-lat"]);
+			lon[i] = Number(allRecords[i]["location-lon"]);
+		}
+		return {lat:lat, lon:lon};
+	};
 })();
 

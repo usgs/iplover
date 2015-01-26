@@ -18,16 +18,32 @@ $(document).ready(function() {
 	$('#new_site_form').submit(function(e) {
 		e.preventDefault();
 		console.log("prevented form submit");
-		//TODO: Add save code
-		
-		//serialize form contents
 		
 		//get image
+		var reader = new FileReader();
+		reader.readAsDataURL($('#newnestsite-picture')[0].files[0]);
 		
-		//save both
+		console.log('file read as data URL');
+		console.log(reader);
+
+		reader.onload = function (evt) {
+			//Once the file is loaded, setup object with values
+			var inputs = $("#new_site_form :input");
+			var siteObject = {};
+			$.map(inputs, function(n, i){
+				siteObject[n.name] = $(n).val();
+			});
+			
+			//var siteObject = $('#new_site_form').serializeArray();
+
+			var now = new Date();
+			var key = now.format("yyyy-mm-dd HH:MM:ss");
+			//save both
+			iplover.data.newRecord(siteObject, evt.target.result);
+			//send to home
+			window.location.href = "home.html";
+		};
 		
-		//send to home
-		window.location.href = "home.html";
 	});
 });
 
