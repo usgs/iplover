@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 	
+	//Add click functionality to GPS map links
 	$("#show-map-link").click(function show(){
 		$("#minimap-div").show();
 		$("#show-map-link").html('Hide Map');
@@ -11,43 +12,64 @@ $(document).ready(function() {
 		});
 	});
 	
+	//Start watch location
 	iplover.location.watchLocation();
 	
-	//#$("#nest_save").click(verify_save_nest);
-	
-	$('#new_site_form').submit(function(e) {
-		e.preventDefault();
-		console.log("prevented form submit");
-		
-		//get image
-		var reader = new FileReader();
-		reader.readAsDataURL($('#newnestsite-picture')[0].files[0]);
-		
-		console.log('file read as data URL');
-		console.log(reader);
-
-		reader.onload = function (evt) {
-			//Once the file is loaded, setup object with values
-			var inputs = $("#new_site_form :input");
-			var siteObject = {};
-			$.map(inputs, function(n, i){
-				siteObject[n.name] = $(n).val();
-			});
-			
-			//var siteObject = $('#new_site_form').serializeArray();
-
-			var now = new Date();
-			var key = now.format("yyyy-mm-dd HH:MM:ss");
-			//save both
-			iplover.data.newRecord(siteObject, evt.target.result);
-			//send to home
-			window.location.href = "home.html";
-		};
-		
-	});
+	//Override form submit functionality
+	$('#new_site_form').submit(new_site_submit_function);
 });
 
+var verify_new_site = function(){
+	
+	if(!$('#site_id').val()){
+		alert('Site ID required.');
+		return false;
+	}
+	
+	if(!$( "input[name='substrate']:checked" ).val() | !$( "input[name='setting']:checked" ).val()
+		| !$( "input[name='density']:checked" ).val() | !$( "input[name='vegetation']:checked" ).val()){
+		
+		alert('Sorry, all fields except Notes must be filled out.');
+		return false;
+	}
+	
+	if($('#newnestsite-picture')[0].files.length < 1){
+		alert('Sorry, picture is mandatory.');
+		return false;
+	}
+	
+	return true;
+};
 
+var new_site_submit_function = function(e) {
+	e.preventDefault();
+	if(!verify_new_site()){
+		return;
+	}
+	
+	//get image
+	var reader = new FileReader();
+	reader.readAsDataURL($('#newnestsite-picture')[0].files[0]);
+	
+	console.log('file read as data URL');
+	console.log(reader);
+
+	reader.onload = function (evt) {
+		//Once the file is loaded, setup object with values
+		var inputs = $("#new_site_form :input");
+		var siteObject = {};
+		$.map(inputs, function(n, i){
+			siteObject[n.name] = $(n).val();
+		});
+		
+		var now = new Date();
+		var key = now.format("yyyy-mm-dd HH:MM:ss");
+		//save both
+		iplover.data.newRecord(siteObject, evt.target.result);
+		//send to home
+		window.location.href = "home.html";
+	};
+};
 
 iplover.location.started(function(){
 	$('#spinner-img').show();

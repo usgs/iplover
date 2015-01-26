@@ -38,10 +38,10 @@
             <form id="new_site_form">
             <section id="new_site_section">
                 
-                <input id="site_id" name="site_id" type="text" placeholder="Enter Site ID" required />
+                <input id="site_id" name="site_id" type="text" placeholder="Enter Site ID" />
                 <span style="white-space:nowrap">
 					<label for="newnestsite-picture">Picture</label>
-					<input type="file" name="newnestsite-picture" id="newnestsite-picture" accept="image/*;capture=camera" required>
+					<input type="file" name="newnestsite-picture" id="newnestsite-picture" accept="image/*;capture=camera" >
 				</span>
                 <p><div id="locationtext">Location: <span id="disp-lat">XX</span>, <span id="disp-lon">XX</span></div></p>
                 
@@ -71,7 +71,7 @@
                 
                 <h3>Geomorphic Setting</h3>
                 
-                <input id="geo1" class="radial" type="radio" name="setting" value="beach" required />
+                <input id="geo1" class="radial" type="radio" name="setting" value="beach" />
                 <label for="geo1">Beach</label>
                 <br/>
                  <input id="geo2" class="radial" type="radio"name="setting" value="backshore"/>
@@ -98,7 +98,7 @@
                  
                     <h3>Substrate Type</h3>
                     
-                <input id="sub1" class="radial" type="radio" name="substrate" value="sandy" required />
+                <input id="sub1" class="radial" type="radio" name="substrate" value="sandy" />
                 <label for="sub1">Sand</label>
                 <br/>
                 <input id="sub2" class="radial" type="radio" name="substrate" value="shell gravel cobble"/>
@@ -120,7 +120,7 @@
                  
                     <h3>Vegetation Type</h3>
                  
-                <input id="veg1" class="radial" type="radio" name="vegetation" value="none" required />
+                <input id="veg1" class="radial" type="radio" name="vegetation" value="none" />
                 <label for="veg1">None</label>
                 <br/>
                 <input id="veg2" class="radial" type="radio" name="vegetation" value="herbaceous"/>
@@ -140,7 +140,7 @@
                  
                     <h3>Vegetation Density</h3>
                     
-                <input id="dens1" class="radial" type="radio" name="density" value="none" required />
+                <input id="dens1" class="radial" type="radio" name="density" value="none" />
                 <label for="dens1">None</label>
                 <br/>
                 <input id="dens2" class="radial" type="radio" name="density" value="sparse"/>
@@ -155,7 +155,9 @@
                  
                  </section>
                  
-                <input id="nest_init" type="date" name="nest_init" style="width:calc(100% - 4em);"/>&nbsp;<input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" onclick="nest_init.value = '';"/>
+                <input id="nest_init" type="date" name="nest_init" style="width:calc(100% - 4em);"/>&nbsp;
+                <input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" 
+                       onclick="nest_init.value = '';"/>
                  
                  <textarea placeholder="Notes"></textarea>
                  
