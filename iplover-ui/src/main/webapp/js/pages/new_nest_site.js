@@ -13,7 +13,25 @@ $(document).ready(function() {
 	
 	iplover.location.watchLocation();
 	
+	//#$("#nest_save").click(verify_save_nest);
+	
+	$('#new_site_form').submit(function(e) {
+		e.preventDefault();
+		console.log("prevented form submit");
+		//TODO: Add save code
+		
+		//serialize form contents
+		
+		//get image
+		
+		//save both
+		
+		//send to home
+		window.location.href = "home.html";
+	});
 });
+
+
 
 iplover.location.started(function(){
 	$('#spinner-img').show();
