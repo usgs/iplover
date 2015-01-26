@@ -1,4 +1,10 @@
+if(!iplover){
+	iplover = [];
+}
+
 (function(){
+	
+	iplover.data = [];
 	
 	var DB_VERSION_MISMATCH = 2;
 
@@ -120,9 +126,54 @@
 		});
 	};
 	
-		iplover.data.newRecord = function(data, image){
+	//
+	//This saves the image to the persistent storage (if available)
+	// and returns the image file path
+	//
+	var saveImage = function(image){
+		return "TODO:implement this function";
+	};
+	
+	iplover.data.newRecord = function(data, image){
 		
+		var records = [];
+		if(localStorage.records){
+			records = JSON.parse(localStorage.records)
+		}else{
+			records = new Array();
+		}
 		
+		var imgPath = saveImage(image);
+		data.imgPath = imgPath;
+		
+		records.push(data);
+		
+		localStorage.records = JSON.stringify(records);
+		return true;
+	};
+	
+	//
+	//This returns an array of iplover record objects
+	// that match the record_state pattern 
+	// record states:['new', 'saved', 'edited']
+	// Can also pass nothing and get back all records
+	//
+	iplover.data.getRecords = function(record_state){
+		
+		var records = [];
+		if(localStorage.records){
+			records = JSON.parse(localStorage.records)
+		}else{
+			records = new Array();
+		}
+		
+		if(!record_state){
+			return records;
+		}else{
+			// filter and then return
+			var toreturn = records.filter(function(element){return element.memstate == record_state;});
+			return toreturn;
+		}
 	};
 	
 })();

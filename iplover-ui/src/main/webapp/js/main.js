@@ -1,1 +1,1 @@
-var iplover = {};
+var iplover = [];
