@@ -16,7 +16,7 @@ iplover.location = (function(){
 	// Location error handling 
 	var getLocationError = function(_error) {
 		var errors = ["Unknown error", "Permission denied by user", "Position unavailable", "Time out"];
-		errorCallback(errors[_error.code]);
+		_errorCallback(errors[_error.code]);
 		_stoppedCallback();
 	};
 	
