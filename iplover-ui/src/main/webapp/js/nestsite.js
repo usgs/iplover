@@ -1,3 +1,6 @@
+if(typeof iplover === 'undefined'){
+	iplover = [];
+}
 
 iplover.Nestsite = function(siteid, lat, lon, acc, pic, geomorphic, substrate, vegtype, vegdens, initdate, notes){
 	

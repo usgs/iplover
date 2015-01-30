@@ -1,3 +1,6 @@
+if(typeof iplover === 'undefined'){
+	iplover = [];
+}
 
 iplover.map = {
 

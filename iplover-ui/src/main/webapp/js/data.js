@@ -1,4 +1,4 @@
-if(!iplover){
+if(typeof iplover === 'undefined'){
 	iplover = [];
 }
 
