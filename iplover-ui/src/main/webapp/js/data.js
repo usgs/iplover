@@ -186,5 +186,8 @@ if(typeof iplover === 'undefined'){
 		}
 		return {lat:lat, lon:lon};
 	};
+    
+    iplover.data.collection_group = "unknown";
+    
 })();
 
