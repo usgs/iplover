@@ -40,7 +40,7 @@ iplover.map = {
 
 		var markstyle = new ol.style.Style({
 			image: new ol.style.Icon({
-			  src: 'https://raw.githubusercontent.com/openlayers/openlayers/master/img/marker.png'
+			  src: 'img/marker.png'
 			})
 		});
 
