@@ -37,8 +37,13 @@ var verify_new_site = function(){
 		alert('Sorry, picture is mandatory.');
 		return false;
 	}
-	
-	return true;
+    
+    if($('#lat').val() == "" | $('#lon').val() == ""){
+        alert('Invalid Lat/Lon. Please restart acquisition.');
+        return false;
+    }
+    
+    return true;
 };
 
 var new_site_submit_function = function(e) {
