@@ -31,10 +31,20 @@ button{
     font-size:1.2em;
     color:#fff;
     outline:none;}
+
+button.unsynced{
+    background:repeating-linear-gradient(
+     45deg,
+     @highlight,
+     @highlight 10px,
+     @primaryColor 10px,
+     @primaryColor 20px
+    );}
     
 button:hover{
     background:@highlight;
     color:#fff;}
+
     
 button#home_button{
     position:absolute;
