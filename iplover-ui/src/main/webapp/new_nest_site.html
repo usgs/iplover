@@ -40,7 +40,7 @@
                 <input id="site_id" name="site_id" type="text" placeholder="Enter Site ID" />
                 <span style="white-space:nowrap">
 					<label for="newnestsite-picture">Picture</label>
-					<input type="file" name="newnestsite-picture" id="newnestsite-picture" accept="image/*;capture=camera" >
+					<input type="file" name="newnestsite-picture" id="newnestsite_picture" accept="image/*;capture=camera" >
 				</span>
                 <p><div id="locationtext">Location: <span id="disp-lat">XX</span>, <span id="disp-lon">XX</span></div></p>
                 
@@ -58,13 +58,13 @@
 				</div>
                 
 				
-				<input type="hidden" name="client-version" id="client-version" value='2.0-SNAPSHOT'>
-				<input type="hidden" name="location-timestamp" id="timestamp">
-				<input type="hidden" name="location-lat" id="lat">
-				<input type="hidden" name="location-lon" id="lon">
-				<input type="hidden" name="location-accuracy" id="accuracy">
-				<input type="hidden" name="location-z" id="z">
-				<input type="hidden" name="location-zaccuracy" id="zaccuracy">
+				<input type="hidden" name="client_version" id="client_version" value='2.0-SNAPSHOT'>
+				<input type="hidden" name="location_timestamp" id="timestamp">
+				<input type="hidden" name="location_lat" id="lat">
+				<input type="hidden" name="location_lon" id="lon">
+				<input type="hidden" name="location_accuracy" id="accuracy">
+				<input type="hidden" name="location_z" id="z">
+				<input type="hidden" name="location_zaccuracy" id="zaccuracy">
                 
                 <section class="other">
                 
@@ -158,7 +158,7 @@
                 <input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" 
                        onclick="nest_init.value = '';"/>
                  
-                 <textarea placeholder="Notes"></textarea>
+                 <textarea id="notes" name="notes" placeholder="Notes"></textarea>
                  
                  <button id="nest_save" class="save">Save Nest Data</button>
 
