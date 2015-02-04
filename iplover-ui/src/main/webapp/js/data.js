@@ -189,6 +189,14 @@ if(typeof iplover === 'undefined'){
 		return {lat:lat, lon:lon};
 	};
     
+    iplover.data.getDeviceInfo = function(){
+        if(typeof device != 'undefined'){
+            return device.platform + ' ' + device.version;
+        }else{
+            return window.navigator.userAgent;
+        }
+    };
+    
     iplover.data.collection_group = "unknown";
     
 })();
