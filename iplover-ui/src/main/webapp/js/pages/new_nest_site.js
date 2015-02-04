@@ -33,7 +33,7 @@ var verify_new_site = function(){
 		return false;
 	}
 	
-	if($('#newnestsite-picture')[0].files.length < 1){
+	if($('#newnestsite_picture')[0].files.length < 1){
 		alert('Sorry, picture is mandatory.');
 		return false;
 	}
@@ -54,7 +54,7 @@ var new_site_submit_function = function(e) {
 	
 	//get image
 	var reader = new FileReader();
-	reader.readAsDataURL($('#newnestsite-picture')[0].files[0]);
+	reader.readAsDataURL($('#newnestsite_picture')[0].files[0]);
 	
 	console.log('file read as data URL');
 	console.log(reader);

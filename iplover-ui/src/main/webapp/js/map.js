@@ -24,6 +24,9 @@ iplover.map = {
 
 	populatePoints:function(map, lats, lons){
 		
+		if(lats.length < 1){
+			return;
+		}
 		
 		var features = Array(1);
 		for (var i = 0; i < lats.length; ++i) {
