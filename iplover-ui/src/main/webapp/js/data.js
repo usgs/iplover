@@ -183,8 +183,8 @@ if(typeof iplover === 'undefined'){
 		lat = new Array(allRecords.length);
 		lon = new Array(allRecords.length);
 		for(var i=0; i<allRecords.length; i++){
-			lat[i] = Number(allRecords[i]["location-lat"]);
-			lon[i] = Number(allRecords[i]["location-lon"]);
+			lat[i] = Number(allRecords[i]["location_lat"]);
+			lon[i] = Number(allRecords[i]["location_lon"]);
 		}
 		return {lat:lat, lon:lon};
 	};

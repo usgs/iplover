@@ -49,6 +49,12 @@ iplover.map = {
 		map.addLayer(vectorLayer);
 		
 		map.getView().fitExtent(vectorSource.getExtent(), map.getSize());
+		
+		//If there is only one point, zoom level is crazy,
+		// set it to something more sane
+		if(map.getView().getZoom() > 18){
+			map.getView().setZoom(18);
+		}
 	},
 	
 	setMiniMapSrc:function(img_tag, _position){
