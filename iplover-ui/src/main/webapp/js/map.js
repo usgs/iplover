@@ -44,6 +44,8 @@ iplover.map = {
 
 		var vectorLayer = new ol.layer.Vector({source:vectorSource, style:markstyle});
 		map.addLayer(vectorLayer);
+		
+		map.getView().fitExtent(vectorSource.getExtent(), map.getSize());
 	},
 	
 	setMiniMapSrc:function(img_tag, _position){
