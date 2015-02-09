@@ -68,6 +68,11 @@ var new_site_submit_function = function(e) {
 			siteObject[n.name] = $(n).val();
 		});
         
+        siteObject.setting = $('input[name=setting]:checked').val();
+        siteObject.substrate = $('input[name=substrate]:checked').val()
+        siteObject.vegetation = $('input[name=vegetation]:checked').val()
+        siteObject.density = $('input[name=density]:checked').val()
+        
         siteObject.store_state = 'unsynced';
 		siteObject.uuid = generateUUID();
         

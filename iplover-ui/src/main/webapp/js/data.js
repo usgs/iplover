@@ -56,6 +56,24 @@ if(typeof iplover === 'undefined'){
 			return toreturn;
 		}
 	};
+    
+    iplover.data.getRecordById = function(uuid){
+        
+        var records = [];
+        if(localStorage.records){
+            records = JSON.parse(localStorage.records)
+        }else{
+            records = new Array();
+        }
+        // filter and then return
+        var toreturn = records.filter(function(element){return element.uuid == uuid;});
+        if(toreturn.length == 1){
+            return toreturn[0];
+        }else{
+            return null;
+        }
+        
+	};
 	
 	iplover.data.getLatLons = function(){
 		var allRecords = iplover.data.getRecords();
