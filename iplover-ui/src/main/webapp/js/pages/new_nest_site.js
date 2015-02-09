@@ -67,7 +67,10 @@ var new_site_submit_function = function(e) {
 		$.map(inputs, function(n, i){
 			siteObject[n.name] = $(n).val();
 		});
-		
+        
+        siteObject.store_state = 'unsynced';
+		siteObject.uuid = generateUUID();
+        
 		var now = new Date();
 		var key = now.format("yyyy-mm-dd HH:MM:ss");
 		//save both

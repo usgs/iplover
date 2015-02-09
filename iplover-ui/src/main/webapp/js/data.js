@@ -136,7 +136,6 @@ if(typeof iplover === 'undefined'){
 	
 	iplover.data.newRecord = function(data, image){
 		
-        data.store_state = 'unsynced';
         
 		var records = [];
 		if(localStorage.records){
