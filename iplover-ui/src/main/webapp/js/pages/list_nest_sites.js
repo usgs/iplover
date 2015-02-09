@@ -22,7 +22,9 @@ $(document).ready(function() {
 
 var populate_button = function(site, button){
     var label = site.site_id;
+    var querystring = "uuid=" + site.uuid;
     button.html(label);
+    button.attr("onclick", "window.location.href='/edit_view_nest_site.html?" + querystring + "';");
     
     if(site.store_state == 'unsynced'){
         button.addClass('unsynced');
