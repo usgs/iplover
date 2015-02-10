@@ -83,9 +83,17 @@ if(typeof iplover === 'undefined'){
         }else{
             records = new Array();
         }
-
-//FIX THIS
         
+        var indx = records.map(function(e) {return e.uuid;}).indexOf(uuid);
+        
+        if(indx < 0){
+            console.log('Error saving record with uuid:' + uuid);
+            alert("Error saving site \n" + uuid);
+        }
+        
+        records.splice(indx, 1, record);
+        
+        localStorage.records = JSON.stringify(records);
     };
 	
 	iplover.data.getLatLons = function(){

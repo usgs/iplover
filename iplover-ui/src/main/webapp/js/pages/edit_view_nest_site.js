@@ -19,7 +19,7 @@ $(document).ready(function() {
     populate_form(editing_record);
     
     //Setup update button callback
-    $('#edit_site_form').submit(save_form);
+    $('#new_site_form').submit(save_form);
 });
 
 
@@ -65,7 +65,8 @@ var save_form = function(e){
         rec.store_state = 'edited';
     }
     
-    iplover.data
+    iplover.data.setRecordById(rec.uuid, rec);
+    //Send them back to the list of nest sites
+    window.location.href='/list_nest_sites.html';
     
-    //return rec;
 };
