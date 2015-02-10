@@ -73,7 +73,20 @@ if(typeof iplover === 'undefined'){
             return null;
         }
         
-	};
+    };
+    
+    iplover.data.setRecordById = function(uuid, record){
+        
+        var records = [];
+        if(localStorage.records){
+            records = JSON.parse(localStorage.records)
+        }else{
+            records = new Array();
+        }
+
+//FIX THIS
+        
+    };
 	
 	iplover.data.getLatLons = function(){
 		var allRecords = iplover.data.getRecords();
