@@ -44,8 +44,28 @@ var populate_form = function(rec){
     $('#notes').val(rec.notes);
 };
 
+var validate_form = function(){
+    
+    if(!$('#site_id').val()){
+        alert('Site ID required.');
+        return false;
+    }
+    
+    if(!$( "input[name='substrate']:checked" ).val() | !$( "input[name='setting']:checked" ).val()
+        | !$( "input[name='density']:checked" ).val() | !$( "input[name='vegetation']:checked" ).val()){
+        
+        alert('Sorry, all fields except Notes must be filled out.');
+        return false;
+    }
+    return true;
+};
+
 var save_form = function(e){
     e.preventDefault();
+    
+    if(!validate_form()){
+        return;
+    }
     
     var rec = editing_record;
     rec.site_id = $('#site_id').val();
