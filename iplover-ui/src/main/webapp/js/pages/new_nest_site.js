@@ -112,7 +112,9 @@ iplover.location.updated(function(_position){
 	$('#disp-lon').html(Math.round(_position.coords.longitude * 100000) / 100000);
 	$('#disp-time').html(timestamp.format("h:MM:ss TT"));
 	
-	iplover.map.setMiniMapSrc($('#minimap-image')[0], _position);
+	iplover.map.setMiniMapSrc($('#minimap-image')[0], _position.coords.latitude, 
+        _position.coords.longitude, _position.coords.accuracy);
+    
 	iplover.map.setGoogleMapsHref($('#map-google-link')[0], _position);
 });
 

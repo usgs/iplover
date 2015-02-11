@@ -57,19 +57,19 @@ iplover.map = {
 		}
 	},
 	
-	setMiniMapSrc:function(img_tag, _position){
-		var lonConv = Math.cos(Math.PI/180*_position.coords.latitude)*111131;
-		var ulLat, ulLon, lrLat, lrLon, acc = [];
+	setMiniMapSrc:function(img_tag, lat, lon, acc){
+		var lonConv = Math.cos(Math.PI/180*lat)*111131;
+		var ulLat, ulLon, lrLat, lrLon = [];
 		
-		acc   = Math.floor(_position.coords.accuracy);  //in meters
-		ulLat = _position.coords.latitude + acc/111131;
-		lrLat = _position.coords.latitude - acc/111131;
-		ulLon = _position.coords.longitude - acc/lonConv;
-		lrLon = _position.coords.longitude + acc/lonConv;
+		acc   = Math.floor(acc);  //in meters
+		ulLat = lat + acc/111131;
+		lrLat = lat - acc/111131;
+		ulLon = lon - acc/lonConv;
+		lrLon = lon + acc/lonConv;
 		
 		var mapSrc = 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd%7Cluur2d6znd%2Crl%3Do5-9abal6&zoom=16&size=280,280&'+
 			'ellipse=color:0x0000ff%7Cfill:0x700000ff%7Cwidth:2%7C'+ ulLat +','+ ulLon +','+ lrLat +','+ lrLon +
-			'&center='+_position.coords.latitude+','+_position.coords.longitude;
+			'&center='+lat+','+lon;
 		img_tag.src = mapSrc;
 	},
 	

@@ -3,6 +3,17 @@ var editing_record = [];
 
 $(document).ready(function() {
     
+    //Add click functionality to GPS map link
+    $("#show-map-link").click(function show(){
+        $("#minimap-div").show();
+        $("#show-map-link").html('Hide Map');
+        $("#show-map-link").click(function(){
+            $("#minimap-div").hide();
+            $("#show-map-link").html('Show Map');
+            $("#show-map-link").click(show);
+        });
+    });
+    
     //grab id or index from querystring
     var qstr = location.search;
     var uuid = qstr.match(/uuid=(.+)/i);
@@ -42,6 +53,9 @@ var populate_form = function(rec){
     //init and notes
     $('#nest_init').val(rec.nest_init);
     $('#notes').val(rec.notes);
+    
+    iplover.map.setMiniMapSrc($('#minimap-image')[0], parseFloat(rec.location_lat), 
+        parseFloat(rec.location_lon), parseFloat(rec.location_accuracy));
 };
 
 var validate_form = function(){
