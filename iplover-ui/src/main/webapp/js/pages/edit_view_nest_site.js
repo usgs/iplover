@@ -101,6 +101,6 @@ var save_form = function(e){
     
     iplover.data.setRecordById(rec.uuid, rec);
     //Send them back to the list of nest sites
-    window.location.href='/list_nest_sites.html';
+    window.location.href='list_nest_sites.html';
     
 };
