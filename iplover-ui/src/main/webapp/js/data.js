@@ -96,16 +96,6 @@ if(typeof iplover === 'undefined'){
         localStorage.records = JSON.stringify(records);
     };
 	
-	iplover.data.getLatLons = function(){
-		var allRecords = iplover.data.getRecords();
-		lat = new Array(allRecords.length);
-		lon = new Array(allRecords.length);
-		for(var i=0; i<allRecords.length; i++){
-			lat[i] = Number(allRecords[i]["location_lat"]);
-			lon[i] = Number(allRecords[i]["location_lon"]);
-		}
-		return {lat:lat, lon:lon};
-	};
     
     iplover.data.getDeviceInfo = function(){
         if(typeof device != 'undefined'){
