@@ -73,6 +73,9 @@ var new_site_submit_function = function(e) {
         siteObject.vegetation = $('input[name=vegetation]:checked').val()
         siteObject.density = $('input[name=density]:checked').val()
         
+        siteObject.location_lat = parseFloat(siteObject.location_lat);
+        siteObject.location_lon = parseFloat(siteObject.location_lon);
+        
         siteObject.store_state = 'unsynced';
 		siteObject.uuid = generateUUID();
         

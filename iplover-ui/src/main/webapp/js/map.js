@@ -2,9 +2,9 @@ if(typeof iplover === 'undefined'){
 	iplover = [];
 }
 
-iplover.map = {
+iplover.map = (function(){
 
-	setupMap:function(target_id){
+	var setupMap = function(target_id){
 
 		map = new ol.Map({
 			target: 'map',
@@ -18,21 +18,45 @@ iplover.map = {
 				zoom: 6
 			})
 		});
+        
+        var element = document.getElementById('popup');
+
+        var popup = new ol.Overlay.Popup();
+        map.addOverlay(popup);
+
+        map.on('click', function(evt) {
+            var feature = map.forEachFeatureAtPixel(evt.pixel,
+                function(feature, layer) {
+                    return feature;
+                });
+            if(feature){
+                var prettyCoord = ol.coordinate.toStringHDMS(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'), 2);
+                popup.show(evt.coordinate, '<div><p>Site ID:' + feature.get('name') + '</p>' + 
+                            "<p><a href='" + feature.get("url") + "'>Edit</a></p></div>");
+            }else{
+                popup.hide();
+            }
+});
+        
+        
 		return map;
-	},
+	};
 
 
-	populatePoints:function(map, lats, lons){
+	var populatePoints = function(map, records){
 		
-		if(lats.length < 1){
+		if(records.length < 1){
 			return;
 		}
 		
 		var features = Array(1);
-		for (var i = 0; i < lats.length; ++i) {
+		for (var i = 0; i < records.length; ++i) {
 			features[i] = new ol.Feature({
-				geometry: new ol.geom.Point(ol.proj.transform([lons[i], lats[i]], 'EPSG:4326', 'EPSG:3857')),
-				name: 'iPlover Nest'
+				geometry: new ol.geom.Point(ol.proj.transform(
+                    [records[i].location_lon, records[i].location_lat], 'EPSG:4326', 'EPSG:3857'
+                )),
+                name: records[i].site_id,
+                url: 'edit_view_nest_site.html?uuid=' + records[i].uuid,
 			});
 		}
 		
@@ -51,13 +75,13 @@ iplover.map = {
 		map.getView().fitExtent(vectorSource.getExtent(), map.getSize());
 		
 		//If there is only one point, zoom level is crazy,
-		// set it to something more sane
+		// set it to something more sane, 18 is a reasonable level for most maps
 		if(map.getView().getZoom() > 18){
 			map.getView().setZoom(18);
 		}
-	},
-	
-	setMiniMapSrc:function(img_tag, lat, lon, acc){
+	};
+    
+	var setMiniMapSrc = function(img_tag, lat, lon, acc){
 		var lonConv = Math.cos(Math.PI/180*lat)*111131;
 		var ulLat, ulLon, lrLat, lrLon = [];
 		
@@ -71,10 +95,18 @@ iplover.map = {
 			'ellipse=color:0x0000ff%7Cfill:0x700000ff%7Cwidth:2%7C'+ ulLat +','+ ulLon +','+ lrLat +','+ lrLon +
 			'&center='+lat+','+lon;
 		img_tag.src = mapSrc;
-	},
+	};
 	
-	setGoogleMapsHref:function(a_tag, _position){
+	var setGoogleMapsHref = function(a_tag, _position){
 		var mapLink = 'http://maps.google.com/?q=' + _position.coords.latitude + ',' + _position.coords.longitude + '+(Recorded+location)&t=m&z=13';
 		a_tag.href = mapLink;
-	}
-};
+	};
+    
+    return {
+            setMiniMapSrc     : setMiniMapSrc,
+            setGoogleMapsHref : setGoogleMapsHref,
+            populatePoints    : populatePoints,
+            setupMap          : setupMap
+        };
+    
+})();
