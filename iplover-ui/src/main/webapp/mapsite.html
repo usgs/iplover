@@ -15,14 +15,7 @@
 <script src="js/libs/openlayers/ol.js" type="text/javascript"></script>
 <script src="js/map.js" type="text/javascript"></script>
 <script src="js/data.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		var map = iplover.map.setupMap('map');
-		var latlons = iplover.data.getLatLons();
-		iplover.map.populatePoints(map, latlons.lat, latlons.lon);
-	});
-</script>
+<script src="js/pages/mapsite.js" type="text/javascript"></script>
 
 </head>
 
@@ -30,21 +23,21 @@
 
 <main>
 
-	<header>
+    <header>
     
-    	 <a href="home.html"/><button id="home_button"><p id="backarrow"><strong><</strong></p> Home</button></a>
-    
-    	<h2>Map Nest Sites</h2>
+        <a href="home.html"/><button id="home_button"><p id="backarrow"><strong><</strong></p> Home</button></a>
+        
+        <h2>Map Nest Sites</h2>
         
         <img id="plover" src="img/plover.png" alt="bird alert"/>
-    	
+    
     </header>
         
-        <section id="map_area">
-            <div id="map" class="map" style="width:100%; height:calc(100% - 40px); position:fixed;">
-            </div>
+    <section id="map_area">
+        <div id="map" class="map" style="width:100%; height:calc(100% - 40px); position:fixed;">
+        </div>
 
-        </section>
+    </section>
 
 </main>
 
