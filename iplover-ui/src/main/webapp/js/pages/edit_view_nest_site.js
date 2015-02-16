@@ -1,7 +1,22 @@
 
 var editing_record = [];
 
+//Grab the sourceurl from the querystring for later use
+var queryinfo = {};
+var sourceurl = 'home.html';
+
+location.search.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) { queryinfo[$1] = $3; }
+);
+
+if(queryinfo.sourceurl){
+    sourceurl = queryinfo.sourceurl;
+}
+
 $(document).ready(function() {
+    
+    $("#home_link").attr("href", sourceurl);
     
     //Add click functionality to GPS map link
     $("#show-map-link").click(function show(){
@@ -15,16 +30,19 @@ $(document).ready(function() {
     });
     
     //grab id or index from querystring
-    var qstr = location.search;
-    var uuid = qstr.match(/uuid=(.+)/i);
-    if(!uuid){
-        // setup error condition and notify user
-    }else{
-        uuid = uuid[1];
+    var queryinfo = {};
+    location.search.replace(
+        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+        function($0, $1, $2, $3) { queryinfo[$1] = $3; }
+    );
+    
+    if(!queryinfo.uuid){
+        // TODO: setup error condition and notify user
+        alert('Unknown UUID:' + queryinfo.uuid);
     }
     
     //grab entry from backend datastore
-    editing_record = iplover.data.getRecordById(uuid);
+    editing_record = iplover.data.getRecordById(queryinfo.uuid);
     
     //populate page with entry
     populate_form(editing_record);
@@ -100,7 +118,8 @@ var save_form = function(e){
     }
     
     iplover.data.setRecordById(rec.uuid, rec);
-    //Send them back to the list of nest sites
-    window.location.href='list_nest_sites.html';
+    
+    //Send them back to wherever they came from
+    window.location.href = sourceurl;
     
 };

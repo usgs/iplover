@@ -56,7 +56,7 @@ iplover.map = (function(){
                     [records[i].location_lon, records[i].location_lat], 'EPSG:4326', 'EPSG:3857'
                 )),
                 name: records[i].site_id,
-                url: 'edit_view_nest_site.html?uuid=' + records[i].uuid,
+                url: 'edit_view_nest_site.html?uuid=' + records[i].uuid + '&sourceurl=mapsite.html',
 			});
 		}
 		
