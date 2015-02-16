@@ -20,10 +20,10 @@ $(document).ready(function() {
     
     //Add click functionality to GPS map link
     $("#show-map-link").click(function show(){
-        $("#minimap-div").show();
+        $("#minimap-div").stop().fadeIn();
         $("#show-map-link").html('Hide Map');
         $("#show-map-link").click(function(){
-            $("#minimap-div").hide();
+            $("#minimap-div").stop().fadeOut();
             $("#show-map-link").html('Show Map');
             $("#show-map-link").click(show);
         });
@@ -50,8 +50,17 @@ $(document).ready(function() {
     //Setup update button callback
     $('#new_site_form').submit(save_form);
     $('#delete_button').click(delete_record);
+    
+    $('#delete_checkbox').click(fade_delete);
 });
 
+var fade_delete = function(){
+    if($( "#delete_checkbox" ).is(':checked')){
+        $( "#delete_button" ).fadeIn();
+    }else{
+        $( "#delete_button" ).fadeOut();
+    }
+}
 
 var populate_form = function(rec){
     
