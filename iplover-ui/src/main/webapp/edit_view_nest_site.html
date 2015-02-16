@@ -159,7 +159,13 @@
                  <textarea id="notes" name="notes" placeholder="Notes"></textarea>
                  
                  <button id="nest_save" class="save">Save Nest Data</button>
-
+                
+                
+                    <input id="delete_checkbox" class="radial" type="checkbox" name="delete_checkbox" onchange="$('#delete_button').show();" />
+                    <label for="delete_checkbox"> Delete</label> &nbsp;
+                    <button id="delete_button" class="save" style="width:15em;display:none;" >Delete Nest</button>
+                
+                
             </section>
             </form>
         </article>

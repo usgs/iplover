@@ -49,6 +49,7 @@ $(document).ready(function() {
     
     //Setup update button callback
     $('#new_site_form').submit(save_form);
+    $('#delete_button').click(delete_record);
 });
 
 
@@ -123,3 +124,19 @@ var save_form = function(e){
     window.location.href = sourceurl;
     
 };
+
+var delete_record = function(e){
+    e.preventDefault();
+    
+    if(!confirm('Are you sure you want to delete this record?')){
+        return;
+    }
+    
+    var rec = editing_record;
+    
+    rec.deleted = true;
+    rec.store_state = 'edited';
+    iplover.data.setRecordById(rec.uuid, rec);
+    
+    window.location.href = sourceurl;
+}
