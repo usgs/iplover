@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#collection_group').html(iplover.data.collection_group);
+    $('#collection_group').html(iplover.data.getGroup());
     
     //code to population buttons
     var sites = iplover.data.getRecords();

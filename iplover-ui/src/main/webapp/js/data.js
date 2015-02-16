@@ -2,9 +2,7 @@ if(typeof iplover === 'undefined'){
 	iplover = [];
 }
 
-(function(){
-	
-	iplover.data = [];
+iplover.data = (function(){
 	
 	//
 	//This saves the image to the persistent storage (if available)
@@ -14,7 +12,7 @@ if(typeof iplover === 'undefined'){
 		return "TODO:implement this function";
 	};
 	
-	iplover.data.newRecord = function(data, image){
+	var newRecord = function(data, image){
 		
         
 		var records = [];
@@ -39,7 +37,7 @@ if(typeof iplover === 'undefined'){
 	// record states:['unsynced', 'synced', 'edited', 'deleted']
 	// Can also pass nothing and get back all records
 	//
-	iplover.data.getRecords = function(record_state){
+	var getRecords = function(record_state){
 		
 		var records = [];
 		if(localStorage.records){
@@ -47,6 +45,8 @@ if(typeof iplover === 'undefined'){
 		}else{
 			records = new Array();
 		}
+        
+        records = records.filter(function(element){return !element.deleted});
 		
 		if(!record_state){
 			return records;
@@ -57,14 +57,9 @@ if(typeof iplover === 'undefined'){
 		}
 	};
     
-    iplover.data.getRecordById = function(uuid){
+    var getRecordById = function(uuid){
         
-        var records = [];
-        if(localStorage.records){
-            records = JSON.parse(localStorage.records)
-        }else{
-            records = new Array();
-        }
+        var records = getRecords();
         // filter and then return
         var toreturn = records.filter(function(element){return element.uuid == uuid;});
         if(toreturn.length == 1){
@@ -75,7 +70,7 @@ if(typeof iplover === 'undefined'){
         
     };
     
-    iplover.data.setRecordById = function(uuid, record){
+    var setRecordById = function(uuid, record){
         
         var records = [];
         if(localStorage.records){
@@ -97,7 +92,7 @@ if(typeof iplover === 'undefined'){
     };
 	
     
-    iplover.data.getDeviceInfo = function(){
+    var getDeviceInfo = function(){
         if(typeof device != 'undefined'){
             return device.platform + ' ' + device.version;
         }else{
@@ -105,7 +100,26 @@ if(typeof iplover === 'undefined'){
         }
     };
     
-    iplover.data.collection_group = "unknown";
+    var getGroup = function(){
+        if(!localStorage.group){
+            return "unknown";
+        }else{
+            return localStorage.group;
+        }
+    };
+    
+    var setGroup = function(group){
+        localStorage.group = group;
+    };
+    
+    return {newRecord     : newRecord, 
+            getRecords    : getRecords,
+            getRecordById : getRecordById,
+            setRecordById : setRecordById,
+            getDeviceInfo : getDeviceInfo,
+            getGroup      : getGroup, 
+            setGroup      : setGroup
+            }
     
 })();
 
