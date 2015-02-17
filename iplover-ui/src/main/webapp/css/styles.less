@@ -213,6 +213,25 @@ h4#forgot a:hover{
     margin-right:15px;
     margin-left:10px;
    }
+   
+input[type=radio]:not(old){
+  width   : 28px;
+  margin  : 0;
+  padding : 0;
+  opacity : 0;
+}
+
+input[type=radio]:not(old) + label{
+  display      : inline-block;
+  margin-left  : -18px;
+  padding-left : 28px;
+  background   : url('../img/radio_unclicked.png') no-repeat 0 0;
+  line-height  : 24px;
+}
+
+input[type=radio]:not(old):checked + label{
+  background   : url('../img/radio_clicked.png') no-repeat 0 0;
+}
 
 .save{
     margin-top:15px;}
