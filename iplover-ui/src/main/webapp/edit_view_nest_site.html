@@ -15,7 +15,7 @@
 <script src="js/map.js" type="text/javascript"></script>
 <script src="js/location.js" type="text/javascript"></script>
 <script src="js/data.js" type="text/javascript"></script>
-<script src="js/pages/new_nest_site.js" type="text/javascript"></script>
+<script src="js/pages/edit_view_nest_site.js" type="text/javascript"></script>
 
 </head>
 
@@ -25,7 +25,7 @@
 
 	<header>
     	
-        <a href="home.html"/><button id="home_button"> <p id="backarrow"><strong><</strong></p> Home</button></a>
+        <a id="home_link" href="home.html"/><button id="home_button"> <p id="backarrow"><strong><</strong></p> Back</button></a>
     
     	<h2>New Nest Site</h2>
         
@@ -38,10 +38,7 @@
             <section id="new_site_section">
                 
                 <input id="site_id" name="site_id" type="text" placeholder="Enter Site ID" />
-                <span style="white-space:nowrap">
-					<label for="newnestsite-picture">Picture</label>
-					<input type="file" name="newnestsite-picture" id="newnestsite_picture" accept="image/*;capture=camera" >
-				</span>
+                
                 <p><div id="locationtext">Location: <span id="disp-lat">XX</span>, <span id="disp-lon">XX</span></div></p>
                 
                 <p>
@@ -51,7 +48,7 @@
                 
                 <p class="left">at <span id="disp-time">XX:XX:XX am</span> </p>
                 
-                <p class="right"><a id="refresh-link">Refresh</a> <a id="show-map-link">Show Map</a></p>
+                <p class="right"><a id="show-map-link">Show Map</a></p>
 				<div id="minimap-div" style="display: none; clear:both;">
 					<img id="minimap-image" src="" />
 					<p><a id="map-google-link" href="#" target="_blank">Launch Google Maps</a></p>
@@ -74,22 +71,22 @@
                 <input id="geo1" class="radial" type="radio" name="setting" value="beach" />
                 <label for="geo1">Beach</label>
                 <br/>
-                 <input id="geo2" class="radial" type="radio"name="setting" value="backshore"/>
+                 <input id="geo2" class="radial" type="radio" name="setting" value="backshore"/>
                  <label for="geo2">Backshore</label>
                  <br/>
-                 <input id="geo3" class="radial" type="radio"name="setting" value="dune"/>
+                 <input id="geo3" class="radial" type="radio" name="setting" value="dune"/>
                  <label for="geo3">Dune</label>
                  <br/>
-                 <input id="geo4" class="radial" type="radio"name="setting" value="washover"/>
+                 <input id="geo4" class="radial" type="radio" name="setting" value="washover"/>
                  <label for="geo4">Washover</label>
                  <br/>
-                 <input id="geo5" class="radial" type="radio"name="setting" value="barrier_interior"/>
+                 <input id="geo5" class="radial" type="radio" name="setting" value="barrier_interior"/>
                  <label for="geo5">Barrier Interior</label>
                  <br/>
-                 <input id="geo6" class="radial" type="radio"name="setting" value="swale"/>
+                 <input id="geo6" class="radial" type="radio" name="setting" value="swale"/>
                  <label for="geo6">Beach Ridge/Swale</label>
                  <br />
-                 <input id="geo7" class="radial" type="radio"name="setting" value="marsh"/>
+                 <input id="geo7" class="radial" type="radio" name="setting" value="marsh"/>
                  <label for="geo7">Marsh</label>
                  
                 </section>
@@ -162,7 +159,13 @@
                  <textarea id="notes" name="notes" placeholder="Notes"></textarea>
                  
                  <button id="nest_save" class="save">Save Nest Data</button>
-
+                
+                <button id="delete_button" class="save" style="width:15em;display:none;" >Delete Nest</button>
+                <input id="delete_checkbox" class="radial" type="checkbox" name="delete_checkbox" />
+                <label for="delete_checkbox"> Delete</label> &nbsp;
+                    
+                
+                
             </section>
             </form>
         </article>

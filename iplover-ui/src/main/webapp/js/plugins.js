@@ -1,4 +1,17 @@
 
+// Create UUID used to uniquely identify plover records
+// From http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+generateUUID = function(){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+};
+
+
 // usage: log('inside coolFunc', this, arguments);
 // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
 window.log = function(){
@@ -29,7 +42,7 @@ String.prototype.pluralize = function(count, plural) {
 
 // Check if a new cache is available on page load.
 // Avoids double load to get new content: one to download a new appcache, and another to download the changed file(s)
-window.addEventListener('load', function(e) {
+/*window.addEventListener('load', function(e) {
 
   window.applicationCache.addEventListener('updateready', function(e) {
     if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
@@ -45,7 +58,7 @@ window.addEventListener('load', function(e) {
   }, false);
 
 }, false);
-
+*/
 
 /*
  * Date Format 1.2.3
