@@ -143,6 +143,7 @@
 			   <version>3.0.5</version>
 			   <configuration>
 				  <changeLogFile>src/main/liquibase/db.1.xml</changeLogFile>
+                  <changeLogFile>src/main/liquibase/db.2.xml</changeLogFile>
 				  <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
 			   </configuration>
 			</plugin>
