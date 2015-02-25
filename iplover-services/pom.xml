@@ -14,6 +14,11 @@
 	<name>iplover Maven Services</name>
 	
 	<dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.8</version>
+        </dependency>
 		<dependency>
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>
@@ -68,6 +73,41 @@
 			<artifactId>commons-lang</artifactId>
 			<type>jar</type>
 		</dependency>
+        <dependency>
+            <groupId>gov.usgs.cida.auth</groupId>
+            <artifactId>auth-client</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
-	
+    <repositories>
+		
+		<repository>
+			<id>cida-thirdparty</id>
+			<name>CIDA Public Nexus</name>
+			<url>http://internal.cida.usgs.gov/maven/content/groups/public</url>
+            
+		</repository>
+		<repository>
+			<id>nexus</id>
+			<name>CIDA Nexus</name>
+			<url>http://cida.usgs.gov/maven/cida-public/</url>
+		</repository>
+	</repositories>
+	<build>
+		<finalName>iplover</finalName>
+		<plugins>
+            <plugin>  
+                <groupId>org.apache.tomcat.maven</groupId>  
+                <artifactId>tomcat7-maven-plugin</artifactId>  
+                <version>2.2</version>  
+                <configuration>  
+                    <path>/iplover</path>
+                    <update>true</update>  
+                    <url>http://localhost:8080/manager/text</url>  
+                    <username>admin</username>
+                    <password>admin</password>
+                </configuration>  
+            </plugin>  
+        </plugins>
+    </build>
 </project>

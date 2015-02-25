@@ -1,0 +1,29 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="4" author="lwinslow">
+        <addColumn tableName="entries">
+            <column name="nestinitdate" type="date"/>
+            <column name="collectiongroup" type="varchar(50)"/>
+        </addColumn>
+        
+        
+        <createTable tableName="usercache">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="usertoken" type="varchar(100)" />
+            <column name="usergroup" type="varchar(50)" />
+            <column name="expirationdate" type="date" />
+        </createTable>
+        <addAutoIncrement 
+            columnDataType="int"
+            columnName="id"
+            incrementBy="1"
+            schemaName="public"
+            startWith="100"
+            tableName="usercache"/>
+    </changeSet>
+</databaseChangeLog>
