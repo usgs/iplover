@@ -158,12 +158,15 @@
                         <label for="dens4">Dense &gt;90%</label>
                         <br/>
                  </section>
-                 
-                <input id="nest_init" type="date" name="nest_init" style="width:calc(100% - 4em);"/>&nbsp;
-                <label for="nest_init" style="display:none;">Date picker for nest initiation date</label>
                 
-                <input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" 
-                       onclick="nest_init.value = '';"/>
+                <section class="other">
+                    <h3>Nest Initiation Date</h3>
+                    <input id="nest_init" type="date" name="nest_init" style="width:calc(100% - 6em);margin-left:1em;"/>&nbsp;
+                    <label for="nest_init" style="display:none;">Date picker for nest initiation date</label>
+                
+                    <input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" 
+                           onclick="nest_init.value = '';"/>
+                </section>
                  
                 <textarea id="notes" name="notes" placeholder="Put notes here"></textarea>
                 <label for="notes" style="display:none;">Text area for unstructured notes</label>
