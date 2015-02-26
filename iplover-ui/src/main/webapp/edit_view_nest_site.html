@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 
@@ -38,6 +38,7 @@
             <section id="new_site_section">
                 
                 <input id="site_id" name="site_id" type="text" placeholder="Enter Site ID" />
+                <label for="site_id" style="display:none;">Site ID text input</label>
                 
                 <p><div id="locationtext">Location: <span id="disp-lat">XX</span>, <span id="disp-lon">XX</span></div></p>
                 
@@ -49,7 +50,7 @@
                 
                 <p class="right"><a id="show-map-link">Show Map</a></p>
 				<div id="minimap-div" style="display: none; clear:both;">
-					<img id="minimap-image" src="" />
+					<img id="minimap-image" src="" alt="Map showing immediate vicinity"/>
 					<p><a id="map-google-link" href="#" target="_blank">Launch Google Maps</a></p>
 				</div>
                 
@@ -94,7 +95,8 @@
                 <section class="other">
                  
                     <h3>Substrate Type</h3>
-                    <fieldset>    
+                    <fieldset>
+                        <legend style="display:none;">Substrate Type</legend>
                         <input id="sub1" class="radial" type="radio" name="substrate" value="sandy" />
                         <label for="sub1">Sand</label>
                         <br/>
@@ -117,6 +119,7 @@
                  
                     <h3>Vegetation Type</h3>
                     <fieldset>
+                        <legend style="display:none;">Vegetation Type</legend>
                         <input id="veg1" class="radial" type="radio" name="vegetation" value="none" />
                         <label for="veg1">None</label>
                         <br/>
@@ -137,6 +140,7 @@
                  
                     <h3>Vegetation Density</h3>
                     <fieldset>
+                        <legend style="display:none;">Vegetation Density</legend>
                         <input id="dens1" class="radial" type="radio" name="density" value="none" />
                         <label for="dens1">None</label>
                         <br/>
@@ -153,11 +157,12 @@
                 </section>
                  
                 <input id="nest_init" type="date" name="nest_init" style="width:calc(100% - 4em);"/>&nbsp;
+                <label for="nest_init" style="display:none;">Date picker for nest initiation date</label>
                 <input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" 
                        onclick="nest_init.value = '';"/>
                  
-                 <textarea id="notes" name="notes" placeholder="Notes"></textarea>
-                 
+                 <textarea id="notes" name="notes" placeholder="Put notes here"></textarea>
+                 <label for="notes" style="display:none;">Text area for unstructured notes</label>
                  <button id="nest_save" class="save">Save Nest Data</button>
                 
                 <button id="delete_button" class="save" style="width:15em;display:none;" >Delete Nest</button>
