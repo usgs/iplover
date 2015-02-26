@@ -25,7 +25,7 @@
 
 	<header>
     	
-        <a id="home_link" href="home.html"/><button id="home_button"> <p id="backarrow"><strong><</strong></p> Back</button></a>
+        <a id="home_link" href="home.html"/><button id="home_button"> <p id="backarrow"><strong>&lt;</strong></p> Back</button></a>
     
     	<h2>Edit Nest Site</h2>
         
@@ -43,7 +43,6 @@
                 
                 <p>
 					Accuracy: <span id="disp-accuracy">X</span> meters 
-					<img id="spinner-img" src="img/spinner.gif" style="display:none;" />
 				</p>
                 
                 <p class="left">at <span id="disp-time">XX:XX:XX am</span> </p>
@@ -66,52 +65,53 @@
                 
                 <section class="other">
                 
-                <h3>Geomorphic Setting</h3>
-                <fieldset>
-                    <input id="geo1" class="radial" type="radio" name="setting" value="beach" />
-                    <label for="geo1">Beach</label>
-                    <br/>
-                    <input id="geo2" class="radial" type="radio" name="setting" value="backshore"/>
-                    <label for="geo2">Backshore</label>
-                    <br/>
-                    <input id="geo3" class="radial" type="radio" name="setting" value="dune"/>
-                    <label for="geo3">Dune</label>
-                    <br/>
-                    <input id="geo4" class="radial" type="radio" name="setting" value="washover"/>
-                    <label for="geo4">Washover</label>
-                    <br/>
-                    <input id="geo5" class="radial" type="radio" name="setting" value="barrier_interior"/>
-                    <label for="geo5">Barrier Interior</label>
-                    <br/>
-                    <input id="geo6" class="radial" type="radio" name="setting" value="swale"/>
-                    <label for="geo6">Beach Ridge/Swale</label>
-                    <br />
-                    <input id="geo7" class="radial" type="radio" name="setting" value="marsh"/>
-                    <label for="geo7">Marsh</label>
-                </fieldset>
+                    <h3>Geomorphic Setting</h3>
+                    <fieldset>
+                        <legend style="display:none;">Geomorphic Setting</legend>
+                        <input id="geo1" class="radial" type="radio" name="setting" value="beach" />
+                        <label for="geo1">Beach</label>
+                        <br/>
+                        <input id="geo2" class="radial" type="radio" name="setting" value="backshore"/>
+                        <label for="geo2">Backshore</label>
+                        <br/>
+                        <input id="geo3" class="radial" type="radio" name="setting" value="dune"/>
+                        <label for="geo3">Dune</label>
+                        <br/>
+                        <input id="geo4" class="radial" type="radio" name="setting" value="washover"/>
+                        <label for="geo4">Washover</label>
+                        <br/>
+                        <input id="geo5" class="radial" type="radio" name="setting" value="barrier_interior"/>
+                        <label for="geo5">Barrier Interior</label>
+                        <br/>
+                        <input id="geo6" class="radial" type="radio" name="setting" value="swale"/>
+                        <label for="geo6">Beach Ridge/Swale</label>
+                        <br />
+                        <input id="geo7" class="radial" type="radio" name="setting" value="marsh"/>
+                        <label for="geo7">Marsh</label>
+                    </fieldset>
                 </section>
                  
-                 <section class="other">
+                <section class="other">
                  
                     <h3>Substrate Type</h3>
-                <fieldset>    
-                <input id="sub1" class="radial" type="radio" name="substrate" value="sandy" />
-                <label for="sub1">Sand</label>
-                <br/>
-                <input id="sub2" class="radial" type="radio" name="substrate" value="shell_gravel_cobble"/>
-                <label for="sub2">Shell/Gravel/Cobble</label>
-                <br/>
-                <input id="sub3" class="radial" type="radio" name="substrate" value="mud_peat"/>
-                <label for="sub3">Mud/Peat</label>
-                <br/>
-                <input id="sub4" class="radial" type="radio" name="substrate" value="water"/>
-                <label for="sub4">Water</label>
-                <br/>
-                <input id="sub5" class="radial" type="radio" name="substrate" value="unknown"/>
-                <label for="sub5">Other</label>
-                <br/>
-                </fieldset>
-                 </section>
+                    <fieldset>    
+                        <input id="sub1" class="radial" type="radio" name="substrate" value="sandy" />
+                        <label for="sub1">Sand</label>
+                        <br/>
+                        <input id="sub2" class="radial" type="radio" name="substrate" value="shell_gravel_cobble"/>
+                        <label for="sub2">Shell/Gravel/Cobble</label>
+                        <br/>
+                        <input id="sub3" class="radial" type="radio" name="substrate" value="mud_peat"/>
+                        <label for="sub3">Mud/Peat</label>
+                        <br/>
+                        <input id="sub4" class="radial" type="radio" name="substrate" value="water"/>
+                        <label for="sub4">Water</label>
+                        <br/>
+                        <input id="sub5" class="radial" type="radio" name="substrate" value="unknown"/>
+                        <label for="sub5">Other</label>
+                        <br/>
+                    </fieldset>
+                </section>
                  
                  <section class="other">
                  
