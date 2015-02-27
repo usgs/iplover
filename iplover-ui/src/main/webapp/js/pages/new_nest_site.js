@@ -68,12 +68,12 @@ var new_site_submit_function = function(e) {
         siteObject.site_id              = $("#site_id").val();
         
         //location info
-        siteObject.location_lat         = parseFloat($("#location_lat").val());
-        siteObject.location_lon         = parseFloat($("#location_lon").val());
-        siteObject.location_z           = parseFloat($("#location_z").val());
-        siteObject.location_accuracy    = parseFloat($("#location_accuracy").val());
-        siteObject.location_zaccuracy   = parseFloat($("#location_zaccuracy").val());
-        siteObject.location_timestamp   = $("#location_timestamp").val();
+        siteObject.location_lat         = parseFloat($("#lat").val());
+        siteObject.location_lon         = parseFloat($("#lon").val());
+        siteObject.location_z           = parseFloat($("#z").val());
+        siteObject.location_accuracy    = parseFloat($("#accuracy").val());
+        siteObject.location_zaccuracy   = parseFloat($("#zaccuracy").val());
+        siteObject.location_timestamp   = $("#timestamp").val();
         
         //notes
         siteObject.notes                = $("#notes").val();
