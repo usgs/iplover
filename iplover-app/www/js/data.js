@@ -8,11 +8,29 @@ iplover.data = (function(){
 	//This saves the image to the persistent storage (if available)
 	// and returns the image file path
 	//
-	var saveImage = function(image){
-		return "TODO:implement this function";
+	var saveImage = function(uuid, image_file, callback){
+        
+        if(!window.resolveFileSystemURI){
+            return "Unimplemented on this platform";
+        }
+        
+        window.resolveFileSystemURI(cordova.file.dataDirectory, function(dir){
+            
+            dir.getFile(uuid + '.jpg', {create:true}, function(file){
+                
+                file.createWriter(function(writer){
+                    writer.onwrite = function(evt){callback(uuid + '.jpg');};
+                    writer.onerror = function(e){alert('error'+e);};
+                    writer.write(image_file);
+                });//writer
+            });//file
+        });//datadir
+        
 	};
+    
+    
 	
-	var newRecord = function(data, image){
+	var newRecord = function(data){
 		
         
 		var records = [];
@@ -22,8 +40,8 @@ iplover.data = (function(){
 			records = new Array();
 		}
 		
-		var imgPath = saveImage(image);
-		data['image_path'] = imgPath;
+		//var imgPath = saveImage(image);
+		//data['image_path'] = imgPath;
 		
 		records.push(data);
 		

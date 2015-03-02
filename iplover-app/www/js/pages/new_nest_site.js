@@ -53,54 +53,51 @@ var new_site_submit_function = function(e) {
 		return;
 	}
 	
-	//get image
-	var reader = new FileReader();
-	reader.readAsDataURL($('#newnestsite_picture')[0].files[0]);
-	
 	console.log('file read as data URL');
-	console.log(reader);
 
-	reader.onload = function (evt) {
-		//Once the file is loaded, setup object with values
-		var inputs = $("#new_site_form :input");
-		var siteObject = {};
-        
-        siteObject.site_id              = $("#site_id").val();
-        
-        //location info
-        siteObject.location_lat         = parseFloat($("#lat").val());
-        siteObject.location_lon         = parseFloat($("#lon").val());
-        siteObject.location_z           = parseFloat($("#z").val());
-        siteObject.location_accuracy    = parseFloat($("#accuracy").val());
-        siteObject.location_zaccuracy   = parseFloat($("#zaccuracy").val());
-        siteObject.location_timestamp   = $("#timestamp").val();
-        
-        //notes
-        siteObject.notes                = $("#notes").val();
-        siteObject.nest_init            = $("#nest_init").val();
-        
-        //client data
-        siteObject.device_info          = $("#device_info").val();
-        siteObject.client_version       = $("#client_version").val();
-        
-        //radio buttons
-        siteObject.setting              = $('input[name=setting]:checked').val();
-        siteObject.substrate            = $('input[name=substrate]:checked').val()
-        siteObject.vegetation           = $('input[name=vegetation]:checked').val()
-        siteObject.density              = $('input[name=density]:checked').val()
-        
-        siteObject.collection_group = iplover.data.getGroup();
-        siteObject.store_state = 'unsynced';
-        siteObject.uuid = generateUUID();
-        
-        
-		var now = new Date();
-		var key = now.format("yyyy-mm-dd HH:MM:ss");
-		//save both
-		iplover.data.newRecord(siteObject, evt.target.result);
-		//send to home
-		window.location.href = "home.html";
-	};
+    //Once the file is loaded, setup object with values
+    var inputs = $("#new_site_form :input");
+    var siteObject = {};
+    
+    siteObject.site_id              = $("#site_id").val();
+    
+    //location info
+    siteObject.location_lat         = parseFloat($("#lat").val());
+    siteObject.location_lon         = parseFloat($("#lon").val());
+    siteObject.location_z           = parseFloat($("#z").val());
+    siteObject.location_accuracy    = parseFloat($("#accuracy").val());
+    siteObject.location_zaccuracy   = parseFloat($("#zaccuracy").val());
+    siteObject.location_timestamp   = $("#timestamp").val();
+    
+    //notes
+    siteObject.notes                = $("#notes").val();
+    siteObject.nest_init            = $("#nest_init").val();
+    
+    //client data
+    siteObject.device_info          = $("#device_info").val();
+    siteObject.client_version       = $("#client_version").val();
+    
+    //radio buttons
+    siteObject.setting              = $('input[name=setting]:checked').val();
+    siteObject.substrate            = $('input[name=substrate]:checked').val()
+    siteObject.vegetation           = $('input[name=vegetation]:checked').val()
+    siteObject.density              = $('input[name=density]:checked').val()
+    
+    siteObject.collection_group = iplover.data.getGroup();
+    siteObject.store_state = 'unsynced';
+    siteObject.uuid = generateUUID();
+    
+    iplover.data.saveImage(siteObject.uuid, 
+                            $('#newnestsite_picture')[0].files[0],
+                            function(fpath){
+                                siteObject['image_path'] = fpath;
+                                
+                                iplover.data.newRecord(siteObject);
+                                //send to home
+                                window.location.href = "home.html";
+                                
+                            });
+
 };
 
 iplover.location.started(function(){
