@@ -1,0 +1,177 @@
+/* override default margins, shadows, size */
+body > .panel > h2 {
+  margin: 15px 0 8px 10px;
+  font-size: 1.2em;
+  text-shadow: rgba(255, 255, 255, .5) 1px 1px 0;
+}
+.panel > fieldset p {
+  padding-left: 14px;
+  text-align: left;
+  font-size: .8em;
+}
+
+.panel > p, .panel ul#syncstatus {
+  text-shadow: rgba(255, 255, 255, .5) 1px 1px 0;
+  color: #4D4D70;
+  font-size: 1.1em;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* checkbox / radio button lists */
+ul.inputs {
+  margin: 0;
+  overflow: auto;
+  padding: 2.5em 1em .5em;
+}
+ul.inputs li {
+  float: left;
+  list-style: none;
+  line-height: 1.8;
+  margin-right: 1.2em;
+  width:12em;
+}
+
+/* Form results */
+.results span {
+  position: static;
+  padding-bottom: 12px;
+  text-align: left;
+  display: block;
+}
+
+/* grey out disabled links / buttons */
+a.disabled, a.disabled:active {
+  color: #999 !important;
+  background-color: none !important;
+}
+
+/* form control css (mostly adapted from previous version of iUI) */
+
+.row > input:not([type|="radio"]):not([type|="checkbox"]) {
+  height: 40px;
+}
+
+fieldset > .row > input,
+fieldset > .row > textarea,
+fieldset > .row > select {
+  width: 100%;
+  margin: 0;
+  height: inherit;
+  font-size: .8em;
+  background: transparent;
+  -webkit-appearance: none;
+}
+fieldset > .row > textarea,
+fieldset > .row > input:not([type|=radio]):not([type|=checkbox]) {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-border-radius: 0px;
+  padding: 12px 10px 14px 115px;
+  border: 0;
+  margin-bottom: -4px;
+  resize: none;
+}
+fieldset > .row > select {
+	float: right;
+	width: auto;
+	height: 42px;
+	color: #425c8d;
+	padding-right: 10px;
+	border: 0;
+}
+
+/* Map, location info on form */
+
+#location {
+  margin: 1em 0;
+}
+#location p, #options {
+  margin: 0 0 0 14px;
+  padding: 0;
+}
+#location p, #options li {
+  line-height: 1.8;
+  font-size: .9em;
+  float: left;
+  margin-right: 1.2em;
+}
+#options li {
+  list-style: none;
+}
+#options li a:active {
+  background: none !important; /* override iui bg */
+}
+#location a, #location a:active, #location a:visited {
+  color: #00c !important;  /* override iui actve color */
+  padding: 5px 0;
+}
+
+#accuracy-display {
+	margin-left: 14px; 
+	text-align: left;
+}
+#accuracy-display > span {
+	padding-left: 34px
+}
+
+#gps-reading-spinner {
+	padding-left: 5px;
+}
+
+#map {
+  clear: both;
+}
+#map img {
+  display: block;
+  margin: 10px 14px;
+}
+#map p {
+  float: none;
+}
+
+/* Other stuff */
+
+#syncstatus li {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  min-height: 1px; /* override iui */
+}
+
+.success {
+  color: #008000;
+}
+.error {
+  color: #c00;
+}
+
+.hide, #hidden-fields, form #operator {
+  display: none;
+}
+
+.progress {
+	position: relative;
+	width: 90%;
+	margin: 10px auto;
+	border: 1px solid #DDD;
+	padding: 5px;
+	border-radius: 3px;
+}
+.bar{
+	background: #008DE6;
+	height: 20px;
+	width: 0%;
+	/* transition animation */
+	-webkit-transition: width .3s;
+		-moz-transition: width .3s;
+			transition: width .3s;
+
+}
+.percent {
+	position: absolute;
+	display: inline-block;
+	top: 6px;
+	left: 48%;
+	color: #333;
+}
