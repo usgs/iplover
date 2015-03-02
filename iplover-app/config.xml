@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.iplover.test" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="gov.usgs.cida.iplover" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iPlover</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A iPlover nesting collection application
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="lwinslow@usgs.gov" href="http://cida.usgs.gov">
+        Luke Winslow [dev], USGS [org]
     </author>
     <icon src="www/img/ios7/apple-touch-icon-152x152.png" />
     <content src="index.html" />
