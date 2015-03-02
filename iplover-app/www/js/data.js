@@ -10,11 +10,11 @@ iplover.data = (function(){
 	//
 	var saveImage = function(uuid, image_file, callback){
         
-        if(!window.resolveFileSystemURI){
+        if(!window.resolveLocalFileSystemURL){
             return "Unimplemented on this platform";
         }
         
-        window.resolveFileSystemURI(cordova.file.dataDirectory, function(dir){
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir){
             
             dir.getFile(uuid + '.jpg', {create:true}, function(file){
                 
