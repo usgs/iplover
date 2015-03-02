@@ -136,7 +136,8 @@ iplover.data = (function(){
             setRecordById : setRecordById,
             getDeviceInfo : getDeviceInfo,
             getGroup      : getGroup, 
-            setGroup      : setGroup
+            setGroup      : setGroup,
+            saveImage     : saveImage
             }
     
 })();
