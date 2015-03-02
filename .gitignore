@@ -1,3 +1,4 @@
 iplover-services/src/main/resources/liquibase/liquibase.properties
 **/target
 nb-configuration.xml
+iplover-app/platforms
