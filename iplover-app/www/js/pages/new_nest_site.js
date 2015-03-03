@@ -89,7 +89,10 @@ var new_site_submit_function = function(e) {
     siteObject.density              = $('input[name=density]:checked').val()
     
     siteObject.collection_group = iplover.data.getGroup();
-    siteObject.store_state = 'unsynced';
+    siteObject.deleted = false;
+    siteObject.changes_synced = false;
+    siteObject.on_server = false;
+    
     siteObject.uuid = generateUUID();
     
     iplover.data.saveImage(siteObject.uuid, 

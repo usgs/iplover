@@ -16,7 +16,6 @@ $(document).ready(function() {
             $('#edit_section').append(tmp);
         }
     }
-    
 });
 
 
@@ -26,7 +25,7 @@ var populate_button = function(site, button){
     button.html(label);
     button.attr("onclick", "window.location.href='edit_view_nest_site.html?" + querystring + "';");
     
-    if(site.store_state == 'unsynced'){
+    if(!site.on_server || !site.changes_synced){
         button.addClass('unsynced');
     }else{
         button.removeClass('unsynced');

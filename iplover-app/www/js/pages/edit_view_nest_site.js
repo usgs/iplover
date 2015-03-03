@@ -142,9 +142,9 @@ var delete_record = function(e){
     }
     
     var rec = editing_record;
-    
+    iplover.data.deleteImage(rec.uuid, function(){"Deleted image" + rec.uuid;});
     rec.deleted = true;
-    rec.store_state = 'edited';
+    rec.changes_synced = false;
     iplover.data.setRecordById(rec.uuid, rec);
     
     window.location.href = sourceurl;

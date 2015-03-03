@@ -92,6 +92,38 @@ iplover.data = (function(){
 		}
 	};
     
+	var getNonserverRecords = function(){
+		
+		var records = [];
+		if(localStorage.records){
+			records = JSON.parse(localStorage.records)
+		}else{
+			records = new Array();
+		}
+        
+		// filter and then return
+		var toreturn = records.filter(function(element){return !element.on_server;});
+		return toreturn;
+        
+		}
+	};
+    
+	var getChangedRecords = function(){
+		
+		var records = [];
+		if(localStorage.records){
+			records = JSON.parse(localStorage.records)
+		}else{
+			records = new Array();
+		}
+        
+		// filter and then return
+		var toreturn = records.filter(function(element){return !element.changes_synced;});
+		return toreturn;
+        
+		}
+	};
+    
     var getRecordById = function(uuid){
         
         var records = getRecords();
@@ -156,7 +188,9 @@ iplover.data = (function(){
             setGroup      : setGroup,
             saveImage     : saveImage,
             getImgeDataURL: getImgeDataURL,
-            deleteImage   : deleteImage
+            deleteImage   : deleteImage,
+            getNonserverRecords : getNonserverRecords, 
+            getChangedRecords   : getChangedRecords
             }
     
 })();

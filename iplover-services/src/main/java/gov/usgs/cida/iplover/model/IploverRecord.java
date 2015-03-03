@@ -14,7 +14,9 @@ public class IploverRecord {
     public String client_version;
     public String device_info;
     public String collection_group;
-    public String store_state;
+    public boolean deleted;
+    public boolean on_server = true;
+    public boolean changes_synced = true;
     
     //All location information
     public Double location_lat;
@@ -22,7 +24,7 @@ public class IploverRecord {
     public Double location_accuracy;
     public Double location_zaccuracy;
     public Double location_z;
-    public Date location_timestamp;
+    public Date   location_timestamp;
     
     //All the site metadata fields
     public String density;
@@ -64,6 +66,10 @@ public class IploverRecord {
         if(tomerge.uuid == null ? this.uuid != null : !tomerge.uuid.equals(this.uuid)){
             throw new IllegalArgumentException("UUID does not match");
         }
+        
+        //always merge this, no null check
+        this.deleted = tomerge.deleted;
+        
         if(tomerge.client_version != null){
             this.client_version = tomerge.client_version;
         }
@@ -100,6 +106,8 @@ public class IploverRecord {
         if(tomerge.notes != null){
             this.notes = tomerge.notes;
         }
+        
+        
     }
     
 

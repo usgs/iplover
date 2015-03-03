@@ -23,6 +23,7 @@
     <result property="substrate"            column="substrate" />
     <result property="notes"                column="notes" />
     <result property="nest_init"            column="nestinitdate" />
+    <result property="deleted"              column="deleted" />
     
   </resultMap>
 
@@ -45,7 +46,8 @@
       substrate,   
       nestinitdate, 
       collectiongroup,   
-      deviceinfo) 
+      deviceinfo,
+      deleted) 
     values(
       #{uuid}, 
       #{location_timestamp}, 
@@ -62,7 +64,8 @@
       #{substrate},
       #{nest_init},
       #{collection_group},
-      #{device_info})
+      #{device_info},
+      #{deleted})
   </insert>
   
   <update id="updateRecord" useGeneratedKeys="false" parameterType="map">
@@ -84,7 +87,8 @@
         substrate = #{substrate},   
         nestinitdate = #{nest_init}, 
         collectiongroup = #{collection_group},   
-        deviceinfo = #{device_info}
+        deviceinfo = #{device_info},
+        deleted = #{deleted}
       WHERE id = #{uuid}
   </update>
   
@@ -109,7 +113,7 @@
         collectiongroup,
         deviceinfo
     FROM entries
-    WHERE id = #{uuid}
+    WHERE id = #{uuid} 
   </select>
   
   <select id="getAllByGroup" resultMap="iplover-record">
@@ -133,7 +137,7 @@
         collectiongroup,
         deviceinfo
     FROM entries
-    WHERE collection_group = #{group}
+    WHERE collection_group = #{group} AND deleted = FALSE
   </select>
   
   <select id="getAll" resultMap="iplover-record">
@@ -157,5 +161,6 @@
         collectiongroup,
         deviceinfo
     FROM entries
+    WHERE deleted = FALSE
   </select>
 </mapper>
