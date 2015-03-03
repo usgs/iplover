@@ -96,7 +96,7 @@ var validate_form = function(){
     if(!$( "input[name='substrate']:checked" ).val() | !$( "input[name='setting']:checked" ).val()
         | !$( "input[name='density']:checked" ).val() | !$( "input[name='vegetation']:checked" ).val()){
         
-        alert('Sorry, all fields except Notes must be filled out.');
+        alert('Sorry, all fields, except Notes, must be filled out.');
         return false;
     }
     return true;
@@ -122,10 +122,8 @@ var save_form = function(e){
     rec.nest_init = $('#nest_init').val();
     rec.notes = $('#notes').val();
     
-    //only if state isn't unsynced, set to edited
-    if(rec.store_state != 'unsynced'){
-        rec.store_state = 'edited';
-    }
+    //only if set to edited
+    rec.changes_synced = false;
     
     iplover.data.setRecordById(rec.uuid, rec);
     

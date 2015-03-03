@@ -81,6 +81,7 @@ public class Records {
         try{
             ObjectMapper mapper = new ObjectMapper();
             output = mapper.writeValueAsString(records);
+            
         }catch(JsonProcessingException jpe){
             return Response.status(500).entity(jpe.getMessage()).build();
         }
@@ -103,27 +104,25 @@ public class Records {
         
         ObjectMapper mapper = new ObjectMapper();
         IploverRecord record = null;
-        String output;
         
         //Parse posted jSON
         try{
-             record = mapper.readValue(json, IploverRecord.class);
+            record = mapper.readValue(json, IploverRecord.class);
         
+            if(!record.isvalid()){
+                return Response.status(400).entity("Incomplete record posted.").build();
+            }
+            
+            SiteRecordDao dao = new SiteRecordDao();
+            dao.insert(record);
+             
         }catch(JsonProcessingException jpe){
             LOG.error(jpe);
             return Response.status(400).entity(jpe.getMessage()).build();
         }catch(IOException ioe){
             LOG.error(ioe);
             return Response.status(500).entity(ioe.getMessage()).build();
-        }
-                
-        if(!record.isvalid()){
-            return Response.status(400).entity("Incomplete record posted.").build();
-        }
-        
-        try{
-            SiteRecordDao dao = new SiteRecordDao();
-            dao.insert(record);
+            
         }catch(org.apache.ibatis.exceptions.PersistenceException ibatise){
             return Response.status(500).entity(ibatise.getMessage()).build();
         }
@@ -141,8 +140,16 @@ public class Records {
             return Response.status(500).entity("Unable to store submitted image.").build();
         }
         
-        //All is well!
-        return Response.status(200).build();
+        record.changes_synced = true;
+        record.on_server      = true;
+        
+        try{
+            String output = mapper.writeValueAsString(record);
+            return Response.status(200).entity(output).build();
+        }catch(JsonProcessingException jpe){
+            LOG.error(jpe);
+            return Response.status(500).entity("Error parsing output").build();
+        }
     }
     
 
@@ -178,7 +185,16 @@ public class Records {
         
         dao.update(oldRecord);
         
-        return Response.status(200).build();
+        oldRecord.changes_synced = true;
+        oldRecord.on_server      = true;
+        
+        try{
+            String output = mapper.writeValueAsString(oldRecord);
+            return Response.status(200).entity(output).build();
+        }catch(JsonProcessingException jpe){
+            LOG.error(jpe);
+            return Response.status(500).entity("Error parsing output").build();
+        }
     }
 
 }

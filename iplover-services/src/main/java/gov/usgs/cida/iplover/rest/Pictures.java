@@ -26,7 +26,7 @@ public class Pictures {
     
     
     @GET
-    @Path("pictures/{uuid}")
+    @Path("photos/{uuid}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response updateRecord(@PathParam("uuid") String uuid) {
         
