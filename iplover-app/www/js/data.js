@@ -41,10 +41,7 @@ iplover.data = (function(){
     var deleteImage = function(image_path, callback){
         
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory + image_path, function(fs){
-            
-            fs.file(function(file){
-                file.remove(callback);
-            });
+            fs.remove(callback);
         }, 
         function(error){console.log('FileSystem Error code:' + error.code);});
     };
