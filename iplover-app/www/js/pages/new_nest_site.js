@@ -18,6 +18,11 @@ $(document).ready(function() {
 	//Override form submit functionality
 	$('#new_site_form').submit(new_site_submit_function);
     $('#device_info').val(iplover.data.getDeviceInfo());
+    
+    $('#picture_button').click(function(e){
+        e.preventDefault();
+        $('#newnestsite_picture').click();
+    });
 });
 
 var verify_new_site = function(){
