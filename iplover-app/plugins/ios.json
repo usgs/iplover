@@ -36,6 +36,12 @@
                             "xml": "false",
                             "count": 2
                         }
+                    ],
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -69,6 +75,10 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -96,6 +106,9 @@
             "PACKAGE_NAME": "gov.usgs.cida.iplover"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "gov.usgs.cida.iplover"
+        },
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "gov.usgs.cida.iplover"
         }
     },
