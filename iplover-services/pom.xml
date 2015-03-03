@@ -1,78 +1,147 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>iplover-parent</artifactId>
-		<groupId>gov.usgs.cida.iplover</groupId>
-		<version>1.2.0-SNAPSHOT</version>
-	</parent>
 	
 	<groupId>gov.usgs.cida.iplover</groupId>
 	<artifactId>iplover-services</artifactId>
 	<packaging>war</packaging>
-	
+	<version>1.2.0-SNAPSHOT</version>
 	<name>iplover Maven Services</name>
-	
+    
+    <properties>
+        <jersey.version>2.11</jersey.version>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+    
+	<developers>
+		<developer>
+			<id>lwinslow</id>
+			<name>Luke Winslow</name>
+			<email>lwinslow@usgs.gov</email>
+			<roles>
+				<role>Software Developer</role>
+			</roles>
+			<organization>Center for Integrated Data Analytics</organization>
+			<organizationUrl>http://cida.usgs.gov</organizationUrl>
+			<timezone>-6</timezone>
+		</developer>
+		<developer>
+			<id>mhines</id>
+			<name>Megan Hines</name>
+			<email>mhines@usgs.gov</email>
+			<roles>
+				<role>Project Lead</role>
+			</roles>
+			<organization>Center for Integrated Data Analytics</organization>
+			<organizationUrl>http://cida.usgs.gov</organizationUrl>
+			<timezone>-6</timezone>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>Public Domain</name>
+			<url>http://en.wikipedia.org/wiki/Public_domain_software</url>
+			<comments>
+				All work of the US Government enter into the Public Domain within
+				the United States.  Whether that work is public domain outside of
+				the United States depends on various factors.
+			</comments>
+		</license>
+	</licenses>
 	<dependencies>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.6</version>
+			</dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>2.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet-core</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>1.3.2</version>
+			</dependency>
+					<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>3.8.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>9.1-901.jdbc4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>3.0.5</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+                
+			</dependency>
+				
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.1</version>
+				<type>jar</type>
+			</dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.2.8</version>
         </dependency>
-		<dependency>
-				<groupId>org.json</groupId>
-				<artifactId>json</artifactId>
-		</dependency>
-		<dependency>
-				<groupId>commons-codec</groupId>
-				<artifactId>commons-codec</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-servlet</artifactId>
-		</dependency><dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-multipart</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-                <dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<type>jar</type>
-		</dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20141113</version>
+        </dependency>
         <dependency>
             <groupId>gov.usgs.cida.auth</groupId>
             <artifactId>auth-client</artifactId>
@@ -80,7 +149,6 @@
         </dependency>
 	</dependencies>
     <repositories>
-		
 		<repository>
 			<id>cida-thirdparty</id>
 			<name>CIDA Public Nexus</name>
@@ -94,18 +162,44 @@
 		</repository>
 	</repositories>
 	<build>
-		<finalName>iplover</finalName>
+        <finalName>iplover</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
+			<plugin>
+			   <groupId>org.liquibase</groupId>
+			   <artifactId>liquibase-maven-plugin</artifactId>
+			   <version>3.0.5</version>
+			   <configuration>
+				  <changeLogFile>src/main/liquibase/db.1.xml</changeLogFile>
+				  <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
+			   </configuration>
+			</plugin>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-war-plugin</artifactId>
+			  <version>2.0</version>
+			  <configuration>
+				<webResources>
+				  <resource>
+					<directory>src/main/resources</directory>
+					<filtering>true</filtering>
+				  </resource>
+				</webResources>
+			  </configuration>
+			</plugin>
             <plugin>  
                 <groupId>org.apache.tomcat.maven</groupId>  
                 <artifactId>tomcat7-maven-plugin</artifactId>  
                 <version>2.2</version>  
                 <configuration>  
                     <path>/iplover</path>
-                    <update>true</update>  
-                    <url>http://localhost:8080/manager/text</url>  
-                    <username>admin</username>
-                    <password>admin</password>
+                    <update>true</update>
+                    <server>local-tomcat</server>
                 </configuration>  
             </plugin>  
         </plugins>
