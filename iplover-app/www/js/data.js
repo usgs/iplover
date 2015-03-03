@@ -28,6 +28,16 @@ iplover.data = (function(){
         
 	};
     
+    var getImgeDataURL = function(image_path, callback){
+        
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory + image_path, function(fs){
+            reader = new FileReader();
+            reader.onloadend = function(evt){callback(evt.target.result);};
+            fs.file(function(file){reader.readAsDataURL(file);});
+        }, 
+        function(error){console.log('FileSystem Error code:' + error.code);});
+    };
+
     
 	
 	var newRecord = function(data){
@@ -137,7 +147,8 @@ iplover.data = (function(){
             getDeviceInfo : getDeviceInfo,
             getGroup      : getGroup, 
             setGroup      : setGroup,
-            saveImage     : saveImage
+            saveImage     : saveImage,
+            getImgeDataURL: getImgeDataURL
             }
     
 })();
