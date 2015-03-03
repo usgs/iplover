@@ -5,12 +5,14 @@
 
     <changeSet id="1" author="lwinslow">
         <createTable tableName="entries">
-            <column name="id" type="SERIAL">
+            <column name="id" type="varchar(38)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="usercertid" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
+            
+            <column name="clientversion" type="varchar(20)"/>
+            <column name="collectiongroup" type="varchar(50)"/>
+            <column name="deviceinfo" type="varchar(255)"/>
+            
             <column name="datetime" type="datetime" />
             <column name="latitude" type="double" />
             <column name="longitude" type="double" />
@@ -20,27 +22,29 @@
             <column name="site" type="varchar(255)" />
             <column name="setting" type="varchar(255)" />
             <column name="vegtype" type="varchar(255)" />
-            <column name="notes" type="text" />
-        </createTable>
-    </changeSet>
-
-    <changeSet id="2" author="lwinslow">
-        
-          <addColumn tableName="entries">
-            <column name="clientversion" type="varchar(20)"/>
-            <column name="imagekey" type="varchar(55)"/>
             <column name="vegdens" type="varchar(55)"/>
             <column name="substrate" type="varchar(55)"/>
-        </addColumn>
-    </changeSet>
-    <changeSet id="3" author="lwinslow">
+            <column name="notes" type="text" />
+            <column name="nestinitdate" type="date"/>
+            <column name="imagekey" type="varchar(55)"/>
+            
+        </createTable>
+        
+        <createTable tableName="usercache">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="usertoken" type="varchar(100)" />
+            <column name="usergroup" type="varchar(50)" />
+            <column name="expirationdate" type="date" />
+        </createTable>
         <addAutoIncrement 
             columnDataType="int"
             columnName="id"
             incrementBy="1"
             schemaName="public"
             startWith="100"
-            tableName="entries"/>
+            tableName="usercache"/>
     </changeSet>
 
-</databaseChangeLog>
+    </databaseChangeLog>

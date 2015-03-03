@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.usgs.cida.mybatis.mappers.Records">
+
+  <resultMap id="iplover-record" type="gov.usgs.cida.iplover.model.IploverRecord">
+    <id     property="uuid"                 column="id" />
+    <result property="image_key"            column="imagekey" />
+    <result property="client_version"       column="clientversion" />
+    <result property="collection_group"     column="collectiongroup" />
+    <result property="device_info"          column="deviceinfo" />
+    <result property="location_timestamp"   column="datetime" />
+    <result property="location_lat"         column="latitude" />
+    <result property="location_lon"         column="longitude" />
+    <result property="location_accuracy"    column="accuracy" />
+    <result property="location_z"           column="altitude" />
+    <result property="location_zaccuracy"   column="altaccuracy" />
+    <result property="site_id"              column="site" />
+    <result property="setting"              column="setting" />
+    <result property="vegetation"           column="vegtype" />
+    <result property="density"              column="vegdens" />
+    <result property="substrate"            column="substrate" />
+    <result property="notes"                column="notes" />
+    <result property="nest_init"            column="nestinitdate" />
+    
+  </resultMap>
+
+  <insert id="insertRecord" useGeneratedKeys="false" parameterType="map">
+    insert into entries
+      (id,      
+      datetime,             
+      latitude,              
+      longitude,             
+      accuracy,           
+      altitude,     
+      altaccuracy,          
+      site, 
+      setting, 
+      vegtype,    
+      notes,      
+      clientversion, 
+      imagekey,     
+      vegdens,   
+      substrate,   
+      nestinitdate, 
+      collectiongroup,   
+      deviceinfo) 
+    values(
+      #{uuid}, 
+      #{location_timestamp}, 
+      #{location_lat}, 
+      #{location_lon},
+      #{location_accuracy},
+      #{location_z},
+      #{location_zaccuracy}, 
+      #{site_id},#{setting}, 
+      #{vegetation},#{notes},
+      #{client_version},
+      #{image_key}, 
+      #{density},
+      #{substrate},
+      #{nest_init},
+      #{collection_group},
+      #{device_info})
+  </insert>
+  
+  <update id="updateRecord" useGeneratedKeys="false" parameterType="map">
+    UPDATE entries
+      SET
+        datetime = #{location_timestamp},
+        latitude = #{location_lat},
+        longitude = #{location_lon}, 
+        accuracy = #{location_accuracy},  
+        altitude = #{location_z},
+        altaccuracy = #{location_zaccuracy},
+        site = #{site_id},
+        setting = #{setting},
+        vegtype = #{vegetation},    
+        notes = #{notes},
+        clientversion = #{client_version}, 
+        imagekey = #{image_key},
+        vegdens  = #{density},   
+        substrate = #{substrate},   
+        nestinitdate = #{nest_init}, 
+        collectiongroup = #{collection_group},   
+        deviceinfo = #{device_info}
+      WHERE id = #{uuid}
+  </update>
+  
+  <select id="getByUuid" resultMap="iplover-record">
+    SELECT 
+        id,
+        datetime,
+        latitude,
+        longitude,
+        accuracy,
+        altitude,
+        altaccuracy,
+        site,
+        setting,
+        vegtype,
+        notes,
+        clientversion,
+        imagekey,
+        vegdens,
+        substrate,
+        nestinitdate,
+        collectiongroup,
+        deviceinfo
+    FROM entries
+    WHERE id = #{uuid}
+  </select>
+  
+  <select id="getAllByGroup" resultMap="iplover-record">
+    SELECT 
+        id,
+        datetime,
+        latitude,
+        longitude,
+        accuracy,
+        altitude,
+        altaccuracy,
+        site,
+        setting,
+        vegtype,
+        notes,
+        clientversion,
+        imagekey,
+        vegdens,
+        substrate,
+        nestinitdate,
+        collectiongroup,
+        deviceinfo
+    FROM entries
+    WHERE collection_group = #{group}
+  </select>
+  
+  <select id="getAll" resultMap="iplover-record">
+    SELECT 
+        id,
+        datetime,
+        latitude,
+        longitude,
+        accuracy,
+        altitude,
+        altaccuracy,
+        site,
+        setting,
+        vegtype,
+        notes,
+        clientversion,
+        imagekey,
+        vegdens,
+        substrate,
+        nestinitdate,
+        collectiongroup,
+        deviceinfo
+    FROM entries
+  </select>
+</mapper>

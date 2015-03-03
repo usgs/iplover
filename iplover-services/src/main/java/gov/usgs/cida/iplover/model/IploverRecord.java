@@ -1,24 +1,107 @@
-package gov.usgs.cida.iplover;
+package gov.usgs.cida.iplover.model;
+
+import java.util.Date;
+import java.util.UUID;
 
 
 public class IploverRecord {
     
+    /**************************************************************************
+     * REQUIRED FIELDS
+     **************************************************************************/
+    public String uuid;
     public String site_id;
     public String client_version;
+    public String device_info;
+    public String collection_group;
+    public String store_state;
     
     //All location information
-    public double locatoin_lat;
-    public double location_lon;
-    public double location_accuracy;
-    public double location_z;
+    public Double location_lat;
+    public Double location_lon;
+    public Double location_accuracy;
+    public Double location_zaccuracy;
+    public Double location_z;
+    public Date location_timestamp;
     
     //All the site metadata fields
     public String density;
     public String setting;
     public String substrate;
     public String vegetation;
-    public String image_file_url;
-    public String nest_init;
+    
+    /**************************************************************************
+     * /REQUIRED FIELDS
+     **************************************************************************/
+    
+    /**************************************************************************
+     * OPTIONAL FIELDS
+     **************************************************************************/
+    //Optional fields
+    public Date nest_init;
     public String notes;
+    
+    /**************************************************************************
+     * /OPTIONAL FIELDS
+     **************************************************************************/
+    
+    //other fields
+    public String image_fileurl;
+    public byte[] image_data;
+    public String image_key;
+    
+    public boolean isvalid(){
+        
+        return site_id != null && client_version != null && uuid != null &&
+           location_lat != null && location_lon != null && 
+           location_accuracy != null && density != null && 
+           setting != null && substrate != null && vegetation != null;
+        
+    }
+    
+    public void mergeNonNull(IploverRecord tomerge){
+        
+        if(tomerge.uuid == null ? this.uuid != null : !tomerge.uuid.equals(this.uuid)){
+            throw new IllegalArgumentException("UUID does not match");
+        }
+        if(tomerge.client_version != null){
+            this.client_version = tomerge.client_version;
+        }
+        if(tomerge.site_id != null){
+            this.site_id = tomerge.site_id;
+        }
+        if(tomerge.location_lat != null){
+            this.location_lat = tomerge.location_lat;
+        }
+        if(tomerge.location_lon != null){
+            this.location_lon = tomerge.location_lon;
+        }
+        if(tomerge.location_accuracy != null){
+            this.location_accuracy = tomerge.location_accuracy;
+        }
+        if(tomerge.location_z != null){
+            this.location_z = tomerge.location_z;
+        }
+        if(tomerge.density != null){
+            this.density = tomerge.density;
+        }
+        if(tomerge.setting != null){
+            this.setting = tomerge.setting;
+        }
+        if(tomerge.substrate != null){
+            this.substrate = tomerge.substrate;
+        }
+        if(tomerge.vegetation != null){
+            this.vegetation = tomerge.vegetation;
+        }
+        if(tomerge.nest_init != null){
+            this.nest_init = tomerge.nest_init;
+        }
+        if(tomerge.notes != null){
+            this.notes = tomerge.notes;
+        }
+    }
+    
+
     
 }
