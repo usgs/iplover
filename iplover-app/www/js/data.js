@@ -105,7 +105,7 @@ iplover.data = (function(){
 		var toreturn = records.filter(function(element){return !element.on_server;});
 		return toreturn;
         
-		}
+		
 	};
     
 	var getChangedRecords = function(){
@@ -121,7 +121,7 @@ iplover.data = (function(){
 		var toreturn = records.filter(function(element){return !element.changes_synced;});
 		return toreturn;
         
-		}
+	
 	};
     
     var getRecordById = function(uuid){
