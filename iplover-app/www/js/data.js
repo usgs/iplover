@@ -37,7 +37,17 @@ iplover.data = (function(){
         }, 
         function(error){console.log('FileSystem Error code:' + error.code);});
     };
-
+    
+    var deleteImage = function(image_path, callback){
+        
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory + image_path, function(fs){
+            
+            fs.file(function(file){
+                file.remove(callback);
+            });
+        }, 
+        function(error){console.log('FileSystem Error code:' + error.code);});
+    };
     
 	
 	var newRecord = function(data){
@@ -148,7 +158,8 @@ iplover.data = (function(){
             getGroup      : getGroup, 
             setGroup      : setGroup,
             saveImage     : saveImage,
-            getImgeDataURL: getImgeDataURL
+            getImgeDataURL: getImgeDataURL,
+            deleteImage   : deleteImage
             }
     
 })();
