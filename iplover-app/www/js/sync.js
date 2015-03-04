@@ -6,42 +6,56 @@ if(typeof iplover === 'undefined'){
 
 iplover.sync = (function(){
     
+    var onSyncAllEnd = function(){};
     
-    var onsyncend = function(){};
+    var onProgress = function(percent){};
     
-    var onupdate  = function(percent){};
+    var onNonserverEnd = function(){};
     
-    var onnonserverend  = function(){};
+    var onEditedEnd = function(){};
     
-    var syncAll = function(){
+    var onError = function(){};
+    
+    var syncAll = function(success){
+        
+        onSyncAllEnd = success;
+        
+        //setup PUT updated records step
+        onNonserverEnd = function(){
+            putRecords(iplover.data.getChangedRecords());
+        };
+        
+        //setup GET All and clobber local (runs at end)
+        onEditedEnd = function(){
+            getAllServerRecords();
+        };
+        
         //POST Nonserver records
         postRecords(iplover.data.getNonserverRecords());
         
-        //PUT Unsynced Records
-        
-        
-        //GET All and clobber local
-        
-    };
-    
-    
-    var postNonserver = function(){
-        
-    };
-    
-    var putUnsynced = function(){
         
     };
     
     var getAllServerRecords = function(){
         
+        $.ajax({
+            type: "GET",
+            contentType: "application/json", 
+            url: iplover.recordsurl, 
+            success:function(response, status, jqXHR){
+                
+                iplover.data.clobberAllRecords(response);
+                onSyncAllEnd();
+            }
+        });
+        
     };
     
     
-    function postRecords(records){
+    var postRecords = function(records){
         
         if(records.length < 1){
-            onnonserverend();
+            onNonserverEnd();
             return;
         }
         
@@ -55,14 +69,14 @@ iplover.sync = (function(){
             //POST
             $.ajax({
                 type: "POST",
-                contentType: "applicatoin/json; charset=utf-8", 
+                contentType: "application/json", 
                 url: iplover.recordsurl, 
-                data: data,
-                success:function(response){
+                data: JSON.stringify(topost),
+                success:function(response, status, jqXHR){
                     //on success, delete local image and replace current local version
                     console.log(response);
                     
-                    iplover.data.setRecordById(topost.uuid, topost);
+                    iplover.data.setRecordById(response.uuid, response);
                     
                     //delete image
                     iplover.data.deleteImage(topost.image_path, function(){});
@@ -83,16 +97,17 @@ iplover.sync = (function(){
                     // set the onprogress event handler
                     xhr.upload.onprogress = function(evt){
                         var pct = Math.round(evt.loaded*100/evt.total) + "%";
+                        console.log(pct);
                     } ;
                     // set the onload event handler
                     xhr.upload.onload = function(evt){
-                        console.log('Done, maybe...');
+                        
                     };
                     xhr.upload.onabort = function(){
                     };
 
                     xhr.upload.error = function(evt){
-                        alert(evt);
+                        
                     };
                     // return the customized object
                     return xhr;
@@ -102,10 +117,68 @@ iplover.sync = (function(){
         
         return;
     };
+
+        var putRecords = function(records){
+        
+        if(records.length < 1){
+            onEditedEnd();
+            return;
+        }
+        
+        //Get first record if length > 0
+        toput = records[0];
+        
+            
+        //POST
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json", 
+            url: iplover.recordsurl, 
+            data: JSON.stringify(toput),
+            success:function(response, status, jqXHR){
+                //on success, delete local image and replace current local version
+                console.log(response);
+                
+                iplover.data.setRecordById(response.uuid, response);
+                
+                //Drop the record we just did, pass on rest
+                records.splice(0,1);
+                
+                //Start next one
+                putRecords(records);
+                
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                
+            },
+            xhr: function(){
+                // get the native XmlHttpRequest object
+                var xhr = $.ajaxSettings.xhr() ;
+                // set the onprogress event handler
+                xhr.upload.onprogress = function(evt){
+                    var pct = Math.round(evt.loaded*100/evt.total) + "%";
+                } ;
+                // set the onload event handler
+                xhr.upload.onload = function(evt){
+                    
+                };
+                xhr.upload.onabort = function(){
+                };
+
+                xhr.upload.error = function(evt){
+                    alert(evt);
+                };
+                // return the customized object
+                return xhr;
+            }
+        });
+        
+        return;
+    };
     
     return {
         syncAll   : syncAll,
-        onsyncend : onsyncend,
-        onupdate  : onupdate
+        onSyncAllEnd : onSyncAllEnd,
+        onProgress  : onProgress
         };
 })();

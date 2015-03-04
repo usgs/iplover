@@ -25,7 +25,7 @@
             <column name="vegdens" type="varchar(55)"/>
             <column name="substrate" type="varchar(55)"/>
             <column name="notes" type="text" />
-            <column name="nestinitdate" type="date"/>
+            <column name="nestinitdate" type="varchar(20)"/>
             <column name="imagekey" type="varchar(55)"/>
             <column name="deleted" type="boolean" defaultValueBoolean="false"/>
             

@@ -42,6 +42,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import gov.usgs.cida.iplover.util.MyBatisConnectionFactory;
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
 import javax.ws.rs.PathParam;
@@ -60,6 +61,8 @@ public class Records {
     SimpleDateFormat simp = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
+    final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
     
     /**
@@ -80,6 +83,7 @@ public class Records {
         
         try{
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setDateFormat(df);
             output = mapper.writeValueAsString(records);
             
         }catch(JsonProcessingException jpe){
@@ -103,6 +107,7 @@ public class Records {
     public Response insertRecord(String json) {
         
         ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(df);
         IploverRecord record = null;
         
         //Parse posted jSON
@@ -118,6 +123,7 @@ public class Records {
              
         }catch(JsonProcessingException jpe){
             LOG.error(jpe);
+            LOG.error(json);
             return Response.status(400).entity(jpe.getMessage()).build();
         }catch(IOException ioe){
             LOG.error(ioe);
@@ -160,6 +166,7 @@ public class Records {
     public Response updateRecord(String json) {
         
         ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(df);
         IploverRecord record = null;
         
         try{

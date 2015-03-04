@@ -1,9 +1,10 @@
 package gov.usgs.cida.iplover.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.UUID;
 
-
+@JsonIgnoreProperties({"valid"})
 public class IploverRecord {
     
     /**************************************************************************
@@ -40,7 +41,7 @@ public class IploverRecord {
      * OPTIONAL FIELDS
      **************************************************************************/
     //Optional fields
-    public Date nest_init;
+    public String nest_init;
     public String notes;
     
     /**************************************************************************
@@ -50,6 +51,7 @@ public class IploverRecord {
     //other fields
     public String image_fileurl;
     public byte[] image_data;
+    public String image_path;
     public String image_key;
     
     public boolean isvalid(){

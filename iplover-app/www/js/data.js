@@ -157,7 +157,24 @@ iplover.data = (function(){
         
         localStorage.records = JSON.stringify(records);
     };
-	
+    
+    var getNumberToSync = function(){
+        var records = [];
+        if(localStorage.records){
+            records = JSON.parse(localStorage.records)
+        }else{
+            records = new Array();
+        }
+        
+        // filter and then return
+        var toreturn = records.filter(function(element){return !element.changes_synced | !element.on_server;});
+        return toreturn.length;
+    };
+    
+    var clobberAllRecords = function(records){
+        
+        localStorage.records = JSON.stringify(records);
+    };
     
     var getDeviceInfo = function(){
         if(typeof device != 'undefined'){
@@ -190,7 +207,9 @@ iplover.data = (function(){
             getImgeDataURL: getImgeDataURL,
             deleteImage   : deleteImage,
             getNonserverRecords : getNonserverRecords, 
-            getChangedRecords   : getChangedRecords
+            getChangedRecords   : getChangedRecords,
+            clobberAllRecords   : clobberAllRecords,
+            getNumberToSync     : getNumberToSync
             }
     
 })();

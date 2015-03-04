@@ -131,7 +131,7 @@ var dateFormat = function () {
 				L:    pad(L > 99 ? Math.round(L / 10) : L),
 				t:    H < 12 ? "a"  : "p",
 				tt:   H < 12 ? "am" : "pm",
-				T:    H < 12 ? "A"  : "P",
+				T:    "T",
 				TT:   H < 12 ? "AM" : "PM",
 				Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
 				o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),

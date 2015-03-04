@@ -2,6 +2,6 @@ if(typeof iplover === 'undefined'){
 	iplover = [];
 }
 
-iplover.recordsurl = "http://localhost:8080/iplover/service/v2/records";
-iplover.photourl   = "http://localhost:8080/iplover/service/v2/photos";
+iplover.recordsurl = "http://10.0.2.2:8080/iplover-services/service/v2/records";
+iplover.photourl   = "http://10.0.2.2:8080/iplover-services/service/v2/photos";
 
