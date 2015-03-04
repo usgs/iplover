@@ -14,11 +14,13 @@ iplover.sync = (function(){
     
     var onEditedEnd = function(){};
     
-    var onError = function(){};
+    var onError = function(error){};
     
-    var syncAll = function(success){
+    var syncAll = function(success, progress, error){
         
         onSyncAllEnd = success;
+        onProgress   = progress;
+        onError      = error;
         
         //setup PUT updated records step
         onNonserverEnd = function(){
@@ -36,6 +38,7 @@ iplover.sync = (function(){
         
     };
     
+    //Gets all server records and updates local store
     var getAllServerRecords = function(){
         
         $.ajax({
@@ -48,7 +51,6 @@ iplover.sync = (function(){
                 onSyncAllEnd();
             }
         });
-        
     };
     
     
@@ -89,27 +91,16 @@ iplover.sync = (function(){
                     
                 },
                 error:function(jqXHR, textStatus, errorThrown){
-                    
+                    onError(errorThrown);
                 },
                 xhr: function(){
                     // get the native XmlHttpRequest object
                     var xhr = $.ajaxSettings.xhr() ;
                     // set the onprogress event handler
                     xhr.upload.onprogress = function(evt){
-                        var pct = Math.round(evt.loaded*100/evt.total) + "%";
-                        console.log(pct);
-                    } ;
-                    // set the onload event handler
-                    xhr.upload.onload = function(evt){
-                        
+                        onProgress(evt.loaded*100/evt.total);
                     };
-                    xhr.upload.onabort = function(){
-                    };
-
-                    xhr.upload.error = function(evt){
-                        
-                    };
-                    // return the customized object
+                    
                     return xhr;
                 }
             });
@@ -128,7 +119,6 @@ iplover.sync = (function(){
         //Get first record if length > 0
         toput = records[0];
         
-            
         //POST
         $.ajax({
             type: "PUT",
@@ -149,27 +139,7 @@ iplover.sync = (function(){
                 
             },
             error:function(jqXHR, textStatus, errorThrown){
-                
-            },
-            xhr: function(){
-                // get the native XmlHttpRequest object
-                var xhr = $.ajaxSettings.xhr() ;
-                // set the onprogress event handler
-                xhr.upload.onprogress = function(evt){
-                    var pct = Math.round(evt.loaded*100/evt.total) + "%";
-                } ;
-                // set the onload event handler
-                xhr.upload.onload = function(evt){
-                    
-                };
-                xhr.upload.onabort = function(){
-                };
-
-                xhr.upload.error = function(evt){
-                    alert(evt);
-                };
-                // return the customized object
-                return xhr;
+                onError(errorThrown);
             }
         });
         

@@ -293,3 +293,31 @@ fieldset {
 #synchronize_section p{
     margin-top:15px;}
     
+.progress {
+	position: relative;
+	width: 90%;
+	margin: 10px auto;
+	border: 1px solid #DDD;
+	padding: 5px;
+	border-radius: 3px;
+}
+
+.bar{
+	background: #008DE6;
+	height: 20px;
+	width: 0%;
+	/* transition animation */
+	-webkit-transition: width .3s;
+		-moz-transition: width .3s;
+			transition: width .3s;
+
+}
+
+.percent {
+	position: absolute;
+	display: inline-block;
+	top: 6px;
+	left: 48%;
+	color: #333;
+}
+    
