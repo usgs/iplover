@@ -29,7 +29,7 @@ var onfinish  = function(){
 var onerror = function(error){
     $('.percent').html('0%');
     $('.bar').width('0%');
-    
+    alert("Error occurred. Please restart iPlover and try again.\nContact mhines@usgs.gov if issues persist");
 };
 
 
