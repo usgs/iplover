@@ -19,6 +19,10 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -55,6 +59,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "org.iplover.test"
+        },
+        "org.apache.cordova.splashscreen": {
+            "PACKAGE_NAME": "gov.usgs.cida.iplover"
         }
     },
     "dependent_plugins": {}

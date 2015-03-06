@@ -13,6 +13,6 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#2A2A2A" />
     
-  
+    <preference name="SplashScreenDelay" value="3000" />
     
 </widget>
