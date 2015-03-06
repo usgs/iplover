@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 var onprogress = function(percent){
     
-    pct = percent + '%';
+    pct = Math.round(percent) + '%';
     $('.percent').html(pct);
     $('.bar').width(pct);
 };

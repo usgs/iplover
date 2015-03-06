@@ -163,4 +163,10 @@
     FROM entries
     WHERE deleted = FALSE
   </select>
+  
+  <delete id="deleteRecord">
+    DELETE FROM entries
+    WHERE id = #{uuid}
+  </delete>
+  
 </mapper>

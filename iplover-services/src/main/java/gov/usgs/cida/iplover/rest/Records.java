@@ -119,6 +119,14 @@ public class Records {
             }
             
             SiteRecordDao dao = new SiteRecordDao();
+            
+            //Check to see if record exists, if it does, delete it
+            // and re-insert. This is a result of poor previous communication
+            IploverRecord exists = dao.getByUuid(record.uuid);
+            if(exists != null){
+                dao.deleteByUuid(exists.uuid);
+            }
+            
             dao.insert(record);
              
         }catch(JsonProcessingException jpe){

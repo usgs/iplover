@@ -63,4 +63,11 @@ public class SiteRecordDao {
         
         return record;
     }
+    
+    public void deleteByUuid(String uuid){
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            session.delete("gov.usgs.cida.mybatis.mappers.Records.deleteRecord", uuid);
+            session.close();
+        }
+    }
 }
