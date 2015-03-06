@@ -5,43 +5,163 @@
  */
 package gov.usgs.cida.iplover.auth;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import gov.usgs.cida.auth.client.IAuthClient;
 import gov.usgs.cida.auth.model.AuthToken;
+import gov.usgs.cida.auth.model.User;
+import gov.usgs.cida.iplover.dao.UserTokenDao;
+import gov.usgs.cida.iplover.model.UserToken;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author lwinslow
  */
 public class CrowdAuth implements IAuthClient{
+    
+    public final static String HEADER_TOKEN_NAME = "auth_token";
+            
+            
+    private final static Logger LOG = Logger.getLogger(CrowdAuth.class);
+    
+    private final UserTokenDao userDao = new UserTokenDao();
 
-    public AuthToken getNewToken(String string, String string1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AuthToken getNewToken(String username, String pass) {
+        
+        
+        
+        User user = authenticate(username, pass.toCharArray(), "BASIC Y2lkYTpkZ3h2eHZQRA==", "https://my.usgs.gov/crowd/rest/usermanagement/latest");
+        
+        if(user.getRoles().isEmpty()){
+            throw new NotAuthorizedException("User has no roles.");
+        }
+        
+        UserToken newuser = new UserToken();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 1);
+        newuser.expires = cal.getTime();
+        newuser.token = UUID.randomUUID().toString();
+        newuser.group = user.getRoles().get(0);
+        
+        AuthToken token = new AuthToken();
+        token.setTokenId(newuser.token);
+        token.setRoles(user.getRoles());
+        
+        return token;
     }
 
     public AuthToken getToken(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public List<String> getRolesByToken(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserToken token = userDao.get(string);
+        List<String> out = new ArrayList<String>();
+        out.add(token.group);
+        return out;
     }
 
     public boolean isValidToken(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserToken token = userDao.get(string);
+        return token != null && token.expires.after(new Date());
     }
 
     public boolean isValidToken(AuthToken at) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserToken token = userDao.get(at.getTokenId());
+        return token != null && token.expires.after(new Date());
     }
 
     public boolean invalidateToken(AuthToken at) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        userDao.delete(at.getTokenId());
+        return true;
     }
 
+    @Override
     public boolean invalidateToken(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        userDao.delete(string);
+        return true;
     }
     
+
+    private static User authenticate(String username, char[] password, String basicAuth, String url) {
+        User user = new User();
+        user.setAuthenticated(false);
+
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(url).path("authentication");
+
+        LOG.debug("target URI = " + target.getUri());
+
+        Invocation.Builder request = target.
+                        queryParam("username", username).
+                        request(MediaType.APPLICATION_JSON_TYPE).
+                        header("Authorization", basicAuth).
+                        header("Content-Type", MediaType.APPLICATION_JSON);
+
+        Response result = request.post(Entity.json("{ \"value\" : \"" + String.valueOf(password) + "\" }"));
+        String resultText = result.readEntity(String.class);
+
+        LOG.debug("custom authenticate request result = " + result.getStatus());
+        LOG.debug(resultText);
+
+        if (Response.Status.OK.getStatusCode() == result.getStatus()) {
+                JsonElement element = new JsonParser().parse(resultText);
+                JsonObject object = element.getAsJsonObject();
+                user.setUsername(object.getAsJsonPrimitive("name").getAsString());
+                user.setGivenName(object.getAsJsonPrimitive("display-name").getAsString());
+                user.setEmail(object.getAsJsonPrimitive("email").getAsString());
+                user.setAuthenticated(true);
+        } else {
+                throw new NotAuthorizedException(resultText);
+        }
+
+        if (user.isAuthenticated()) {
+                target = client.target(url).path("user").path("group").path("direct");
+                request = target.
+                                queryParam("username", username).
+                                request(MediaType.APPLICATION_JSON_TYPE).
+                                header("Authorization", basicAuth);
+
+                result = request.get();
+                resultText = result.readEntity(String.class);
+
+                LOG.debug("custom authorize request result = " + result.getStatus());
+                LOG.debug(resultText);
+
+                if (Response.Status.OK.getStatusCode() == result.getStatus()) {
+                        JsonElement element = new JsonParser().parse(resultText);
+                        JsonArray groups = element.getAsJsonObject().getAsJsonArray("groups");
+                        List<String> roles = new ArrayList<>();
+                        for (int i = 0; i < groups.size(); i++) {
+                                String groupName = groups.get(i).getAsJsonObject().getAsJsonPrimitive("name").getAsString();
+                                LOG.debug("adding group: " + groupName);
+                                if(groupName.contains("iplover")){
+                                    roles.add(groupName);
+                                }
+                        }
+                        user.setRoles(roles);
+                }
+        }
+
+        client.close();
+
+        return user;
+    }
     
 }

@@ -5,7 +5,7 @@
 	<groupId>gov.usgs.cida.iplover</groupId>
 	<artifactId>iplover-services</artifactId>
 	<packaging>war</packaging>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.8.0-SNAPSHOT</version>
 	<name>iplover Maven Services</name>
     
     <properties>
@@ -197,9 +197,10 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>  
                 <version>2.2</version>  
                 <configuration>  
+                    <url>http://cidasdqaasiplvr.cr.usgs.gov:8080/manager/text</url>
                     <path>/iplover</path>
                     <update>true</update>
-                    <server>local-tomcat</server>
+                    <server>cida-tomcat</server>
                 </configuration>  
             </plugin>  
         </plugins>

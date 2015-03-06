@@ -4,7 +4,6 @@ $(document).ready(function() {
     $('#num_to_sync').text(iplover.data.getNumberToSync());
     
     $('#sync_button').click(function(){
-        $('#sync_button').
         iplover.sync.syncAll(onfinish, onprogress, onerror);
     });
     

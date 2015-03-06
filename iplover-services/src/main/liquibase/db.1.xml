@@ -32,20 +32,12 @@
         </createTable>
         
         <createTable tableName="usercache">
-            <column name="id" type="SERIAL">
+            <column name="usertoken" type="varchar(38)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="usertoken" type="varchar(100)" />
             <column name="usergroup" type="varchar(50)" />
-            <column name="expirationdate" type="date" />
+            <column name="expires" type="date" />
         </createTable>
-        <addAutoIncrement 
-            columnDataType="int"
-            columnName="id"
-            incrementBy="1"
-            schemaName="public"
-            startWith="100"
-            tableName="usercache"/>
     </changeSet>
 
     </databaseChangeLog>
