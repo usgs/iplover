@@ -45,6 +45,7 @@ iplover.sync = (function(){
             type: "GET",
             contentType: "application/json", 
             url: iplover.recordsurl, 
+            headers: iplover.auth.getHeaderObj(),
             success:function(response, status, jqXHR){
                 
                 iplover.data.clobberAllRecords(response);
@@ -74,6 +75,7 @@ iplover.sync = (function(){
                 contentType: "application/json", 
                 url: iplover.recordsurl, 
                 data: JSON.stringify(topost),
+                headers: iplover.auth.getHeaderObj(),
                 success:function(response, status, jqXHR){
                     //on success, delete local image and replace current local version
                     console.log(response);
@@ -125,6 +127,7 @@ iplover.sync = (function(){
             contentType: "application/json", 
             url: iplover.recordsurl, 
             data: JSON.stringify(toput),
+            headers: iplover.auth.getHeaderObj(),
             success:function(response, status, jqXHR){
                 //on success, delete local image and replace current local version
                 console.log(response);

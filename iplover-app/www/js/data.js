@@ -196,13 +196,47 @@ iplover.data = (function(){
         localStorage.group = group;
     };
     
+    var getUser = function(user){
+        return localStorage.user;
+    };
+    
+    var setUser = function(user){
+        //If there are data in localStorage.records, store it using previous name
+        
+        //short circuit if nobody else was logged in or user didn't change
+        if(localStorage.user == "" || localStorage.user == user){
+            localStorage.user = user;
+            return;
+        }
+        
+        if(localStorage.backup){
+            backup = JSON.parse(localStorage.backup);
+        }else{
+            backup = {};
+        }
+        
+        if(backup[user]){
+            torestore = backup[user];
+        }else{
+            torestore = "[]";
+        }
+        //backup what the last user had stored
+        backup[localStorage.user] = localStorage.records;
+        localStorage.backup = JSON.stringify(backup);
+        
+        localStorage.records = torestore;
+        return;
+    }
+    
     return {newRecord     : newRecord, 
             getRecords    : getRecords,
             getRecordById : getRecordById,
             setRecordById : setRecordById,
             getDeviceInfo : getDeviceInfo,
             getGroup      : getGroup, 
-            setGroup      : setGroup,
+            setGroup      : setGroup, 
+            setUser       : setUser,
+            getUser       : getUser,
             saveImage     : saveImage,
             getImgeDataURL: getImgeDataURL,
             deleteImage   : deleteImage,
@@ -210,7 +244,7 @@ iplover.data = (function(){
             getChangedRecords   : getChangedRecords,
             clobberAllRecords   : clobberAllRecords,
             getNumberToSync     : getNumberToSync
-            }
+            };
     
 })();
 

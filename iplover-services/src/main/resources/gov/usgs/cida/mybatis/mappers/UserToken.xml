@@ -10,29 +10,32 @@
     <result property="expires"              column="expires" />
   </resultMap>
 
-  <insert id="insertToken" useGeneratedKeys="false" parameterType="map">
-    insert into usercache
-      (usertoken,
-        usergroup,
-        expires) 
-    values(
-      #{token}, 
-      #{group}, 
-      #{expires})
-  </insert>
   
-  <delete id="deleteToken">
-    DELETE FROM usercache 
-    WHERE usertoken = #{token}
-  </delete>
+    <select id="getToken" resultMap="iplover-user">
+        SELECT 
+            usertoken,
+            usergroup,
+            expires
+        FROM usercache
+        WHERE usertoken = #{token}
+    </select>
   
-  <select id="getToken" resultMap="iplover-user">
-    SELECT 
-        usertoken,
-        usergroup,
-        expires
-    FROM usercache
-    WHERE usertoken = #{token}
-  </select>
+    <insert id="insertToken" useGeneratedKeys="false" parameterType="map">
+        insert into usercache
+            (usertoken,
+            usergroup,
+            expires) 
+            values(
+            #{token}, 
+            #{group}, 
+            #{expires})
+    </insert>
+  
+    <delete id="deleteToken">
+        DELETE FROM usercache 
+        WHERE usertoken = #{token}
+    </delete>
+  
+
 </mapper>
 

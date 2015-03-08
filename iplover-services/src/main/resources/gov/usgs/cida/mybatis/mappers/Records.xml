@@ -137,7 +137,7 @@
         collectiongroup,
         deviceinfo
     FROM entries
-    WHERE collection_group = #{group} AND deleted = FALSE
+    WHERE collectiongroup = #{group} AND deleted = FALSE
   </select>
   
   <select id="getAll" resultMap="iplover-record">

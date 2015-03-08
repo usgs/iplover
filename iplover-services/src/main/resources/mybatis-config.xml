@@ -18,5 +18,6 @@
     
       <mappers>
             <mapper resource="gov/usgs/cida/mybatis/mappers/Records.xml"/>
+            <mapper resource="gov/usgs/cida/mybatis/mappers/UserToken.xml"/>
       </mappers>
 </configuration>

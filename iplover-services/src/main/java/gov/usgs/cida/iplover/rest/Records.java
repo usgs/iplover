@@ -6,6 +6,7 @@ import com.github.ooxi.jdatauri.DataUri;
 import gov.usgs.cida.iplover.dao.SiteRecordDao;
 import gov.usgs.cida.iplover.model.IploverRecord;
 import gov.usgs.cida.iplover.util.ImageStorage;
+import gov.usgs.cida.iplover.util.IploverAuth;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,12 +20,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -37,17 +32,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriInfo;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
-import gov.usgs.cida.iplover.util.MyBatisConnectionFactory;
 import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
-import javax.ws.rs.PathParam;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.NotAuthorizedException;
 
 /**
 *
@@ -62,7 +52,7 @@ public class Records {
     SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+    IploverAuth auth = new IploverAuth();
 
     
     /**
@@ -73,11 +63,19 @@ public class Records {
     @GET
     @Path("records")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllRecords() {
+    public Response getAllRecords(@HeaderParam("auth-token") String token) {
+        
+        //Verify auth/group
+        String group;
+        try{
+            group = auth.getIploverGroup(token);
+        }catch(NotAuthorizedException nae){
+            return Response.status(401).entity("No auth record found, please re-login.").build();
+        }
         
         SiteRecordDao dao = new SiteRecordDao();
         //TODO: Get user group and use it
-        List<IploverRecord> records = dao.getAllByGroup("iplover-root");
+        List<IploverRecord> records = dao.getAllByGroup(group);
         
         String output;
         
@@ -104,19 +102,31 @@ public class Records {
     @Path("records")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response insertRecord(String json) {
+    public Response insertRecord(@HeaderParam("auth-token") String token, 
+                                String json) {
+        
+        //Verify auth/group
+        String group;
+        try{
+            group = auth.getIploverGroup(token);
+        }catch(NotAuthorizedException nae){
+            return Response.status(401).entity("No auth record found, please re-login.").build();
+        }
         
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(df);
         IploverRecord record = null;
         
-        //Parse posted jSON
+        //Parse posted JSON
         try{
             record = mapper.readValue(json, IploverRecord.class);
         
             if(!record.isvalid()){
                 return Response.status(400).entity("Incomplete record posted.").build();
             }
+            
+            //overwrite collection group to prevent potential group corruption
+            record.collection_group = group;
             
             SiteRecordDao dao = new SiteRecordDao();
             
@@ -171,7 +181,16 @@ public class Records {
     @Path("records")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateRecord(String json) {
+    public Response updateRecord(@HeaderParam("auth-token") String token, 
+                                String json) {
+        
+        //Verify auth/group
+        String group;
+        try{
+            group = auth.getIploverGroup(token);
+        }catch(NotAuthorizedException nae){
+            return Response.status(401).entity("No auth record found, please re-login.").build();
+        }
         
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(df);
@@ -179,7 +198,7 @@ public class Records {
         
         try{
              record = mapper.readValue(json, IploverRecord.class);
-        
+             
         }catch(JsonProcessingException jpe){
             LOG.error(jpe);
             return Response.status(400).entity(jpe.getMessage()).build();
@@ -193,6 +212,8 @@ public class Records {
         
         if(oldRecord == null){
             return Response.status(400).entity("No record with supplied UUID to update").build();
+        }else if(!oldRecord.collection_group.equals(group)){
+            return Response.status(401).entity("Insufficient access rights to edit").build();
         }
         
         //Merge updated info with old record

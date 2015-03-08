@@ -45,7 +45,6 @@ public class CrowdAuth implements IAuthClient{
     public AuthToken getNewToken(String username, String pass) {
         
         
-        
         User user = authenticate(username, pass.toCharArray(), "BASIC Y2lkYTpkZ3h2eHZQRA==", "https://my.usgs.gov/crowd/rest/usermanagement/latest");
         
         if(user.getRoles().isEmpty()){
@@ -58,6 +57,8 @@ public class CrowdAuth implements IAuthClient{
         newuser.expires = cal.getTime();
         newuser.token = UUID.randomUUID().toString();
         newuser.group = user.getRoles().get(0);
+        
+        userDao.insert(newuser);
         
         AuthToken token = new AuthToken();
         token.setTokenId(newuser.token);
@@ -72,6 +73,9 @@ public class CrowdAuth implements IAuthClient{
 
     public List<String> getRolesByToken(String string) {
         UserToken token = userDao.get(string);
+        if(token == null){
+            throw new NotAuthorizedException("User not logged in.");
+        }
         List<String> out = new ArrayList<String>();
         out.add(token.group);
         return out;
