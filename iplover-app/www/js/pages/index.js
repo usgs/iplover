@@ -3,12 +3,12 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
 	setTimeout(function() {
+		if(iplover.auth.getToken() && iplover.auth.getToken() != ''){
+        	location.href = "home.html";
+    	}
+	
     	 navigator.splashscreen.hide();
 	}, 2000);
-    
-    if(iplover.auth.getToken() && iplover.auth.getToken() != ''){
-        location.href = "home.html";
-    }
     
 };
 
