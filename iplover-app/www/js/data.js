@@ -203,8 +203,10 @@ iplover.data = (function(){
     var setUser = function(user){
         //If there are data in localStorage.records, store it using previous name
         
+        user = user.toLowerCase();
+        
         //short circuit if nobody else was logged in or user didn't change
-        if(localStorage.user == "" || localStorage.user == user){
+        if(!localStorage.user || localStorage.user == "" || localStorage.user == user){
             localStorage.user = user;
             return;
         }
