@@ -1,5 +1,9 @@
 
-$(document).ready(function() {
+$(function(){
+    document.addEventListener("deviceready", on_device_ready, false);
+});
+
+on_device_ready = function() {
 	
 	//Add click functionality to GPS map links
 	$("#show-map-link").click(function show(){
@@ -24,7 +28,7 @@ $(document).ready(function() {
         $('#newnestsite_picture').click();
         $('#picture_button').html('Retake Nest Photo');
     });
-});
+};
 
 var verify_new_site = function(){
 	
@@ -139,7 +143,6 @@ iplover.location.updated(function(_position){
 	iplover.map.setMiniMapSrc($('#minimap-image')[0], _position.coords.latitude, 
         _position.coords.longitude, _position.coords.accuracy);
     
-	iplover.map.setGoogleMapsHref($('#map-google-link')[0], _position);
 });
 
 iplover.location.stopped(function(cause){
