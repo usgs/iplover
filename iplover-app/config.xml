@@ -13,6 +13,11 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#2A2A2A" />
     
+    <preference name="SplashScreen" value="www/img/iplover_splash.png" />
     <preference name="SplashScreenDelay" value="3000" />
     
+    <preference name="FadeSplashScreen" value="true" />
+	<preference name="fade-splash-screen-duration" value="5" />
+	<preference name="auto-hide-splash-screen" value="false" />
+	<preference name="AutoHideSplashScreen" value="false" />
 </widget>
