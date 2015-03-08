@@ -15,7 +15,7 @@
    id="svg3421"
    version="1.1"
    inkscape:version="0.91 r13725"
-   inkscape:export-filename="C:\Users\lwinslow\iplover_splash.png"
+   inkscape:export-filename="D:\iPlover\iplover\iplover-app\www\img\iplover_splash.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    sodipodi:docname="splash.svg">
@@ -28,17 +28,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="162.47957"
-     inkscape:cy="520"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="81.932655"
+     inkscape:cy="844.3422"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1377"
+     inkscape:window-width="1604"
      inkscape:window-height="960"
-     inkscape:window-x="306"
-     inkscape:window-y="612"
+     inkscape:window-x="48"
+     inkscape:window-y="629"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata3426">
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -60,7 +60,7 @@
     <g
        style="overflow:visible"
        id="g3414"
-       transform="matrix(0.50367661,0,0,0.50367661,93.841143,213.63361)">
+       transform="matrix(0.50367661,0,0,0.50367661,93.841143,127.63361)">
       <path
          id="path3340"
          d="m 417.734,3.822 0,162.54 c 0,34.266 -19.373,70.483 -77.792,70.483 -52.696,0 -78.109,-27.318 -78.109,-70.483 l 0,-162.54 47.954,0 0,159.378 c 0,28.246 12.078,39.38 29.543,39.38 20.933,0 30.486,-13.991 30.486,-39.38 l 0,-159.378 47.918,0 z"
@@ -237,28 +237,6 @@
          inkscape:connector-curvature="0"
          style="fill:#000000" />
     </g>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="319.6875"
-       y="445.31503"
-       id="text3451"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3453"
-         x="319.6875"
-         y="445.31503"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">iPlover</tspan><tspan
-         sodipodi:role="line"
-         x="319.6875"
-         y="495.31503"
-         id="tspan3455"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">Version 2.0</tspan><tspan
-         sodipodi:role="line"
-         x="319.6875"
-         y="545.31506"
-         id="tspan3457"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">Loading Application</tspan></text>
     <rect
        style="fill:#000000;fill-opacity:0"
        id="rect3513"
@@ -280,5 +258,27 @@
        height="1145.7142"
        x="-5.7142859"
        y="-90.49498" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="319.90585"
+       y="342.26224"
+       id="text3451-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3453-1"
+         x="319.90585"
+         y="342.26224"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">iPlover</tspan><tspan
+         sodipodi:role="line"
+         x="319.90585"
+         y="392.26224"
+         id="tspan3455-8"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">Version 2.0</tspan><tspan
+         sodipodi:role="line"
+         x="319.90585"
+         y="442.26224"
+         id="tspan3457-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">Loading Application</tspan></text>
   </g>
 </svg>
