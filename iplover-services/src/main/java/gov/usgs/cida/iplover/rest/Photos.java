@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  * @author lwinslow
  */
 @Path("v2")
-public class Pictures {
+public class Photos {
     
     private final static Logger LOG = Logger.getLogger(Records.class);
     
