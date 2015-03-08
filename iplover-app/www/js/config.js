@@ -3,7 +3,7 @@ if(typeof iplover === 'undefined'){
 }
 
 iplover.recordsurl = "https://cida-test.er.usgs.gov/iploverqa/service/v2/records";
-iplover.authurl    = "http://cida-test.er.usgs.gov/iploveraq/service/v2/auth";
+iplover.authurl    = "https://cida-test.er.usgs.gov/iploveraq/service/v2/auth";
 iplover.photourl     = "https://cida-test.er.usgs.gov/iplover/service/v2/photos";
 
 
