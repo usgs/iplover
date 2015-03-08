@@ -2,11 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="640"
@@ -20,7 +22,46 @@
    inkscape:export-ydpi="90"
    sodipodi:docname="splash.svg">
   <defs
-     id="defs3423" />
+     id="defs3423">
+    <linearGradient
+       id="linearGradient5638"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop5640" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4186">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4188" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop4190" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4186"
+       id="linearGradient4192"
+       x1="-1.9285715"
+       y1="483.79075"
+       x2="644.78572"
+       y2="483.79075"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5638"
+       id="linearGradient5642"
+       x1="-1.9285715"
+       y1="486.64789"
+       x2="643.35713"
+       y2="486.64789"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -28,18 +69,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="81.932655"
-     inkscape:cy="844.3422"
+     inkscape:zoom="0.7"
+     inkscape:cx="363.28526"
+     inkscape:cy="614.75902"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1604"
-     inkscape:window-height="960"
-     inkscape:window-x="48"
-     inkscape:window-y="629"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1920"
+     inkscape:window-height="1148"
+     inkscape:window-x="-8"
+     inkscape:window-y="472"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata3426">
     <rdf:RDF>
@@ -57,6 +98,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,83.637839)">
+    <rect
+       style="opacity:1;fill:url(#linearGradient5642);fill-opacity:1;stroke:#ffffff;stroke-opacity:1"
+       id="rect5630"
+       width="644.28571"
+       height="1142.8572"
+       x="-1.4285715"
+       y="-84.780701" />
     <g
        style="overflow:visible"
        id="g3414"
@@ -280,5 +328,12 @@
          y="442.26224"
          id="tspan3457-9"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:serif;-inkscape-font-specification:serif;text-align:center;text-anchor:middle">Loading Application</tspan></text>
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:0;stroke:url(#linearGradient4192);stroke-opacity:1"
+       id="rect3376"
+       width="645.71429"
+       height="1142.8572"
+       x="-1.4285715"
+       y="-87.63784" />
   </g>
 </svg>
