@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- ############### VIEWPORT META TAG ############### -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+<!-- ################################################# -->
+
+<title>iPlover</title>
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+
+<script src="js/libs/jquery-2.1.3.min.js" type="text/javascript"></script>
+<script src="js/plugins.js" type="text/javascript"></script>
+<script src="js/map.js" type="text/javascript"></script>
+<script src="js/location.js" type="text/javascript"></script>
+<script src="js/data.js" type="text/javascript"></script>
+<script src="js/pages/edit_view_nest_site.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<main>
+
+	<header>
+    	
+        <a id="home_link" href="home.html"><span style="display:none;">Back </span><button id="home_button"> <p id="backarrow"><strong>&lt;</strong></p> Back</button></a>
+    
+    	<h2>Edit Nest Site</h2>
+        
+        <img id="plover" src="img/plover.png" alt="bird alert"/>
+    	
+    </header>
+    
+        <article>
+            <form id="new_site_form">
+            <section id="new_site_section">
+                
+                <input id="site_id" name="site_id" type="text" placeholder="Enter Site ID" autocorrect="off" autocapitalize="off" />
+                <label for="site_id" style="display:none;">Site ID text input</label>
+                
+                <p><div id="locationtext">Location: <span id="disp-lat">XX</span>, <span id="disp-lon">XX</span></div></p>
+                
+                <p>
+					Accuracy: <span id="disp-accuracy">X</span> meters 
+				</p>
+                
+                <p class="left">at <span id="disp-time">XX:XX:XX am</span> </p>
+                
+                <p class="right"><a id="show-map-link">Show Map</a></p>
+				<div id="minimap-div" style="display: none; clear:both;">
+					<img id="minimap-image" src="" alt="Map showing immediate vicinity"/>
+				</div>
+                
+				
+				<input type="hidden" name="client_version" id="client_version" value='2.0-SNAPSHOT'>
+				<input type="hidden" name="location_timestamp" id="timestamp">
+				<input type="hidden" name="location_lat" id="lat">
+				<input type="hidden" name="location_lon" id="lon">
+				<input type="hidden" name="location_accuracy" id="accuracy">
+				<input type="hidden" name="location_z" id="z">
+				<input type="hidden" name="location_zaccuracy" id="zaccuracy">
+                <input type="hidden" name="device_info" id="device_info" value="">
+                
+                <section class="other">
+                
+                    <h3>Geomorphic Setting</h3>
+                    <fieldset>
+                        <legend style="display:none;">Geomorphic Setting</legend>
+                        <input id="geo1" class="radial" type="radio" name="setting" value="beach" />
+                        <label for="geo1">Beach</label>
+                        <br/>
+                        <input id="geo2" class="radial" type="radio" name="setting" value="backshore"/>
+                        <label for="geo2">Backshore</label>
+                        <br/>
+                        <input id="geo3" class="radial" type="radio" name="setting" value="dune"/>
+                        <label for="geo3">Dune</label>
+                        <br/>
+                        <input id="geo4" class="radial" type="radio" name="setting" value="washover"/>
+                        <label for="geo4">Washover</label>
+                        <br/>
+                        <input id="geo5" class="radial" type="radio" name="setting" value="barrier_interior"/>
+                        <label for="geo5">Barrier Interior</label>
+                        <br/>
+                        <input id="geo6" class="radial" type="radio" name="setting" value="swale"/>
+                        <label for="geo6">Beach Ridge/Swale</label>
+                        <br />
+                        <input id="geo7" class="radial" type="radio" name="setting" value="marsh"/>
+                        <label for="geo7">Marsh</label>
+                    </fieldset>
+                </section>
+                 
+                <section class="other">
+                 
+                    <h3>Substrate Type</h3>
+                    <fieldset>
+                        <legend style="display:none;">Substrate Type</legend>
+                        <input id="sub1" class="radial" type="radio" name="substrate" value="sandy" />
+                        <label for="sub1">Sand</label>
+                        <br/>
+                        <input id="sub2" class="radial" type="radio" name="substrate" value="shell_gravel_cobble"/>
+                        <label for="sub2">Shell/Gravel/Cobble</label>
+                        <br/>
+                        <input id="sub3" class="radial" type="radio" name="substrate" value="mud_peat"/>
+                        <label for="sub3">Mud/Peat</label>
+                        <br/>
+                        <input id="sub4" class="radial" type="radio" name="substrate" value="water"/>
+                        <label for="sub4">Water</label>
+                        <br/>
+                        <input id="sub5" class="radial" type="radio" name="substrate" value="unknown"/>
+                        <label for="sub5">Other</label>
+                        <br/>
+                    </fieldset>
+                </section>
+                 
+                 <section class="other">
+                 
+                    <h3>Vegetation Type</h3>
+                    <fieldset>
+                        <legend style="display:none;">Vegetation Type</legend>
+                        <input id="veg1" class="radial" type="radio" name="vegetation" value="none" />
+                        <label for="veg1">None</label>
+                        <br/>
+                        <input id="veg2" class="radial" type="radio" name="vegetation" value="herbaceous"/>
+                        <label for="veg2">Herbaceous</label>
+                        <br/>
+                        <input id="veg3" class="radial" type="radio" name="vegetation" value="shrub"/>
+                        <label for="veg3">Shrub</label>
+                        <br/>
+                        <input id="veg4" class="radial" type="radio" name="vegetation" value="forest"/>
+                        <label for="veg4">Forest</label>
+                        <br/>
+                    </fieldset>
+                 
+                 </section>
+                 
+                 <section class="other">
+                 
+                    <h3>Vegetation Density</h3>
+                    <fieldset>
+                        <legend style="display:none;">Vegetation Density</legend>
+                        <input id="dens1" class="radial" type="radio" name="density" value="none" />
+                        <label for="dens1">None</label>
+                        <br/>
+                        <input id="dens2" class="radial" type="radio" name="density" value="sparse"/>
+                        <label for="dens2">Sparse &lt;20%</label>
+                        <br/>
+                        <input id="dens3" class="radial" type="radio" name="density" value="moderate"/>
+                        <label for="dens3">Moderate 20-90%</label>
+                        <br/>
+                        <input id="dens4" class="radial" type="radio" name="density" value="dense"/>
+                        <label for="dens4">Dense &gt;90%</label>
+                        <br/>
+                    </fieldset>
+                </section>
+                 
+                <section class="other">
+                    <h3>Nest Initiation Date</h3>
+                    <input id="nest_init" type="date" name="nest_init" style="width:calc(100% - 6em);margin-left:1em;"/>&nbsp;
+                    <label for="nest_init" style="display:none;">Date picker for nest initiation date</label>
+                
+                    <input id="init_clear_button" type="button" name="init_clear_button" value="X" style="width:3em;" 
+                           onclick="nest_init.value = '';"/>
+                </section>
+                 
+                 <textarea id="notes" name="notes" placeholder="Put notes here"></textarea>
+                 <label for="notes" style="display:none;">Text area for unstructured notes</label>
+                 <button id="nest_save" class="save">Save Nest Data</button>
+                
+                <button id="delete_button" class="save" >Delete Nest</button>
+                    
+                
+                
+            </section>
+            </form>
+        </article>
+
+</main>
+<script type="text/javascript" src="cordova.js"></script>
+</body>
+</html>

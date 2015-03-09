@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.usgs.cida.mybatis.mappers.UserToken">
+
+  <resultMap id="iplover-user" type="gov.usgs.cida.iplover.model.UserToken">
+    <id     property="token"                column="usertoken" />
+    <result property="group"                column="usergroup" />
+    <result property="expires"              column="expires" />
+  </resultMap>
+
+  
+    <select id="getToken" resultMap="iplover-user">
+        SELECT 
+            usertoken,
+            usergroup,
+            expires
+        FROM usercache
+        WHERE usertoken = #{token}
+    </select>
+  
+    <insert id="insertToken" useGeneratedKeys="false" parameterType="map">
+        insert into usercache
+            (usertoken,
+            usergroup,
+            expires) 
+            values(
+            #{token}, 
+            #{group}, 
+            #{expires})
+    </insert>
+  
+    <delete id="deleteToken">
+        DELETE FROM usercache 
+        WHERE usertoken = #{token}
+    </delete>
+  
+
+</mapper>
+
