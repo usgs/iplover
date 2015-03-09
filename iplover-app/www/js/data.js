@@ -227,6 +227,7 @@ iplover.data = (function(){
         localStorage.backup = JSON.stringify(backup);
         
         localStorage.records = torestore;
+        localStorage.user = user;
         return;
     }
     

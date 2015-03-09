@@ -48,8 +48,13 @@ iplover.sync = (function(){
             headers: iplover.auth.getHeaderObj(),
             success:function(response, status, jqXHR){
                 
+                iplover.auth.checkUnauthorized(jqXHR);
                 iplover.data.clobberAllRecords(response);
                 onSyncAllEnd();
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                iplover.auth.checkUnauthorized(jqXHR);
+                onError(errorThrown);
             }
         });
     };
@@ -77,6 +82,8 @@ iplover.sync = (function(){
                 data: JSON.stringify(topost),
                 headers: iplover.auth.getHeaderObj(),
                 success:function(response, status, jqXHR){
+                    
+                    iplover.auth.checkUnauthorized(jqXHR);
                     //on success, delete local image and replace current local version
                     console.log(response);
                     
@@ -93,6 +100,7 @@ iplover.sync = (function(){
                     
                 },
                 error:function(jqXHR, textStatus, errorThrown){
+                    iplover.auth.checkUnauthorized(jqXHR);
                     onError(errorThrown);
                 },
                 xhr: function(){
@@ -129,6 +137,8 @@ iplover.sync = (function(){
             data: JSON.stringify(toput),
             headers: iplover.auth.getHeaderObj(),
             success:function(response, status, jqXHR){
+                
+                iplover.auth.checkUnauthorized(jqXHR);
                 //on success, delete local image and replace current local version
                 console.log(response);
                 
@@ -142,6 +152,7 @@ iplover.sync = (function(){
                 
             },
             error:function(jqXHR, textStatus, errorThrown){
+                iplover.auth.checkUnauthorized(jqXHR);
                 onError(errorThrown);
             }
         });
