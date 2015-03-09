@@ -197,7 +197,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>  
                 <version>2.2</version>  
                 <configuration>  
-                    <url>http://cidasdqaasiplvr.cr.usgs.gov:8080/manager/text</url>
+                    <url>http://cidasdpdasiplvr.cr.usgs.gov:8080/manager/text</url>
                     <path>/iplover</path>
                     <update>true</update>
                     <server>cida-tomcat</server>

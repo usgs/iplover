@@ -75,7 +75,7 @@ public class ImageStorage {
         return IOUtils.toByteArray(object.getObjectContent());
     }
     
-    private static AmazonS3 prepS3Client(){
+    public static AmazonS3 prepS3Client(){
         
         AWSCredentials credentials = null;
         try {
