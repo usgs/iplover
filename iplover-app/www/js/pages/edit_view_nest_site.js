@@ -51,16 +51,7 @@ $(document).ready(function() {
     $('#new_site_form').submit(save_form);
     $('#delete_button').click(delete_record);
     
-    $('#delete_checkbox').click(fade_delete);
 });
-
-var fade_delete = function(){
-    if($( "#delete_checkbox" ).is(':checked')){
-        $( "#delete_button" ).fadeIn();
-    }else{
-        $( "#delete_button" ).fadeOut();
-    }
-}
 
 var populate_form = function(rec){
     
