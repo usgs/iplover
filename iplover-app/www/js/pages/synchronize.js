@@ -22,6 +22,7 @@ var onfinish  = function(){
     $('.percent').html('0%');
     $('.bar').width('0%');
     $('#num_to_sync').text(iplover.data.getNumberToSync());
+    alert("Sync completed");
     
 };
 
