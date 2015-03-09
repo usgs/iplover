@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
 import gov.usgs.cida.auth.client.IAuthClient;
 import gov.usgs.cida.auth.model.AuthToken;
 import gov.usgs.cida.auth.model.User;
+import gov.usgs.cida.config.DynamicReadOnlyProperties;
 import gov.usgs.cida.iplover.dao.UserTokenDao;
 import gov.usgs.cida.iplover.model.UserToken;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.naming.NamingException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -35,17 +37,22 @@ import org.apache.log4j.Logger;
  */
 public class CrowdAuth implements IAuthClient{
     
+    private static final String JNDI_BASIC_AUTH_PARAM_NAME = "auth.http.basic";
+    private static final String JNDI_CROWD_URL_PARAM_NAME = "auth.crowd.url";
     public final static String HEADER_TOKEN_NAME = "auth_token";
-            
-            
     private final static Logger LOG = Logger.getLogger(CrowdAuth.class);
     
     private final UserTokenDao userDao = new UserTokenDao();
+    private String crowdUrl;
+    private String crowdAuth; 
+    
+    public CrowdAuth(){
+        getCrowdInfo();
+    }
 
     public AuthToken getNewToken(String username, String pass) {
         
-        
-        User user = authenticate(username, pass.toCharArray(), "BASIC Y2lkYTpkZ3h2eHZQRA==", "https://my.usgs.gov/crowd/rest/usermanagement/latest");
+        User user = authenticate(username, pass.toCharArray(), crowdAuth, crowdUrl);
         
         if(user.getRoles().isEmpty()){
             throw new NotAuthorizedException("User has no roles.");
@@ -155,7 +162,7 @@ public class CrowdAuth implements IAuthClient{
                         for (int i = 0; i < groups.size(); i++) {
                                 String groupName = groups.get(i).getAsJsonObject().getAsJsonPrimitive("name").getAsString();
                                 LOG.debug("adding group: " + groupName);
-                                if(groupName.contains("iplover")){
+                                if(groupName.toLowerCase().contains("iplover")){
                                     roles.add(groupName);
                                 }
                         }
@@ -166,6 +173,19 @@ public class CrowdAuth implements IAuthClient{
         client.close();
 
         return user;
+    }
+    
+    private void getCrowdInfo(){
+        //grab variables from context
+        DynamicReadOnlyProperties props = new DynamicReadOnlyProperties();
+        try {
+                props.addJNDIContexts();
+        } catch (NamingException ex) {
+                LOG.error("Error attempting to read JNDI properties.", ex);
+        }
+
+        crowdAuth = props.getProperty(JNDI_BASIC_AUTH_PARAM_NAME);
+        crowdUrl  = props.getProperty(JNDI_CROWD_URL_PARAM_NAME);
     }
     
 }
