@@ -26,8 +26,12 @@ on_device_ready = function() {
     $('#picture_button').click(function(e){
         e.preventDefault();
         $('#newnestsite_picture').click();
+    });
+    
+    $('#newnestsite_picture').change(function(e){
         $('#picture_button').html('Retake Nest Photo');
     });
+    
 };
 
 var verify_new_site = function(){
