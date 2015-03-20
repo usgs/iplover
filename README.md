@@ -1,7 +1,7 @@
 # iPlover
-iPlover mobile HTML5 app
+Quantifying coastal habitat utilization with smartphones!
 
-Understanding and managing dynamic coastal landscapes for beach-dependent species requires biological and geological data across the range of relevant environments and habitats. It is difficult to acquire such data; many data collections focus on either the biology or the geology, are collected by non-specialists, and lack observational uniformity. Here we present a web application that addresses these difficulties. We used HTML5, JavaScript, and other tools to create a cloud-based web app called iPlover that simplifies and facilitates consistent data collection, management, and enables direct data input into research models.
+Understanding and managing dynamic coastal landscapes for beach-dependent species requires biological and geological data across the range of relevant environments and habitats. It is difficult to acquire such data; many data collections focus on either the biology or the geology, are collected by non-specialists, and lack observational uniformity. iPlover is an iOS app that addresses these difficulties, and simplifies and facilitates consistent data collection, management, and enables direct data input into research models of habitat utilization.
 
 For questions about iPlover, email <a href="mailto:iplover_help@usgs.gov?subject="iPlover help via Github Repository">iplover_help@usgs.gov</a>
 
