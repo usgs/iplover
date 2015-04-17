@@ -13,8 +13,9 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#2A2A2A" />
     
-    <preference name="SplashScreen" value="www/img/iplover_splash.png" />
+    <preference name="SplashScreen" value="iplover_splash" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
     
     <preference name="FadeSplashScreen" value="true" />
 	<preference name="fade-splash-screen-duration" value="5" />
