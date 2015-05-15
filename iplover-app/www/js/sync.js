@@ -48,13 +48,16 @@ iplover.sync = (function(){
             headers: iplover.auth.getHeaderObj(),
             success:function(response, status, jqXHR){
                 
-                iplover.auth.checkUnauthorized(jqXHR);
+                if(iplover.auth.checkUnauthorized(jqXHR)){
+                	return;
+                }
                 iplover.data.clobberAllRecords(response);
                 onSyncAllEnd();
             },
             error:function(jqXHR, textStatus, errorThrown){
-                iplover.auth.checkUnauthorized(jqXHR);
-                onError(errorThrown);
+                if(!iplover.auth.checkUnauthorized(jqXHR)){
+                	onError(errorThrown);
+                }
             }
         });
     };
@@ -70,8 +73,29 @@ iplover.sync = (function(){
         //Get first record if length > 0
         topost = records[0];
         
+        if(topost.deleted & !topost.on_server){
+        
+        	//Remove record and continue to next one
+        	iplover.data.rmRecordById(topost.uuid);
+
+			//I don't care if the file delete is successful
+			// either way, move on to the next        	
+        	onErrOrSuccess = function(){
+	            //Drop the record we just did, pass on rest
+        	    records.splice(0,1);
+                    
+    	        //Start next one
+	            postRecords(records);	
+        	};
+        	
+        	iplover.data.deleteImage(topost.image_path, onErrOrSuccess, onErrOrSuccess);
+        	return;
+
+        }
+        
+        
         //populate it with ImageURL
-        iplover.data.getImgeDataURL(topost.image_path, function(fileurl){
+        iplover.data.getImageDataURL(topost.image_path, function(fileurl){
             topost.image_fileurl = fileurl;
             
             //POST
@@ -83,25 +107,30 @@ iplover.sync = (function(){
                 headers: iplover.auth.getHeaderObj(),
                 success:function(response, status, jqXHR){
                     
-                    iplover.auth.checkUnauthorized(jqXHR);
-                    //on success, delete local image and replace current local version
+            	    if(iplover.auth.checkUnauthorized(jqXHR)){
+        	        	return;
+    	            }
+    	            
+                	//on success, delete local image and replace current local version
                     console.log(response);
                     
                     iplover.data.setRecordById(response.uuid, response);
                     
-                    //delete image
-                    iplover.data.deleteImage(topost.image_path, function(){});
+                    //delete image, once finished, start next upload
+                    iplover.data.deleteImage(topost.image_path, function(){
                     
-                    //Drop the record we just did, pass on rest
-                    records.splice(0,1);
+                    	//Drop the record we just did, pass on rest
+                    	records.splice(0,1);
                     
-                    //Start next one
-                    postRecords(records);
+                    	//Start next one
+                    	postRecords(records);
+                    });
                     
                 },
                 error:function(jqXHR, textStatus, errorThrown){
-                    iplover.auth.checkUnauthorized(jqXHR);
-                    onError(errorThrown);
+                    if(!iplover.auth.checkUnauthorized(jqXHR)){
+                    	onError(errorThrown);
+                    }
                 },
                 xhr: function(){
                     // get the native XmlHttpRequest object
@@ -114,6 +143,9 @@ iplover.sync = (function(){
                     return xhr;
                 }
             });
+        }, 
+        function(error){
+        	console.log('FileSystem Error code:' + error.code);
         });
         
         return;
@@ -138,7 +170,9 @@ iplover.sync = (function(){
             headers: iplover.auth.getHeaderObj(),
             success:function(response, status, jqXHR){
                 
-                iplover.auth.checkUnauthorized(jqXHR);
+                if(iplover.auth.checkUnauthorized(jqXHR)){
+                	return;
+                }
                 //on success, delete local image and replace current local version
                 console.log(response);
                 
@@ -152,8 +186,9 @@ iplover.sync = (function(){
                 
             },
             error:function(jqXHR, textStatus, errorThrown){
-                iplover.auth.checkUnauthorized(jqXHR);
-                onError(errorThrown);
+                if(!iplover.auth.checkUnauthorized(jqXHR)){
+                	onError(errorThrown);
+                }
             }
         });
         
