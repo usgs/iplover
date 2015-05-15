@@ -21,4 +21,10 @@
 	<preference name="fade-splash-screen-duration" value="5" />
 	<preference name="auto-hide-splash-screen" value="false" />
 	<preference name="AutoHideSplashScreen" value="false" />
+    
+    <platform name="ios">
+        <!-- images are determined by width and height. The following are supported -->
+        <splash src="www/img/iplover_splash.png" width="320" height="480"/>
+    </platform>
+    
 </widget>
