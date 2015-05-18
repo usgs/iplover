@@ -21,4 +21,19 @@
 	<preference name="fade-splash-screen-duration" value="5" />
 	<preference name="auto-hide-splash-screen" value="false" />
 	<preference name="AutoHideSplashScreen" value="false" />
+    
+    <platform name="ios">
+        <!-- Currently just use one size for this. I'm not proud of this -->
+        <splash src="www/img/iplover_splash.png" width="320" height="480"/>
+        <splash src="www/img/iplover_splash.png" width="640" height="960"/>
+        <splash src="www/img/iplover_splash.png" width="768" height="1024"/>
+        <splash src="www/img/iplover_splash.png" width="1536" height="2048"/>
+        <splash src="www/img/iplover_splash.png" width="1024" height="768"/>
+        <splash src="www/img/iplover_splash.png" width="2048" height="1536"/>
+        <splash src="www/img/iplover_splash.png" width="640" height="1136"/>
+        <splash src="www/img/iplover_splash.png" width="750" height="1334"/>
+        <splash src="www/img/iplover_splash.png" width="1242" height="2208"/>
+        <splash src="www/img/iplover_splash.png" width="2208" height="1242"/>
+    </platform>
+    
 </widget>

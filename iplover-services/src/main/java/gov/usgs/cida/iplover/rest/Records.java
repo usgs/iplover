@@ -148,6 +148,7 @@ public class Records {
             return Response.status(500).entity(ioe.getMessage()).build();
             
         }catch(org.apache.ibatis.exceptions.PersistenceException ibatise){
+            LOG.error(ibatise);
             return Response.status(500).entity(ibatise.getMessage()).build();
         }
         
@@ -189,6 +190,7 @@ public class Records {
         try{
             group = auth.getIploverGroup(token);
         }catch(NotAuthorizedException nae){
+            LOG.debug(nae);
             return Response.status(401).entity("No auth record found, please re-login.").build();
         }
         
@@ -211,8 +213,10 @@ public class Records {
         IploverRecord oldRecord = dao.getByUuid(record.uuid);
         
         if(oldRecord == null){
+            LOG.warn("400: No record with supplied UUID to update:" + record.uuid);
             return Response.status(400).entity("No record with supplied UUID to update").build();
         }else if(!oldRecord.collection_group.equals(group)){
+            LOG.warn("401: Insufficient access rights to edit:" + record.uuid);
             return Response.status(401).entity("Insufficient access rights to edit").build();
         }
         

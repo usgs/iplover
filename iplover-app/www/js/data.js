@@ -1,6 +1,7 @@
 if(typeof iplover === 'undefined'){
 	iplover = [];
 }
+myerror = null;
 
 iplover.data = (function(){
 	
@@ -28,22 +29,25 @@ iplover.data = (function(){
         
 	};
     
-    var getImgeDataURL = function(image_path, callback){
+    var getImageDataURL = function(image_path, callback, error){
         
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory + image_path, function(fs){
             reader = new FileReader();
             reader.onloadend = function(evt){callback(evt.target.result);};
             fs.file(function(file){reader.readAsDataURL(file);});
         }, 
-        function(error){console.log('FileSystem Error code:' + error.code);});
+        error);
     };
     
-    var deleteImage = function(image_path, callback){
+    var deleteImage = function(image_path, callback, error){
+        
+        //set empty function as default if not passed
+        error = typeof error !== 'undefined' ? error : function(){};
         
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory + image_path, function(fs){
             fs.remove(callback);
-        }, 
-        function(error){console.log('FileSystem Error code:' + error.code);});
+        },
+        error);
     };
     
 	
@@ -108,6 +112,10 @@ iplover.data = (function(){
 		
 	};
     
+    /*
+    *  Returns records that have unsynced_changes. This includes edited and deleted records
+    *
+    */ 
 	var getChangedRecords = function(){
 		
 		var records = [];
@@ -156,6 +164,26 @@ iplover.data = (function(){
         records.splice(indx, 1, record);
         
         localStorage.records = JSON.stringify(records);
+    };
+    
+    var rmRecordById = function(uuid){
+    	
+    	var records = [];
+        if(localStorage.records){
+            records = JSON.parse(localStorage.records)
+        }else{
+            records = new Array();
+        }
+        
+        var indx = records.map(function(e) {return e.uuid;}).indexOf(uuid);
+        
+        if(indx < 0){
+            console.log('Error removing record with uuid:' + uuid);
+            return;
+        }
+        records.splice(indx, 1);
+        localStorage.records = JSON.stringify(records);
+
     };
     
     var getNumberToSync = function(){
@@ -235,13 +263,14 @@ iplover.data = (function(){
             getRecords    : getRecords,
             getRecordById : getRecordById,
             setRecordById : setRecordById,
+            rmRecordById  : rmRecordById,
             getDeviceInfo : getDeviceInfo,
             getGroup      : getGroup, 
             setGroup      : setGroup, 
             setUser       : setUser,
             getUser       : getUser,
             saveImage     : saveImage,
-            getImgeDataURL: getImgeDataURL,
+            getImageDataURL: getImageDataURL,
             deleteImage   : deleteImage,
             getNonserverRecords : getNonserverRecords, 
             getChangedRecords   : getChangedRecords,
