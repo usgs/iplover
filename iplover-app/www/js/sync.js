@@ -95,7 +95,7 @@ iplover.sync = (function(){
         
         
         //populate it with ImageURL
-        iplover.data.getImageDataURL(topost.image_path, function(fileurl){
+        _post_function = function(fileurl){
             topost.image_fileurl = fileurl;
             
             //POST
@@ -117,15 +117,17 @@ iplover.sync = (function(){
                     iplover.data.setRecordById(response.uuid, response);
                     
                     //delete image, once finished, start next upload
-                    iplover.data.deleteImage(topost.image_path, function(){
+					uploadNext = function(){
                     
                     	//Drop the record we just did, pass on rest
                     	records.splice(0,1);
                     
                     	//Start next one
                     	postRecords(records);
-                    });
-                    
+                    };
+					
+                    iplover.data.deleteImage(topost.image_path, uploadNext, uploadNext);
+                                        
                 },
                 error:function(jqXHR, textStatus, errorThrown){
                     if(!iplover.auth.checkUnauthorized(jqXHR)){
@@ -143,10 +145,16 @@ iplover.sync = (function(){
                     return xhr;
                 }
             });
-        }, 
-        function(error){
-        	console.log('FileSystem Error code:' + error.code);
-        });
+        };
+        
+        
+        
+        iplover.data.getImageDataURL(topost.image_path, 
+        	_post_function, 
+        	function(error){
+        		console.log('FileSystem Error code:' + error.code);
+        		_post_function("missing");
+        	});
         
         return;
     };
