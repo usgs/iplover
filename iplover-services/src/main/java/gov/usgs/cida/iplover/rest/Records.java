@@ -152,17 +152,26 @@ public class Records {
             return Response.status(500).entity(ibatise.getMessage()).build();
         }
         
-        //Strip out image data from JSON and store on AWS
-        DataUri parsedImage = DataUri.parse(record.image_fileurl, java.nio.charset.StandardCharsets.UTF_8);
+        LOG.info("Check image fileurl to see if we have an image.");
         
-        //Strip the image out of the record once parsed (we return the record later, make it small)
-        record.image_fileurl = "";
+        if(!"missing".equals(record.image_fileurl)){
+            LOG.info("We have an image. Storing image on AWS.");
+            //Strip out image data from JSON and store on AWS
+            DataUri parsedImage = DataUri.parse(record.image_fileurl, java.nio.charset.StandardCharsets.UTF_8);
+
+            //Strip the image out of the record once parsed (we return the record later, make it small)
+            record.image_fileurl = "";
+
+            try{
+                ImageStorage.save(parsedImage.getData(), record.uuid);
+            }catch(IOException ioe){
+                LOG.error(ioe);
+                return Response.status(500).entity("Unable to store submitted image.").build();
+            }
         
-        try{
-            ImageStorage.save(parsedImage.getData(), record.uuid);
-        }catch(IOException ioe){
-            LOG.error(ioe);
-            return Response.status(500).entity("Unable to store submitted image.").build();
+        }else{
+            LOG.info("No Image, skip...");
+            record.image_fileurl = "";
         }
         
         record.changes_synced = true;
