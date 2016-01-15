@@ -41,6 +41,11 @@ ul.inputs li {
 }
 
 /* grey out disabled links / buttons */
+a {
+  color: "#00BFFF"
+  text-decoration: underline;
+}
+
 a.disabled, a.disabled:active {
   color: #999 !important;
   background-color: none !important;
@@ -108,7 +113,7 @@ fieldset > .row > select {
 }
 
 #accuracy-display {
-	margin-left: 14px; 
+	margin-left: 14px;
 	text-align: left;
 }
 #accuracy-display > span {
