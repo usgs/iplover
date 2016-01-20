@@ -41,10 +41,6 @@ ul.inputs li {
 }
 
 /* grey out disabled links / buttons */
-a {
-  color: "#00BFFF"
-  text-decoration: underline;
-}
 
 a.disabled, a.disabled:active {
   color: #999 !important;
