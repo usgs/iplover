@@ -41,7 +41,6 @@ ul.inputs li {
 }
 
 /* grey out disabled links / buttons */
-
 a.disabled, a.disabled:active {
   color: #999 !important;
   background-color: none !important;
