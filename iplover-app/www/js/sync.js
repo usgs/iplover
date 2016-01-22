@@ -159,7 +159,7 @@ iplover.sync = (function(){
         return;
     };
 
-        var putRecords = function(records){
+    var putRecords = function(records){
         
         if(records.length < 1){
             onEditedEnd();
