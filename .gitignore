@@ -3,3 +3,4 @@ iplover-services/src/main/resources/liquibase/liquibase.properties
 nb-configuration.xml
 .DS_Store
 iplover-app/platforms
+/nbproject/private/
