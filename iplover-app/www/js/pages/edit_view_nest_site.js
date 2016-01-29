@@ -115,6 +115,7 @@ var save_form = function(e){
     
     //only if set to edited
     rec.changes_synced = false;
+	rec.last_edited = Date.now();
     
     iplover.data.setRecordById(rec.uuid, rec);
     

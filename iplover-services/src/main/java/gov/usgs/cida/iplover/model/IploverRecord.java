@@ -18,6 +18,7 @@ public class IploverRecord {
     public boolean deleted;
     public boolean on_server = true;
     public boolean changes_synced = true;
+	public Date   last_edited_timestamp;
     
     //All location information
     public Double location_lat;
