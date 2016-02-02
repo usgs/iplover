@@ -10,7 +10,7 @@ $(document).ready(function() {
             iplover.auth.logout();
         }
     });
-	botherFun();
+	syncPopUp();
 	
 });
 
@@ -21,28 +21,39 @@ function daysBetweenDates(d1,d2){
 	return Math.round(diff / (1000 * 60));
 }
 
-function botherFun() {
+function syncPopUp() {
 	var tmp = iplover.data.getChangedRecords();
 	
-	if(tmp.length < 1){return;}
-	var entry = tmp[0];
+//	if(tmp.length < 1){return;}
+//	var entry = tmp[0];
 	var currTime = Date.now();
 
-	var numDaySinceLastSync = daysBetweenDates(currTime,entry.last_edited_calculations);
-	alert(numDaySinceLastSync);
-	if(numDaySinceLastSync > 5){
-		var response = confirm("It has been " + numDaySinceLastSync + " days since you last synced your data. \n Would you like to sync now?");
-		if(response){
-			location.href = "synchronize.html";
-			
-		}
-		else{
-			alert("bladfs");
-		}
+	var response = popUp();
+	if(response){
+		window.location.replace("synchronize.html");
+		iplover.data.autoSyncOn();
 	}
+	return;
+//	var numDaySinceLastSync = daysBetweenDates(currTime,entry.last_edited_calculations);
+//	alert(numDaySinceLastSync + " minutes");
+//	if(numDaySinceLastSync > 1){
+//	if(true){
+//		var response = confirm("It has been " + numDaySinceLastSync + " days since you last synced your data. \n Would you like to sync now?");
+//		var response = confirm("It has been " + -1 + " days since you last synced your data. \n Would you like to sync now?");
+//		if(response){
+//			window.location.replace("synchronize.html");			
+//			$('#sync_button').click();
+//		}
+//	}
 	
 //    confirm("Getting changed records: " + entry.location_timestamp + " " + entry.changes_synced + " " + entry.on_server + " " + entry.last_edited_timestamp);
 
 	
-	return;
+//	return;
 };
+
+function popUp() {
+	var response = confirm("It has been " + -1 + " days since you last synced your data. \n Would you like to sync now?");
+	return response;
+};
+

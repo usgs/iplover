@@ -259,7 +259,20 @@ iplover.data = (function(){
         localStorage.records = torestore;
         localStorage.user = user;
         return;
-    }
+    };
+	
+	var autoSyncOff = function(){
+		if(JSON.parse(localStorage.syncImmediately)){
+			localStorage.syncImmediately = false;
+			return true;
+		}
+		return false;
+	};
+	
+	var autoSyncOn = function(){
+		localStorage.syncImmediately = true;
+		return true;
+	};
 
     return {newRecord     : newRecord,
             getRecords    : getRecords,
@@ -277,7 +290,9 @@ iplover.data = (function(){
             getNonserverRecords : getNonserverRecords,
             getChangedRecords   : getChangedRecords,
             clobberAllRecords   : clobberAllRecords,
-            getNumberToSync     : getNumberToSync
+            getNumberToSync     : getNumberToSync,
+			autoSyncOff			: autoSyncOff,
+			autoSyncOn			: autoSyncOn
             };
 
 })();
