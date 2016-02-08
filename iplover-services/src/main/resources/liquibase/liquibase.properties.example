@@ -1,7 +1,7 @@
 contexts: ${liquibase.contexts} 
 changeLogFile: com/company/client/project/db.changelog.xml 
 driver: org.postgresql.Driver
-url: jdbc:postgresql://url:5432/iplover
+url: jdbc:postgresql://cidasdqaasiplvr.cr.usgs.gov:5432/iplover
 username: ##username
 password: ##password
 verbose: true 

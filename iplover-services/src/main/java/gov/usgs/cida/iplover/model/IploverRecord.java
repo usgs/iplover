@@ -18,7 +18,8 @@ public class IploverRecord {
     public boolean deleted;
     public boolean on_server = true;
     public boolean changes_synced = true;
-	public Date   last_edited;
+//	public Date last_edited;
+//	public Date last_edited_calculation;
     
     //All location information
     public Double location_lat;
@@ -109,7 +110,13 @@ public class IploverRecord {
         if(tomerge.notes != null){
             this.notes = tomerge.notes;
         }
-        
+//		if(tomerge.last_edited != null){
+//            this.last_edited = tomerge.last_edited;
+//        }
+//		if(tomerge.last_edited_calculation != null){
+//            this.last_edited_calculation = tomerge.last_edited_calculation;
+//        }
+		
         
     }
     

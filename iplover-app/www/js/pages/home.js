@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 
-
+	
 
     $("#logout").click(function(){
         message = 'Are you sure you want to logout?\n' +
@@ -14,46 +14,46 @@ $(document).ready(function() {
 	
 });
 
-function daysBetweenDates(d1,d2){
-	var diff = d1 - d2;
-//	return diff / (1000 * 60 * 60 * 24);
-	//CURRENTLY MINUTES.
-	return Math.round(diff / (1000 * 60));
-}
-
 function syncPopUp() {
 	var tmp = iplover.data.getChangedRecords();
-	
-//	if(tmp.length < 1){return;}
-//	var entry = tmp[0];
-	var currTime = Date.now();
-
-	var response = popUp();
-	if(response){
-		window.location.replace("synchronize.html");
-		iplover.data.autoSyncOn();
-	}
-	return;
-//	var numDaySinceLastSync = daysBetweenDates(currTime,entry.last_edited_calculations);
-//	alert(numDaySinceLastSync + " minutes");
-//	if(numDaySinceLastSync > 1){
-//	if(true){
+//	
+	if(!(tmp.length > 0)){return;}
+	var entry = tmp[0];
+	alert(entry.site_id + " " + entry.last_edited);
+//	
+//	//////TESTING
+//	var test = iplover.data.getRecords();
+//	for(i = 0; i <= tmp.length; i++){
+//		alert(test[i].site_id + " last edited: " + test[i].last_edited);
+//	}
+//	///////TESTING DONE.
+//
+//
+//	var numDaySinceLastSync = daysSinceDate(entry.last_edited);
+//	var lastBothered = hoursSinceDate(iplover.data.timeSincePopup());
+//	
+//	if(numDaySinceLastSync > 1 && lastBothered > 0){
 //		var response = confirm("It has been " + numDaySinceLastSync + " days since you last synced your data. \n Would you like to sync now?");
-//		var response = confirm("It has been " + -1 + " days since you last synced your data. \n Would you like to sync now?");
 //		if(response){
 //			window.location.replace("synchronize.html");			
-//			$('#sync_button').click();
+//			iplover.data.autoSyncOn();
+//		} else{
+//			iplover.data.delaySync();
 //		}
 //	}
-	
-//    confirm("Getting changed records: " + entry.location_timestamp + " " + entry.changes_synced + " " + entry.on_server + " " + entry.last_edited_timestamp);
-
-	
-//	return;
+	return;
 };
-
-function popUp() {
-	var response = confirm("It has been " + -1 + " days since you last synced your data. \n Would you like to sync now?");
-	return response;
-};
-
+//
+////Takes long value date and compares the days it has been since that date.
+//function daysSinceDate(timeToCompare){
+//	var diff = Date.now() - timeToCompare;
+//	return diff / (1000 * 60 * 60 * 24);
+//	//CURRENTLY MINUTES.
+////	return Math.round(diff / (1000 * 60));
+//};
+//
+////Takes long value date and compares the hours it's been since that date.
+//function hoursSinceDate(timeToCompare){
+//	var diff = Date.now() - timeToCompare;
+//	return Math.round(diff / 1000 * 60 * 60);
+//};

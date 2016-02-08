@@ -24,6 +24,8 @@
     <result property="notes"                column="notes" />
     <result property="nest_init"            column="nestinitdate" />
     <result property="deleted"              column="deleted" />
+<!--	<result property="last_edited"          column="last_edited" />
+	<result property="last_edited_calculations"       column="last_edited_calculations" />-->
     
   </resultMap>
 
@@ -47,7 +49,10 @@
       nestinitdate, 
       collectiongroup,   
       deviceinfo,
-      deleted) 
+      deleted
+<!--	  last_edited,
+	  last_edited_calculations-->
+	  ) 
     values(
       #{uuid}, 
       #{location_timestamp}, 
@@ -65,7 +70,10 @@
       #{nest_init},
       #{collection_group},
       #{device_info},
-      #{deleted})
+      #{deleted}
+<!--	  #{last_edited},
+	  #{last_edited_calculations}-->
+	  )
   </insert>
   
   <update id="updateRecord" useGeneratedKeys="false" parameterType="map">
@@ -89,6 +97,8 @@
         collectiongroup = #{collection_group},   
         deviceinfo = #{device_info},
         deleted = #{deleted}
+<!--	    last_edited = #{last_edited},
+	    last_edited_calculations = #{last_edited_calculations}-->
       WHERE id = #{uuid}
   </update>
   
@@ -112,6 +122,8 @@
         nestinitdate,
         collectiongroup,
         deviceinfo
+<!--	    last_edited,
+	    last_edited_calculations-->
     FROM entries
     WHERE id = #{uuid} 
   </select>
@@ -136,6 +148,8 @@
         nestinitdate,
         collectiongroup,
         deviceinfo
+<!--		last_edited,
+		last_edited_calculations-->
     FROM entries
     WHERE collectiongroup = #{group} AND deleted = FALSE
   </select>
@@ -160,6 +174,8 @@
         nestinitdate,
         collectiongroup,
         deviceinfo
+<!--	    last_edited,
+	    last_edited_calculations-->
     FROM entries
     WHERE deleted = FALSE
   </select>

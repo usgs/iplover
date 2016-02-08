@@ -101,8 +101,8 @@ var new_site_submit_function = function(e) {
     siteObject.deleted = false;
     siteObject.changes_synced = false;
     siteObject.on_server = false;
-	siteObject.last_edited = new Date();
-	siteObject.last_edited_calculations = siteObject.last_edited.getTime();
+//	siteObject.last_edited = new Date();
+//	siteObject.last_edited_calculations = siteObject.last_edited.getTime();
     
     siteObject.uuid = generateUUID();
     
