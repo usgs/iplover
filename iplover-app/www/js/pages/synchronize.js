@@ -8,7 +8,7 @@ $(document).ready(function() {
     });
 	
 	if(iplover.data.autoSyncOff()){
-		$('#sync_button').click();
+        $('#sync_button').click();
 	}
 
 });
