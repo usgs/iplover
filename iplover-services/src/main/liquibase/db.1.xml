@@ -39,25 +39,11 @@
             <column name="expires" type="date" />
         </createTable>
     </changeSet>
-<!--	<changeSet id="2" author="dpattermann">
-		<alterTable tableName="entries">
-			<column name="last_edited" type="datetime" />
-			<column name="last_edited_calculations" type="double" />
-		</alterTable>
-	</changeSet>
-	-->
 	<changeSet id="2" author="dpattermann">
 		<addColumn schemaName="public"
 				tableName="entries">
 			<column name="last_edited" type="datetime"/>
 		</addColumn>
-<!--		<addColumn schemaName="public"
-				tableName="entries">
-			<column name="last_edited_calculations" type="double"/>
-		</addColumn>-->
 	</changeSet>
-<!--	<changeSet id="3" author="dpattermann">
-		<rollback changeSetId="2" changeSetAuthor="dpattermann"/>
-	</changeSet>-->
 
 </databaseChangeLog>
