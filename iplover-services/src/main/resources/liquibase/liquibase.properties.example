@@ -2,7 +2,7 @@ contexts: ${liquibase.contexts}
 changeLogFile: com/company/client/project/db.changelog.xml 
 driver: org.postgresql.Driver
 url: jdbc:postgresql://url:5432/iplover
-username: ##username
-password: ##password
+username: **IPLOVER USERNAME HERE**
+password: **IPLOVER PASSWORD HERE**
 verbose: true 
 dropFirst: false 
