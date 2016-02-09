@@ -105,9 +105,9 @@ var save_form = function(e){
     
     //geo radio buttons
     rec.setting = $('input[name=setting]:checked').val();
-    rec.substrate = $('input[name=substrate]:checked').val()
-    rec.vegetation = $('input[name=vegetation]:checked').val()
-    rec.density = $('input[name=density]:checked').val()
+    rec.substrate = $('input[name=substrate]:checked').val();
+    rec.vegetation = $('input[name=vegetation]:checked').val();
+    rec.density = $('input[name=density]:checked').val();
     
     //init and notes
     rec.nest_init = $('#nest_init').val();
