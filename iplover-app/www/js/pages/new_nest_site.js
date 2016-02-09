@@ -93,14 +93,17 @@ var new_site_submit_function = function(e) {
     
     //radio buttons
     siteObject.setting              = $('input[name=setting]:checked').val();
-    siteObject.substrate            = $('input[name=substrate]:checked').val()
-    siteObject.vegetation           = $('input[name=vegetation]:checked').val()
-    siteObject.density              = $('input[name=density]:checked').val()
+    siteObject.substrate            = $('input[name=substrate]:checked').val();
+    siteObject.vegetation           = $('input[name=vegetation]:checked').val();
+    siteObject.density              = $('input[name=density]:checked').val();
     
     siteObject.collection_group = iplover.data.getGroup();
     siteObject.deleted = false;
     siteObject.changes_synced = false;
     siteObject.on_server = false;
+	var timeSet = new Date();
+//	siteObject.last_edited_calculations = siteObject.last_edited.getTime(); //Date.now();?
+	siteObject.last_edited = timeSet.format("yyyy-mm-dd HH:MM:ss");
     
     siteObject.uuid = generateUUID();
     

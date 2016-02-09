@@ -12,7 +12,7 @@
             <column name="clientversion" type="varchar(20)"/>
             <column name="collectiongroup" type="varchar(50)"/>
             <column name="deviceinfo" type="varchar(255)"/>
-            
+			
             <column name="datetime" type="datetime" />
             <column name="latitude" type="double" />
             <column name="longitude" type="double" />
@@ -39,5 +39,11 @@
             <column name="expires" type="date" />
         </createTable>
     </changeSet>
+	<changeSet id="2" author="dpattermann">
+		<addColumn schemaName="public"
+				tableName="entries">
+			<column name="last_edited" type="datetime"/>
+		</addColumn>
+	</changeSet>
 
-    </databaseChangeLog>
+</databaseChangeLog>

@@ -120,7 +120,7 @@ iplover.data = (function(){
 
 		var records = [];
 		if(localStorage.records){
-			records = JSON.parse(localStorage.records)
+			records = JSON.parse(localStorage.records);
 		}else{
 			records = new Array();
 		}
@@ -259,7 +259,41 @@ iplover.data = (function(){
         localStorage.records = torestore;
         localStorage.user = user;
         return;
-    }
+    };
+	
+	//Returns true if autoSyncOn was called, then turns off autosync.
+	var autoSyncOff = function(){
+		if((localStorage.syncImmediately !== undefined) && JSON.parse(localStorage.syncImmediately)){
+			localStorage.syncImmediately = false;
+			return true;
+		} else{
+			return false;
+		}
+	};
+	
+	//If called, it forces sync when the synchronize page is next loaded.
+	var autoSyncOn = function(){
+		localStorage.syncImmediately = true;
+		return true;
+	};
+	
+	//If the first time called, returns now. 
+	//Otherwise, returns the time set in delaySync.
+//	var timeSincePopup = function(){
+//		if(localStorage.timeSincePopup === undefined){
+//			localStorage.timeSincePopup = Date.now();
+//		}
+//		var timeToReturn = localStorage.timeSincePopup;
+//		return timeToReturn;
+//	};
+//	
+//	//When run, it sets the timeToPopup to be 12 hours from now.
+//	var delaySync = function(){
+//		var intermediate = new Date();
+//		intermediate.setSeconds(intermediate.getSeconds() + 30);
+////		intermediate.setHours(intermediate.getHours() + 6);
+//		localStorage.timeSincePopup = intermediate.getTime();
+//	};
 
     return {newRecord     : newRecord,
             getRecords    : getRecords,
@@ -277,7 +311,11 @@ iplover.data = (function(){
             getNonserverRecords : getNonserverRecords,
             getChangedRecords   : getChangedRecords,
             clobberAllRecords   : clobberAllRecords,
-            getNumberToSync     : getNumberToSync
+            getNumberToSync     : getNumberToSync,
+			autoSyncOff			: autoSyncOff,
+			autoSyncOn			: autoSyncOn
+//			timeSincePopup		: timeSincePopup,
+//			delaySync			: delaySync
             };
 
 })();

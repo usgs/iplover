@@ -115,6 +115,11 @@ var save_form = function(e){
     
     //only if set to edited
     rec.changes_synced = false;
+	
+	//Time of last Edit. One is for server, one is for calculations
+	rec.last_edited = new Date();
+//	rec.last_edited_calculations = rec.last_edited.getTime(); //Date.now()?
+	rec.last_edited = rec.last_edited.format("yyyy-mm-dd HH:MM:ss");
     
     iplover.data.setRecordById(rec.uuid, rec);
     

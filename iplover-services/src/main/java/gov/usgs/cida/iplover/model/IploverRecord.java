@@ -2,7 +2,6 @@ package gov.usgs.cida.iplover.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
-import java.util.UUID;
 
 @JsonIgnoreProperties({"valid"})
 public class IploverRecord {
@@ -18,6 +17,7 @@ public class IploverRecord {
     public boolean deleted;
     public boolean on_server = true;
     public boolean changes_synced = true;
+	public Date last_edited;
     
     //All location information
     public Double location_lat;
@@ -108,7 +108,10 @@ public class IploverRecord {
         if(tomerge.notes != null){
             this.notes = tomerge.notes;
         }
-        
+		if(tomerge.last_edited != null){
+            this.last_edited = tomerge.last_edited;
+        }
+		
         
     }
     
