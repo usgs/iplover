@@ -46,17 +46,17 @@
 		</alterTable>
 	</changeSet>
 	-->
-<!--	<changeSet id="2" author="dpattermann">
+	<changeSet id="2" author="dpattermann">
 		<addColumn schemaName="public"
 				tableName="entries">
 			<column name="last_edited" type="datetime"/>
 		</addColumn>
-		<addColumn schemaName="public"
+<!--		<addColumn schemaName="public"
 				tableName="entries">
 			<column name="last_edited_calculations" type="double"/>
-		</addColumn>
+		</addColumn>-->
 	</changeSet>
-	<changeSet id="3" author="dpattermann">
+<!--	<changeSet id="3" author="dpattermann">
 		<rollback changeSetId="2" changeSetAuthor="dpattermann"/>
 	</changeSet>-->
 

@@ -24,8 +24,7 @@
     <result property="notes"                column="notes" />
     <result property="nest_init"            column="nestinitdate" />
     <result property="deleted"              column="deleted" />
-<!--	<result property="last_edited"          column="last_edited" />
-	<result property="last_edited_calculations"       column="last_edited_calculations" />-->
+	<result property="last_edited"          column="last_edited" />
     
   </resultMap>
 
@@ -49,9 +48,8 @@
       nestinitdate, 
       collectiongroup,   
       deviceinfo,
-      deleted
-<!--	  last_edited,
-	  last_edited_calculations-->
+      deleted,
+	  last_edited
 	  ) 
     values(
       #{uuid}, 
@@ -70,9 +68,8 @@
       #{nest_init},
       #{collection_group},
       #{device_info},
-      #{deleted}
-<!--	  #{last_edited},
-	  #{last_edited_calculations}-->
+      #{deleted},
+	  #{last_edited}
 	  )
   </insert>
   
@@ -96,9 +93,8 @@
         nestinitdate = #{nest_init}, 
         collectiongroup = #{collection_group},   
         deviceinfo = #{device_info},
-        deleted = #{deleted}
-<!--	    last_edited = #{last_edited},
-	    last_edited_calculations = #{last_edited_calculations}-->
+        deleted = #{deleted},
+	    last_edited = #{last_edited}
       WHERE id = #{uuid}
   </update>
   
@@ -121,9 +117,8 @@
         substrate,
         nestinitdate,
         collectiongroup,
-        deviceinfo
-<!--	    last_edited,
-	    last_edited_calculations-->
+        deviceinfo,
+	    last_edited
     FROM entries
     WHERE id = #{uuid} 
   </select>
@@ -147,9 +142,8 @@
         substrate,
         nestinitdate,
         collectiongroup,
-        deviceinfo
-<!--		last_edited,
-		last_edited_calculations-->
+        deviceinfo,
+		last_edited
     FROM entries
     WHERE collectiongroup = #{group} AND deleted = FALSE
   </select>
@@ -173,9 +167,8 @@
         substrate,
         nestinitdate,
         collectiongroup,
-        deviceinfo
-<!--	    last_edited,
-	    last_edited_calculations-->
+        deviceinfo,
+	    last_edited
     FROM entries
     WHERE deleted = FALSE
   </select>

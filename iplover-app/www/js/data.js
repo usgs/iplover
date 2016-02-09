@@ -120,7 +120,7 @@ iplover.data = (function(){
 
 		var records = [];
 		if(localStorage.records){
-			records = JSON.parse(localStorage.records)
+			records = JSON.parse(localStorage.records);
 		}else{
 			records = new Array();
 		}

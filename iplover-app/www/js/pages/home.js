@@ -16,10 +16,13 @@ $(document).ready(function() {
 
 function syncPopUp() {
 	var tmp = iplover.data.getChangedRecords();
-//	
+	
+	//If there are no changed records, have an empty array. Most other 
+	//problems return false too, so this helps catch various errors.
 	if(!(tmp.length > 0)){return;}
 	var entry = tmp[0];
-	alert(entry.site_id + " " + entry.last_edited);
+	alert("lastEdited " + entry.last_edited);
+//	alert("timestamp " + entry.location_timestamp);
 //	
 //	//////TESTING
 //	var test = iplover.data.getRecords();
