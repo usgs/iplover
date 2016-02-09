@@ -136,8 +136,8 @@ iplover.data = (function(){
 
         var records = getRecords();
         // filter and then return
-        var toreturn = records.filter(function(element){return element.uuid == uuid;});
-        if(toreturn.length == 1){
+        var toreturn = records.filter(function(element){return element.uuid === uuid;});
+        if(toreturn.length === 1){
             return toreturn[0];
         }else{
             return null;
@@ -207,7 +207,7 @@ iplover.data = (function(){
     };
 
     var getDeviceInfo = function(){
-        if(typeof device != 'undefined'){
+        if(typeof device !== 'undefined'){
             return device.platform + ' ' + device.version;
         }else{
             return window.navigator.userAgent;
@@ -279,21 +279,21 @@ iplover.data = (function(){
 	
 	//If the first time called, returns now. 
 	//Otherwise, returns the time set in delaySync.
-//	var timeSincePopup = function(){
-//		if(localStorage.timeSincePopup === undefined){
-//			localStorage.timeSincePopup = Date.now();
-//		}
-//		var timeToReturn = localStorage.timeSincePopup;
-//		return timeToReturn;
-//	};
-//	
-//	//When run, it sets the timeToPopup to be 12 hours from now.
-//	var delaySync = function(){
-//		var intermediate = new Date();
-//		intermediate.setSeconds(intermediate.getSeconds() + 30);
-////		intermediate.setHours(intermediate.getHours() + 6);
-//		localStorage.timeSincePopup = intermediate.getTime();
-//	};
+	var timeSincePopup = function(){
+		if(localStorage.timeSincePopup === undefined){
+			localStorage.timeSincePopup = Date.now();
+		}
+		var timeToReturn = localStorage.timeSincePopup;
+		return timeToReturn;
+	};
+	
+	//When run, it sets the timeToPopup to be 12 hours from now.
+	var delaySync = function(){
+		var intermediate = new Date();
+		intermediate.setSeconds(intermediate.getSeconds() + 30);
+//		intermediate.setHours(intermediate.getHours() + 6);
+		localStorage.timeSincePopup = intermediate.getTime();
+	};
 
     return {newRecord     : newRecord,
             getRecords    : getRecords,
@@ -313,9 +313,9 @@ iplover.data = (function(){
             clobberAllRecords   : clobberAllRecords,
             getNumberToSync     : getNumberToSync,
 			autoSyncOff			: autoSyncOff,
-			autoSyncOn			: autoSyncOn
-//			timeSincePopup		: timeSincePopup,
-//			delaySync			: delaySync
+			autoSyncOn			: autoSyncOn,
+			timeSincePopup		: timeSincePopup,
+			delaySync			: delaySync
             };
 
 })();
