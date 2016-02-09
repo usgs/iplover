@@ -105,9 +105,9 @@ var save_form = function(e){
     
     //geo radio buttons
     rec.setting = $('input[name=setting]:checked').val();
-    rec.substrate = $('input[name=substrate]:checked').val()
-    rec.vegetation = $('input[name=vegetation]:checked').val()
-    rec.density = $('input[name=density]:checked').val()
+    rec.substrate = $('input[name=substrate]:checked').val();
+    rec.vegetation = $('input[name=vegetation]:checked').val();
+    rec.density = $('input[name=density]:checked').val();
     
     //init and notes
     rec.nest_init = $('#nest_init').val();
@@ -117,9 +117,9 @@ var save_form = function(e){
     rec.changes_synced = false;
 	
 	//Time of last Edit. One is for server, one is for calculations
-	rec.last_edited = new Date();
-//	rec.last_edited_calculations = rec.last_edited.getTime(); //Date.now()?
-	rec.last_edited = rec.last_edited.format("yyyy-mm-dd HH:MM:ss");
+    var timeSet = new Date();
+    rec.last_edited_calculations = timeSet.getTime(); 
+    rec.last_edited = timeSet.format("yyyy-mm-dd HH:MM:ss");
     
     iplover.data.setRecordById(rec.uuid, rec);
     

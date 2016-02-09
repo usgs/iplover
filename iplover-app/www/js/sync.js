@@ -97,6 +97,8 @@ iplover.sync = (function(){
         //populate it with ImageURL
         _post_function = function(fileurl){
             topost.image_fileurl = fileurl;
+            //Deletion of l_e_calculations allows for syncing to database without that field.
+            delete topost.last_edited_calculations;
             
             //POST
             $.ajax({
@@ -169,7 +171,9 @@ iplover.sync = (function(){
         
         //Get first record if length > 0
         toput = records[0];
-        
+        //Deletion of l_e_calculations allows for syncing to database without that field.
+        delete toput.last_edited_calculations;
+
         //POST
         $.ajax({
             type: "PUT",
