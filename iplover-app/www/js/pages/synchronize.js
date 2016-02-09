@@ -33,5 +33,5 @@ var onfinish  = function(){
 var onerror = function(error){
     $('.percent').html('0%');
     $('.bar').width('0%');
-    alert("Error occurred. Please restart iPlover and try again.\nContact iplover_help@usgs.gov if issues persist");
+    alert("Error occurred. Please restart iPlover and try again.\nContact iplover_help@usgs.gov if issues persist" + "\n\n\n" + error);
 };

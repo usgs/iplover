@@ -101,7 +101,8 @@ iplover.sync = (function(){
             //POST
             $.ajax({
                 type: "POST",
-                contentType: "application/json", 
+                contentType: "application/json; charset=utf-8",
+				dataType: "json",
                 url: iplover.recordsurl, 
                 data: JSON.stringify(topost),
                 headers: iplover.auth.getHeaderObj(),

@@ -48,7 +48,7 @@ iplover.auth = (function(){
     
     var getHeaderObj = function(){
         return {"auth-token":getToken()};
-    }
+    };
     
     var getToken = function(){
         return localStorage.token;
