@@ -15,7 +15,8 @@ function onDeviceReady() {
 
 function onfail(message){
     $("#spinner-img").hide();
-    alert("Please check username and password.");
+	navigator.notification.alert("Please check username and password",function(){},"Login failed");
+//    alert("Please check username and password.");
 };
 
 function onlogin(token, group){
