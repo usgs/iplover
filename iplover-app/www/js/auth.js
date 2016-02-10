@@ -37,10 +37,12 @@ iplover.auth = (function(){
     };
     
     var checkUnauthorized = function(xhr){
-        if(xhr.status && xhr.status == 401){
+        if(xhr.status && xhr.status === 401){
             //redirect them back to index.
-            alert("You are not currently authorized, sending you back to log in.");
-            logout();
+            navigator.notification.alert(
+                    "You are not currently authorized, sending you back to log in.",
+                    logout(),
+                    "Unauthorized");
             return true;
         }
         return false;

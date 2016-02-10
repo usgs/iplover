@@ -1,5 +1,7 @@
-
 $(document).ready(function() {
+    document.addEventListener("deviceReady",onDeviceReady,false);
+});
+function onDeviceReady(){
     
 
     	records_json = JSON.stringify(iplover.data.getChangedRecords());
@@ -14,4 +16,4 @@ $(document).ready(function() {
     	
     	$("#debugtext").val(debug_text);
     
-});
+};

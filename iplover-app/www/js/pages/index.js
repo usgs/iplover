@@ -1,5 +1,6 @@
-
-document.addEventListener("deviceready", onDeviceReady, false);
+$(document).ready(function() {
+    document.addEventListener("deviceReady",onDeviceReady,false);
+});
 
 function onDeviceReady() {
 	setTimeout(function() {

@@ -13,8 +13,11 @@ location.search.replace(
 if(queryinfo.sourceurl){
     sourceurl = queryinfo.sourceurl;
 }
-
 $(document).ready(function() {
+    document.addEventListener("deviceReady",onDeviceReady,false);
+});
+
+function onDeviceReady(){
     
     $("#home_link").attr("href", sourceurl);
     
@@ -51,7 +54,7 @@ $(document).ready(function() {
     $('#new_site_form').submit(save_form);
     $('#delete_button').click(delete_record);
     
-});
+};
 
 var populate_form = function(rec){
     
