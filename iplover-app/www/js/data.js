@@ -311,10 +311,10 @@ iplover.data = (function(){
             getChangedRecords   : getChangedRecords,
             clobberAllRecords   : clobberAllRecords,
             getNumberToSync     : getNumberToSync,
-			autoSyncOff			: autoSyncOff,
-			autoSyncOn			: autoSyncOn,
-			timeSincePopup		: timeSincePopup,
-			delaySync			: delaySync
+            autoSyncOff			: autoSyncOff,
+            autoSyncOn			: autoSyncOn,
+            timeSincePopup		: timeSincePopup,
+            delaySync			: delaySync
             };
 
 })();
