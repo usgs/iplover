@@ -27,6 +27,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "gov.usgs.cida.iplover"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "gov.usgs.cida.iplover"
         }
     },
     "dependent_plugins": {}
