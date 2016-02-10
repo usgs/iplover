@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    document.addEventListener("deviceReady",onDeviceReady,false);
+});
+    
+function onDeviceReady(){
     $('#collection_group').html(iplover.data.getGroup().toLowerCase().replace("iplover", "iPlover"));
     
     //code to population buttons
@@ -16,7 +20,7 @@ $(document).ready(function() {
             $('#edit_section').append(tmp);
         }
     }
-});
+};
 
 
 var populate_button = function(site, button){

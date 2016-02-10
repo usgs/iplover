@@ -1,5 +1,9 @@
 
 $(document).ready(function() {
+    document.addEventListener("deviceReady",onDeviceReady,false);
+});
+
+function onDeviceReady(){
 
     $('#num_to_sync').text(iplover.data.getNumberToSync());
 
@@ -11,7 +15,7 @@ $(document).ready(function() {
 		$('#sync_button').click();
 	}
 
-});
+};
 
 
 var onprogress = function(percent){
