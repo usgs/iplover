@@ -25,7 +25,7 @@ function onDeviceReady(){
     });
 
     syncPopUp();
-
+    
 };
 
 function syncPopUp(){
