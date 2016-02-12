@@ -30,15 +30,15 @@ var onfinish  = function(){
     $('.percent').html('0%');
     $('.bar').width('0%');
     $('#num_to_sync').text(iplover.data.getNumberToSync());
-	navigator.notification.alert('',function(){},"Sync Complete");
+    navigator.notification.alert('',function(){},"Sync Complete");
 
 };
 
 var onerror = function(error){
     $('.percent').html('0%');
     $('.bar').width('0%');
-	navigator.notification.alert(
-			error + '\n\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov is issues persist.',
-			function(){},
-			"Error occurred");
+    navigator.notification.alert(
+            error + '\n\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov is issues persist.',
+            function(){},
+            "Error occurred");
 };
