@@ -1,5 +1,14 @@
 $(document).ready(function() {
     document.addEventListener("deviceReady",onDeviceReady,false);
+
+    $("#login_button").click(function(){
+
+        user = $('#username_input').val();
+        pass = $('#password_input').val();
+
+        iplover.auth.login(user, pass, onlogin, onfail);
+        $("#spinner-img").show();
+    });
 });
 
 function onDeviceReady() {
@@ -15,22 +24,10 @@ function onDeviceReady() {
 
 function onfail(message){
     $("#spinner-img").hide();
-    alert("Please check username and password.");
+    navigator.notification.alert("Please check username and password",function(){},"Login failed");
 };
 
 function onlogin(token, group){
     $("#spinner-img").hide();
     location.href = "home.html";
 };
-
-$(document).ready(function() {
-
-    $("#login_button").click(function(){
-
-        user = $('#username_input').val();
-        pass = $('#password_input').val();
-
-        iplover.auth.login(user, pass, onlogin, onfail);
-        $("#spinner-img").show();
-    });
-});
