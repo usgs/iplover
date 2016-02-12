@@ -158,7 +158,7 @@ iplover.data = (function(){
 
         if(indx < 0){
             console.log('Error saving record with uuid:' + uuid);
-            alert("Error saving site \n" + uuid);
+            navigator.notification.alert("Site id: " + uuid, function(){},"Error saving site");
         }
 
         records.splice(indx, 1, record);

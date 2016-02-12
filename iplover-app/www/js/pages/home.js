@@ -6,15 +6,25 @@ $(document).ready(function(){
 function onDeviceReady(){
 
 
-	$("#logout").click(function(){
-		message = 'Are you sure you want to logout?\n' +
-				'You will not be able to login again unless you have an internet connection.';
-		if(confirm(message)){
-			iplover.auth.logout();
-		}
-	});
+    $("#logout").click(function(){
+        var message = 'You will not be able to login again unless you have an internet connection.';
+        navigator.notification.confirm(
+                message,
+                function(index){
+                    switch(index){
+                        case 1:
+                            break;
+                            
+                        case 2:
+                            iplover.auth.logout();
+                            break;
+                    }
+                },
+                "Are you sure?",
+                ["Cancel", "Logout"]);
+    });
 
-	syncPopUp();
+    syncPopUp();
 
 };
 
@@ -32,26 +42,27 @@ function syncPopUp(){
 	var lastBothered = hoursSinceDate(iplover.data.timeSincePopup());
 	
 	if(numDaySinceLastSync > 1 && lastBothered > 0){
-		message = "It has been " + numDaySinceLastSync + " days since you last synced your data. \n Would you like to sync now?";
+        var message = "It has been " + numDaySinceLastSync + " days since you last synced your data. \n Would you like to sync now?";
 
-		navigator.notification.confirm(message,
-				function(index){
-					switch(index){
-						case 1:
-							iplover.data.delaySync();
-							break;
+        navigator.notification.confirm(
+                message,
+                function(index){
+                    switch(index){
+                        case 1:
+                            iplover.data.delaySync();
+                            break;
 
-						case 2:
-							window.location.replace("synchronize.html");
-							iplover.data.autoSyncOn();
-							break;
-					}
-				},
-				"Synchronization Reminder",
-				["Later", "Sync now"]);
+                        case 2:
+                            window.location.replace("synchronize.html");
+                            iplover.data.autoSyncOn();
+                            break;
+                    }
+                },
+                "Synchronization Reminder",
+                ["Later", "Sync now"]);
 
-	}
-	return;
+    }
+    return;
 };
 
 //Takes long value date and compares the days it has been since that date.
