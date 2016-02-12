@@ -40,7 +40,6 @@ function onDeviceReady(){
     );
     
     if(!queryinfo.uuid){
-        // TODO: setup error condition and notify user
         alert('Unknown UUID:' + queryinfo.uuid);
     }
     
