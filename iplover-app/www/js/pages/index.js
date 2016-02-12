@@ -1,5 +1,14 @@
 $(document).ready(function() {
-    document.addEventListener("deviceReady",onDeviceReady,false);
+	document.addEventListener("deviceReady",onDeviceReady,false);
+	
+	$("#login_button").click(function(){
+
+        user = $('#username_input').val();
+        pass = $('#password_input').val();
+
+        iplover.auth.login(user, pass, onlogin, onfail);
+        $("#spinner-img").show();
+    });
 });
 
 function onDeviceReady() {
@@ -23,14 +32,15 @@ function onlogin(token, group){
     location.href = "home.html";
 };
 
-$(document).ready(function() {
-
-    $("#login_button").click(function(){
-
-        user = $('#username_input').val();
-        pass = $('#password_input').val();
-
-        iplover.auth.login(user, pass, onlogin, onfail);
-        $("#spinner-img").show();
-    });
-});
+//Doubling the document.ready functions seems wrong. Decide what to do about this.
+//$(document).ready(function() {
+//
+//    $("#login_button").click(function(){
+//
+//        user = $('#username_input').val();
+//        pass = $('#password_input').val();
+//
+//        iplover.auth.login(user, pass, onlogin, onfail);
+//        $("#spinner-img").show();
+//    });
+//});

@@ -41,7 +41,7 @@ function onDeviceReady(){
     
     if(!queryinfo.uuid){
         // TODO: setup error condition and notify user
-        alert('Unknown UUID:' + queryinfo.uuid);
+        navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
     }
     
     //grab entry from backend datastore
@@ -83,14 +83,14 @@ var populate_form = function(rec){
 var validate_form = function(){
     
     if(!$('#site_id').val()){
-        alert('Site ID required.');
+		navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
         return false;
     }
     
     if(!$( "input[name='substrate']:checked" ).val() | !$( "input[name='setting']:checked" ).val()
         | !$( "input[name='density']:checked" ).val() | !$( "input[name='vegetation']:checked" ).val()){
         
-        alert('Sorry, all fields, except Notes, must be filled out.');
+		navigator.notification.alert('Sorry, all fields, except Notes, must be filled out.',function(){},"Form Incomplete");
         return false;
     }
     return true;
@@ -133,16 +133,31 @@ var save_form = function(e){
 
 var delete_record = function(e){
     e.preventDefault();
-    
-    if(!confirm('Are you sure you want to delete this record?')){
-        return;
-    }
-    
-    var rec = editing_record;
+	//Decide what the message for this should be?
+    var message = 'Deleting this record is final.';
+	
+	navigator.notification.confirm(
+			message,
+			function(index){
+				switch(index){
+					case 1:
+						break;
+					case 2:
+						deletionConfirmed(editing_record);
+						break;
+				}
+			},
+			"Are you sure?",
+			["Cancel", "Delete"]);
+};
+
+function deletionConfirmed(rec){
+	var rec = editing_record;
 	//If we are deleting record, mark for deletion
 	rec.deleted = true;
 	rec.changes_synced = false;
     iplover.data.setRecordById(rec.uuid, rec);
-    
+	alert(editing_record.deleted + " " + editing_record.site_id);
+	
 	window.location.href = sourceurl;
-}
+};

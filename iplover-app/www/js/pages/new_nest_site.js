@@ -37,24 +37,24 @@ on_device_ready = function() {
 var verify_new_site = function(){
 	
 	if(!$('#site_id').val()){
-		alert('Site ID required.');
+		navigator.notification.alert('Site ID required.',function(){},"Form Incomplete");
 		return false;
 	}
 	
 	if(!$( "input[name='substrate']:checked" ).val() | !$( "input[name='setting']:checked" ).val()
 		| !$( "input[name='density']:checked" ).val() | !$( "input[name='vegetation']:checked" ).val()){
 		
-		alert('Sorry, all fields except Notes must be filled out.');
+		navigator.notification.alert('All fields except notes and nest initiation date must be filled out.',function(){},"Form Incomplete");
 		return false;
 	}
 	
 	if($('#newnestsite_picture')[0].files.length < 1){
-		alert('Sorry, picture is mandatory.');
+		navigator.notification.alert('A nest picture is mandatory.',function(){},"Form Incomplete");
 		return false;
 	}
     
     if($('#lat').val() == "" | $('#lon').val() == ""){
-        alert('Invalid Lat/Lon. Please restart acquisition.');
+		navigator.notification.alert('Invalid Lat/Lon. Please restart acquisition.',function(){},"Form Incomplete");
         return false;
     }
     
