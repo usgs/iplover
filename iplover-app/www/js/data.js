@@ -290,7 +290,7 @@ iplover.data = (function(){
 	//When run, it sets the timeToPopup to be 12 hours from now.
 	var delaySync = function(){
 		var intermediate = new Date();
-		intermediate.setHours(intermediate.getHours() + 6);
+		intermediate.setHours(intermediate.getHours() + 12);
 		localStorage.timeSincePopup = intermediate.getTime();
 	};
 
