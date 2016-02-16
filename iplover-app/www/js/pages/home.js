@@ -40,9 +40,6 @@ function syncPopUp(){
 
 	var numHourSinceLastSync = hoursSinceDate(entry.last_edited_calculations);
 	var lastBothered = hoursSinceDate(iplover.data.timeSincePopup());
-    
-    alert(numHourSinceLastSync);
-    alert(lastBothered);
 	
 	if(numHourSinceLastSync > 11 && lastBothered > 0){
         var message = "It has been " + numHourSinceLastSync + " hours since you last synced your data. \n Would you like to sync now?";

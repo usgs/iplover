@@ -55,6 +55,7 @@ iplover.sync = (function(){
                 onSyncAllEnd();
             },
             error:function(jqXHR, textStatus, errorThrown){
+                //Consider changing to navigator.connection.type
                 if(!iplover.auth.checkUnauthorized(jqXHR)){
                     if(!navigator.onLine){
                         onError("Unable to connect to the internet.\nPlease enable your wifi or data and try again.");
@@ -137,6 +138,7 @@ iplover.sync = (function(){
                                         
                 },
                 error:function(jqXHR, textStatus, errorThrown){
+                //Consider changing to navigator.connection.type
                     if(!iplover.auth.checkUnauthorized(jqXHR)){
                         if(!navigator.onLine){
                             onError("Unable to connect to the internet.\nPlease enable your wifi or data and try again.");
@@ -207,6 +209,7 @@ iplover.sync = (function(){
                 
             },
             error:function(jqXHR, textStatus, errorThrown){
+                //Consider changing to navigator.connection.type
                 if(!iplover.auth.checkUnauthorized(jqXHR)){
                     if(!navigator.onLine){
                         onError("Unable to connect to the internet.\nPlease enable your wifi or data and try again.");
