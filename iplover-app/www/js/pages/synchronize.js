@@ -38,7 +38,7 @@ var onerror = function(error){
     $('.percent').html('0%');
     $('.bar').width('0%');
     //If there is no accompanying error message, we probably want to know about it.
-    if(error == ""){
+    if(!(typeof(error) === 'string')){
         navigator.notification.alert(
                 'An unexpected error occurred.\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov if issues persist.',
                 function(){},
