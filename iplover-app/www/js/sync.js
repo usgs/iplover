@@ -55,8 +55,13 @@ iplover.sync = (function(){
                 onSyncAllEnd();
             },
             error:function(jqXHR, textStatus, errorThrown){
+                
                 if(!iplover.auth.checkUnauthorized(jqXHR)){
-                	onError(errorThrown);
+                    if(!navigator.onLine){
+                        onError("Unable to connect to the internet.\nPlease enable your wifi or data and try again.");
+                    } else{
+                        onError("Error getting records: " + errorThrown);
+                    }
                 }
             }
         });
@@ -133,8 +138,13 @@ iplover.sync = (function(){
                                         
                 },
                 error:function(jqXHR, textStatus, errorThrown){
+                
                     if(!iplover.auth.checkUnauthorized(jqXHR)){
-                    	onError(errorThrown);
+                        if(!navigator.onLine){
+                            onError("Unable to connect to the internet.\nPlease enable your wifi or data and try again.");
+                        } else{
+                            onError("Error posting new records: " + errorThrown);
+                        }
                     }
                 },
                 xhr: function(){
@@ -199,8 +209,13 @@ iplover.sync = (function(){
                 
             },
             error:function(jqXHR, textStatus, errorThrown){
+                
                 if(!iplover.auth.checkUnauthorized(jqXHR)){
-                	onError(errorThrown);
+                    if(!navigator.onLine){
+                        onError("Unable to connect to the internet.\nPlease enable your wifi or data and try again.");
+                    } else{
+                        onError("Error putting records: " + errorThrown);
+                    }
                 }
             }
         });

@@ -45,5 +45,11 @@
 			<column name="last_edited" type="datetime"/>
 		</addColumn>
 	</changeSet>
+	
+	<changeSet id="3" author="mhines">
+		<createView schemaName="public"
+				viewName="geospatial_entries" replaceIfExists="true">SELECT st_setsrid(st_makepoint(entries.longitude, entries.latitude), 4326) AS coordinates, entries.id, entries.collectiongroup, entries.datetime, entries.latitude, entries.longitude, entries.accuracy, entries.altitude, entries.site, entries.setting, entries.vegtype, entries.vegdens, entries.substrate, entries.notes, entries.nestinitdate, entries.deleted, entries.last_edited FROM entries
+		</createView>
+	</changeSet>
 
 </databaseChangeLog>

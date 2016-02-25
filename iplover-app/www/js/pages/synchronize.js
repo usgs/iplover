@@ -37,8 +37,16 @@ var onfinish  = function(){
 var onerror = function(error){
     $('.percent').html('0%');
     $('.bar').width('0%');
-    navigator.notification.alert(
-            error + '\n\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov is issues persist.',
-            function(){},
-            "Error occurred");
+    //If there is no accompanying error message, we probably want to know about it.
+    if(!(typeof(error) === 'string')){
+        navigator.notification.alert(
+                'An unexpected error occurred.\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov if issues persist.',
+                function(){},
+                "Error occurred");
+    } else{
+        navigator.notification.alert(
+                error + "\n\nContact iplover_help@usgs.gov if issues persist.",
+                function(){},
+                "Error occurred");
+    }
 };

@@ -25,7 +25,7 @@ function onDeviceReady(){
     });
 
     syncPopUp();
-
+    
 };
 
 function syncPopUp(){
@@ -38,12 +38,12 @@ function syncPopUp(){
 	}
 	var entry = tmp[0];
 
-	var numDaySinceLastSync = daysSinceDate(entry.last_edited_calculations);
+	var numHourSinceLastSync = hoursSinceDate(entry.last_edited_calculations);
 	var lastBothered = hoursSinceDate(iplover.data.timeSincePopup());
 	
-	if(numDaySinceLastSync > 1 && lastBothered > 0){
-        var message = "It has been " + numDaySinceLastSync + " days since you last synced your data. \n Would you like to sync now?";
-
+	if(numHourSinceLastSync > 11 && lastBothered > 0){
+        var message = "It has been " + numHourSinceLastSync + " hours since you last synced your data. \n Would you like to sync now?";
+        
         navigator.notification.confirm(
                 message,
                 function(index){
@@ -63,13 +63,6 @@ function syncPopUp(){
 
     }
     return;
-};
-
-//Takes long value date and compares the days it has been since that date.
-function daysSinceDate(timeToCompare){
-	var diff = Date.now() - timeToCompare;
-	//1000*60*60*24 converts from milliseconds to days
-	return Math.round(diff / (1000 * 60 * 60 * 24));
 };
 
 //Takes long value date and compares the hours it's been since that date.
