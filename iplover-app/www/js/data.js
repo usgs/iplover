@@ -21,7 +21,7 @@ iplover.data = (function(){
 
                 file.createWriter(function(writer){
                     writer.onwrite = function(evt){callback(uuid + '.jpg');};
-                    writer.onerror = function(e){alert('error'+e);};
+                    writer.onerror = function(e){alert('An error occurred while saving the image.\nPlease try again.\n'+e);};
                     writer.write(image_file);
                 });//writer
             });//file
@@ -56,7 +56,7 @@ iplover.data = (function(){
 
 		var records = [];
 		if(localStorage.records){
-			records = JSON.parse(localStorage.records)
+			records = JSON.parse(localStorage.records);
 		}else{
 			records = new Array();
 		}
@@ -290,7 +290,7 @@ iplover.data = (function(){
 	//When run, it sets the timeToPopup to be 12 hours from now.
 	var delaySync = function(){
 		var intermediate = new Date();
-		intermediate.setHours(intermediate.getHours() + 6);
+		intermediate.setHours(intermediate.getHours() + 12);
 		localStorage.timeSincePopup = intermediate.getTime();
 	};
 

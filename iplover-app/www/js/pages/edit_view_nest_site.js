@@ -40,7 +40,6 @@ function onDeviceReady(){
     );
     
     if(!queryinfo.uuid){
-        // TODO: setup error condition and notify user
         navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
     }
     
@@ -157,7 +156,6 @@ function deletionConfirmed(rec){
     rec.deleted = true;
     rec.changes_synced = false;
     iplover.data.setRecordById(rec.uuid, rec);
-    alert(editing_record.deleted + " " + editing_record.site_id);
     
     window.location.href = sourceurl;
 };
