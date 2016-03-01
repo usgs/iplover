@@ -31,7 +31,7 @@ var onfinish  = function(){
     $('.bar').width('0%');
     $('#num_to_sync').text(iplover.data.getNumberToSync());
     navigator.notification.alert('',function(){},"Sync Complete");
-
+    localStorage.errors = "";
 };
 
 var onerror = function(error){
@@ -43,12 +43,12 @@ var onerror = function(error){
                 'An unexpected error occurred.\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov if issues persist.',
                 function(){},
                 "Error occurred");
-        localStorage.errors = localStorage.errors + "\nError syncing: " + error;
+        localStorage.errors = localStorage.errors + "; Error syncing: " + error;
     } else{
         navigator.notification.alert(
                 error + "\n\nContact iplover_help@usgs.gov if issues persist.",
                 function(){},
                 "Error occurred");
-        localStorage.errors = localStorage.errors + "\nError syncing: " + error;
+        localStorage.errors = localStorage.errors + "; Error syncing: " + error;
     }
 };

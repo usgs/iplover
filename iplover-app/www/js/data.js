@@ -24,8 +24,8 @@ iplover.data = (function(){
                         callback(uuid + '.jpg');
                     };
                     writer.onerror = function(e){
-                        alert('An error occurred while saving the image.\nPlease try again.\n');
-                        localStorage.errors = localStorage.errors + "\n" + e;
+                        alert('An error occurred while saving the image.\nPlease try again.\nContact iplover_help@usgs.gov if issues persist.');
+                        localStorage.errors = localStorage.errors + "; " + e;
                     };
                     writer.write(image_file);
                 });//writer
@@ -162,8 +162,8 @@ iplover.data = (function(){
         var indx = records.map(function(e) {return e.uuid;}).indexOf(uuid);
 
         if(indx < 0){
-            localStorage.errors = localStorage.errors + "\nError saving record with uuid: " + uuid;
-            navigator.notification.alert("Site id: " + uuid, function(){},"Error saving site");
+            localStorage.errors = localStorage.errors + "; Error saving record with uuid: " + uuid;
+            navigator.notification.alert("Site id: " + uuid + "\nContact iplover_help@usgs.gov if issues persist.", function(){},"Error saving site");
         }
 
         records.splice(indx, 1, record);
@@ -183,7 +183,7 @@ iplover.data = (function(){
         var indx = records.map(function(e) {return e.uuid;}).indexOf(uuid);
 
         if(indx < 0){
-            localStorage.errors = localStorage.errors + "\nError removing record with uuid: " + uuid;
+            localStorage.errors = localStorage.errors + "; Error removing record with uuid: " + uuid;
             return;
         }
         records.splice(indx, 1);

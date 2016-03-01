@@ -165,7 +165,7 @@ iplover.sync = (function(){
         iplover.data.getImageDataURL(topost.image_path, 
         	_post_function, 
         	function(error){
-                localStorage.errors = localStorage.errors + "\n FileSystem error code: " + error.code;
+                localStorage.errors = localStorage.errors + "; FileSystem error code: " + error.code;
         		_post_function("missing");
         	});
         
