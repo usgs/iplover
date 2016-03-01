@@ -41,6 +41,7 @@ function onDeviceReady(){
     
     if(!queryinfo.uuid){
         navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
+        localStorage.errors = localStorage.errors + "\nUnknown UUID:" + queryinfo.uuid;
     }
     
     //grab entry from backend datastore
@@ -83,6 +84,7 @@ var validate_form = function(){
     
     if(!$('#site_id').val()){
         navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
+        localStorage.errors = localStorage.errors + "\nUnknown UUID: " + queryinfo.uuid;
         return false;
     }
     

@@ -20,8 +20,13 @@ iplover.data = (function(){
             dir.getFile(uuid + '.jpg', {create:true}, function(file){
 
                 file.createWriter(function(writer){
-                    writer.onwrite = function(evt){callback(uuid + '.jpg');};
-                    writer.onerror = function(e){alert('An error occurred while saving the image.\nPlease try again.\n'+e);};
+                    writer.onwrite = function(evt){
+                        callback(uuid + '.jpg');
+                    };
+                    writer.onerror = function(e){
+                        alert('An error occurred while saving the image.\nPlease try again.\n');
+                        localStorage.errors = localStorage.errors + "\n" + e;
+                    };
                     writer.write(image_file);
                 });//writer
             });//file
@@ -157,7 +162,7 @@ iplover.data = (function(){
         var indx = records.map(function(e) {return e.uuid;}).indexOf(uuid);
 
         if(indx < 0){
-            console.log('Error saving record with uuid:' + uuid);
+            localStorage.errors = localStorage.errors + "\nError saving record with uuid: " + uuid;
             navigator.notification.alert("Site id: " + uuid, function(){},"Error saving site");
         }
 
@@ -178,7 +183,7 @@ iplover.data = (function(){
         var indx = records.map(function(e) {return e.uuid;}).indexOf(uuid);
 
         if(indx < 0){
-            console.log('Error removing record with uuid:' + uuid);
+            localStorage.errors = localStorage.errors + "\nError removing record with uuid: " + uuid;
             return;
         }
         records.splice(indx, 1);
@@ -260,6 +265,10 @@ iplover.data = (function(){
         localStorage.user = user;
         return;
     };
+    
+    var getErrors = function(){
+        return localStorage.errors;
+    };
 	
 	//Returns true if autoSyncOn was called, then turns off autosync.
 	var autoSyncOff = function(){
@@ -311,6 +320,7 @@ iplover.data = (function(){
             getChangedRecords   : getChangedRecords,
             clobberAllRecords   : clobberAllRecords,
             getNumberToSync     : getNumberToSync,
+            getErrors           : getErrors,
             autoSyncOff			: autoSyncOff,
             autoSyncOn			: autoSyncOn,
             timeSincePopup		: timeSincePopup,

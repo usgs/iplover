@@ -43,10 +43,12 @@ var onerror = function(error){
                 'An unexpected error occurred.\nPlease restart iPlover and try again.\nContact iplover_help@usgs.gov if issues persist.',
                 function(){},
                 "Error occurred");
+        localStorage.errors = localStorage.errors + "\nError syncing: " + error;
     } else{
         navigator.notification.alert(
                 error + "\n\nContact iplover_help@usgs.gov if issues persist.",
                 function(){},
                 "Error occurred");
+        localStorage.errors = localStorage.errors + "\nError syncing: " + error;
     }
 };
