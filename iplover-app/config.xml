@@ -10,7 +10,7 @@
     <icon src="www/img/ios7/apple-touch-icon-152x152.png" />
     <content src="index.html" />
     <access origin="*" />
-	<allow-navigation href="https://*/*" />
+    <allow-navigation href="https://*/*" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#2A2A2A" />
     
