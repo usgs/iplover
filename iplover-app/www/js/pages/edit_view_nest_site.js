@@ -40,7 +40,8 @@ function onDeviceReady(){
     );
     
     if(!queryinfo.uuid){
-        navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
+        navigator.notification.alert('Unknown UUID:' + queryinfo.uuid + "\nContact iplover_help@usgs.gov if issues persist.",function(){},"Error");
+        localStorage.errors = localStorage.errors + "; Unknown UUID:" + queryinfo.uuid;
     }
     
     //grab entry from backend datastore
@@ -82,7 +83,8 @@ var populate_form = function(rec){
 var validate_form = function(){
     
     if(!$('#site_id').val()){
-        navigator.notification.alert('Unknown UUID:' + queryinfo.uuid,function(){},"Error");
+        navigator.notification.alert('Unknown UUID:' + queryinfo.uuid + "\nContact iplover_help@usgs.gov if issues persist.",function(){},"Error");
+        localStorage.errors = localStorage.errors + "; Unknown UUID: " + queryinfo.uuid;
         return false;
     }
     

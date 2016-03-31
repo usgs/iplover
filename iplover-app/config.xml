@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="gov.usgs.cida.iplover" version="2.4.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="gov.usgs.cida.iplover" version="2.5.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iPlover</name>
     <description>
         A iPlover nesting collection application
@@ -10,6 +10,7 @@
     <icon src="www/img/ios7/apple-touch-icon-152x152.png" />
     <content src="index.html" />
     <access origin="*" />
+    <allow-navigation href="https://*/*" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#2A2A2A" />
     
